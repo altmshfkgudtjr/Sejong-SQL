@@ -1,0 +1,70 @@
+{
+	/******************** Root Fields ********************/
+  "compileOnSave": true,
+	"include": [
+    "src/**/*",
+    "pages/**/*",
+		"next-env.d.ts", "src/__tests__",
+  ],
+  "exclude": [
+		".next",
+    "node_modules",
+    "**/node_modules/*",
+		"build",
+		"dist",
+		"out",
+  ],
+	
+  "compilerOptions": {
+    "target": "es6",
+    // :::: module :::: //
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    // :::: React :::: //
+    "jsx": "preserve",
+    // :::: JS :::: //
+    "allowJs": true,
+    "checkJs": false,
+    // :::: Lint :::: //
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+		"strictNullChecks": true,
+    // :::: More spec :::: //
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    // :::: Sorcemap :::: //
+    "sourceMap": false,
+    // :::: Etc :::: //
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    // :::: Detail :::: //
+		"disableSizeLimit": true,
+    "forceConsistentCasingInFileNames": false,
+    "incremental": true,
+    // :::: Outfile :::: //
+    "removeComments": true,
+    "noEmit": true,
+    // :::: path :::: //
+    "paths": {
+      "public/*": [
+        "./../public/*"
+      ],
+      "pages/*": [
+        "./../pages/*"
+      ],
+    },
+		"baseUrl": "./src",
+    "typeRoots": [
+      "./src/@types",
+			"./node_modules/@types"
+    ]
+  }
+}

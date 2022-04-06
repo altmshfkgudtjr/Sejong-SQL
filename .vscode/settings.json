@@ -1,0 +1,72 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[javascript]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 2
+  },
+  "[html]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 2
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "files.associations": {
+    ".env.development": "env",
+    ".env.production": "env",
+    "*.lock": "yarnlock"
+  },
+  "todo-tree.tree.showBadges": true,
+  "todo-tree.general.tags": ["TODO", "FIXME", "SERVER", "CLOSE", "ERROR-TYPE"],
+  "todo-tree.highlights.customHighlight": {
+    // 할 일
+    "TODO": {
+      "icon": "tasklist",
+      "iconColour": "#12b886",
+      "foreground": "#fff",
+      "background": "#12b886",
+      "gutterIcon": true
+    },
+    // 버그 및 수정할 부분
+    "FIXME": {
+      "icon": "tools",
+      "iconColour": "#ed8f09",
+      "foreground": "#fff",
+      "background": "#ed8f09",
+      "gutterIcon": true
+    },
+    // 서버와 관련된 요구사항 작업
+    "SERVER": {
+      "icon": "server",
+      "iconColour": "#dba902",
+      "foreground": "#fff",
+      "background": "#dba902",
+      "gutterIcon": true
+    },
+    // 임시적으로 사용하지 않는 컴포넌트
+    "CLOSE": {
+      "icon": "inbox",
+      "iconColour": "#4d6edb",
+      "foreground": "#fff",
+      "background": "#4d6edb",
+      "gutterIcon": true
+    },
+    // 에러 타입 선언
+    "ERROR-TYPE": {
+      "icon": "package",
+      "iconColour": "#8b4ddb",
+      "foreground": "#fff",
+      "background": "#540eaf",
+      "gutterIcon": true
+    }
+  },
+  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+  "todo-tree.filtering.excludeGlobs": ["**/node_modules/*", "**/build/*"]
+}
