@@ -8,11 +8,11 @@ const useMetaData = () => {
     return (
       <Head>
         <title>
-          {process.env.NEXT_PUBLIC_BRAND_ENG} | {content}
+          {process.env.NEXT_PUBLIC_BRAND_KOR} | {content}
         </title>
-        <meta property="og:title" content={content} />
-        <meta name="twitter:title" content={content} />
-        <meta name="facebook:title" content={content} />
+        <meta property="og:title" content={`${process.env.NEXT_PUBLIC_BRAND_KOR} | ${content}`} />
+        <meta name="twitter:title" content={`${process.env.NEXT_PUBLIC_BRAND_KOR} | ${content}`} />
+        <meta name="facebook:title" content={`${process.env.NEXT_PUBLIC_BRAND_KOR} | ${content}`} />
       </Head>
     );
   };

@@ -1,22 +1,33 @@
 import styled, { css } from 'styled-components';
 // components
 import BaseButton from './Base';
-// lib
-import { onlyHover } from '../../lib';
+// styles
+// import { palette } from '../styles';
+import { onlyHover } from 'sjds/lib';
 
-/**
- * 텍스트 버튼
- */
 const TextButton = styled(BaseButton)`
   color: ${({ color, disabled }) => {
     if (disabled) {
-      return '#aaaaaa';
+      return '#ccc';
+      // return palette.grey030;
     }
 
     return color;
   }};
 
-  ${onlyHover(css``)}
+  &::before {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  ${({ disabled }) =>
+    !disabled &&
+    css`
+      ${onlyHover(css`
+        &::before {
+          background-color: rgba(0, 0, 0, 0.04);
+        }
+      `)}
+    `};
 `;
 
 export default TextButton;

@@ -26,7 +26,7 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
           content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes, minimal-ui, viewport-fit=cover"
         />
       </Head>
-      <MetaTitle content="나의 부동산 투자 포트폴리오" />
+      <MetaTitle content="세종대학교 SQL OJ System" />
       {/* ------------------------------ Main ------------------------------ */}
       <QueryClientProvider client={queryClient}>
         <RecoilProvider>

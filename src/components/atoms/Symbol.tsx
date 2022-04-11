@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 1;
 /**
- * 로고
+ * 심볼
  * @param props
  * @param props.type 타입
  * @param props.w 가로 길이
  * @param props.h 세로 길이
  * @param props.isLinking a 태그 여부
  */
-const Logo = ({ type = 'Black', w, h, isLinking = true }: Props) => {
-  const logoURL =
-    type === 'Black'
-      ? `${process.env.NEXT_PUBLIC_ASSET_HOST}images/logo_black.png`
-      : `${process.env.NEXT_PUBLIC_ASSET_HOST}images/logo_white.png`;
+const Symbol = ({ type = 'Color', w, h, isLinking = true }: Props) => {
+  const symbolURL =
+    type === 'Color'
+      ? `${process.env.NEXT_PUBLIC_ASSET_HOST}images/symbol_color.png`
+      : `${process.env.NEXT_PUBLIC_ASSET_HOST}images/symbol_white.png`;
 
   const Layout = ({ children }) => {
     if (isLinking) {
@@ -23,7 +23,7 @@ const Logo = ({ type = 'Black', w, h, isLinking = true }: Props) => {
 
   return (
     <Layout>
-      <Image src={logoURL} alt={`${process.env.NEXT_PUBLIC_BRAND_ENG} 로고`} w={w} h={h} />
+      <Image src={symbolURL} alt={`${process.env.NEXT_PUBLIC_BRAND_ENG} 로고`} w={w} h={h} />
     </Layout>
   );
 };
@@ -49,10 +49,10 @@ const Image = styled.img<{
 `;
 
 type Props = {
-  type?: 'Black' | 'White';
+  type?: 'Color' | 'White';
   w?: number;
   h?: number;
   isLinking?: boolean;
 };
 
-export default Logo;
+export default Symbol;
