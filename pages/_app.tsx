@@ -1,11 +1,15 @@
+import Head from 'next/head';
 import type { AppProps } from 'next/app';
+import ThemeProvider from 'lib/theme/ThemeProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import RecoilProvider from 'store';
-import Head from 'next/head';
 // components
 import { SpriteIcons, SpriteEmojis } from 'sjds/components/icons';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
+// utils
+import * as cookieUtils from 'utils/cookie';
+import GlobalStyles from 'lib/theme/global';
 // styles
 import 'public/font.css';
 
@@ -30,7 +34,10 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
       {/* ------------------------------ Main ------------------------------ */}
       <QueryClientProvider client={queryClient}>
         <RecoilProvider>
-          <>{getLayout(<Component {...pageProps} />)}</>
+          <ThemeProvider themeType={pageProps.theme}>
+            <GlobalStyles />
+            <>{getLayout(<Component {...pageProps} />)}</>
+          </ThemeProvider>
         </RecoilProvider>
       </QueryClientProvider>
       {/* ------------------------------ Icons ------------------------------ */}
@@ -38,6 +45,22 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
       <SpriteEmojis />
     </>
   );
+};
+
+App.getInitialProps = async ({ ctx, Component }) => {
+  let pageProps: any = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+
+  const cookie = ctx.req.cookies;
+  if (cookie) {
+    Object.assign(pageProps, {
+      theme: cookieUtils.getCookieFromServer('theme', ctx),
+    });
+  }
+
+  return { pageProps };
 };
 
 /** App Props 커스텀 타입 */

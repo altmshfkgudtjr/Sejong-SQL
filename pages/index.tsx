@@ -23,7 +23,7 @@ const HomePage = () => {
             <br />
             <strong>SQL</strong>과 만나다
           </Title>
-          <Link href="dashboard" passHref>
+          <Link href="/dashboard" passHref>
             <FillButton as="a" color={'#C21C3F'} size="Regular" style={{ width: '180px' }}>
               대시보드로 이동하기
             </FillButton>
