@@ -1,3 +1,4 @@
+import { typo } from 'sjds';
 import styled from 'styled-components';
 
 const 개인정보처리방침 = () => {
@@ -88,6 +89,7 @@ const 개인정보처리방침 = () => {
 
 const Wrapper = styled.div`
   white-space: pre-wrap;
+  ${typo.body2}
 `;
 
 export default 개인정보처리방침;
