@@ -114,6 +114,8 @@ const GlobalStyles = createGlobalStyle`
 		font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', sans-serif;
 		padding: 0;
 		appearance: none;
+		border: none;
+		outline: none;
 	}
 
 	h1,

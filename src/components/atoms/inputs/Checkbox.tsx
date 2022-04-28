@@ -5,26 +5,24 @@ import { onlyHover } from 'sjds/lib';
 import type { InputHTMLAttributes } from 'react';
 
 /**
- * 라디오 버튼
+ * 체크박스
  * @param props
- * @param props.name 라디오버튼 그룹명
  * @param props.label 라벨 (id)
- * @param props.message 라디오버튼 메세지
+ * @param props.message 체크박스 메세지
  * @param props.disabled 비활성화 여부
  *
  * @example
- * <div>
- * 	<RadioButton name="Group" label="1번" message="1번 메세지" />
- * 	<RadioButton name="Group" label="2번" message="2번 메세지" />
- * 	<RadioButton name="Group" label="3번" message="3번 메세지" />
- * 	<RadioButton name="Group" label="4번" message="4번 메세지" />
- * </div>
+ * <CheckBox
+ *   name="체크박스명"
+ *   label="라벨명"
+ *   message="로그인 상태 유지"
+ * />
  */
-const RadioButton = ({ name, label = '', message, disabled = false, ...props }: Props) => {
+const CheckBox = ({ label, message, disabled = false, ...props }: Props) => {
   return (
     <Label htmlFor={label} disabled={disabled}>
       {message}
-      <input type="radio" name={name} id={label} value={label} disabled={disabled} {...props} />
+      <input id={label} type="checkbox" disabled={disabled} {...props} />
       <span />
     </Label>
   );
@@ -33,7 +31,6 @@ const RadioButton = ({ name, label = '', message, disabled = false, ...props }: 
 const Label = styled.label<{ disabled: boolean }>`
   display: block;
   position: relative;
-  height: 24px;
   padding-left: 30px;
   font-size: 14px;
   line-height: 20px;
@@ -44,10 +41,6 @@ const Label = styled.label<{ disabled: boolean }>`
   ${({ disabled, theme }) =>
     onlyHover(css`
       input ~ span {
-        background: ${theme.background.bg2};
-      }
-
-      @media (hover: hover) {
         background: ${disabled ? theme.background.bg1 : theme.semantic.success};
         border: 1px solid ${disabled ? theme.border.b1 : theme.semantic.success};
       }
@@ -65,11 +58,6 @@ const Label = styled.label<{ disabled: boolean }>`
       border: 1px solid ${({ theme }) => theme.semantic.success};
     }
 
-    &:checked:disabled ~ span {
-      background: ${({ theme }) => theme.background.bg2};
-      border: 1px solid ${({ theme }) => theme.background.bg2};
-    }
-
     &:checked ~ span::after {
       opacity: 1;
     }
@@ -81,22 +69,22 @@ const Label = styled.label<{ disabled: boolean }>`
 
   span {
     position: absolute;
-    top: 1px;
-    left: 2px;
-    height: 20px;
-    width: 20px;
+    top: -1px;
+    left: 0;
+    height: 22px;
+    width: 22px;
     background-color: ${({ theme }) => theme.background.bg1};
     border: 1px solid ${({ theme }) => theme.background.bg3};
-    border-radius: 20px;
+    border-radius: 2px;
     transition: background-color 0.1s ease, border 0.1s ease;
 
     &::after {
       content: '';
       position: absolute;
       left: 6px;
-      top: 3px;
-      width: 6px;
-      height: 10px;
+      top: 2px;
+      width: 8px;
+      height: 12px;
       border: 1px solid ${({ theme }) => theme.background.bg1};
       border-width: 0 2px 2px 0;
       opacity: 0;
@@ -107,10 +95,10 @@ const Label = styled.label<{ disabled: boolean }>`
 `;
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  name?: string;
   label?: string;
   message?: string;
+  checked?: boolean;
   disabled?: boolean;
 }
 
-export default RadioButton;
+export default CheckBox;

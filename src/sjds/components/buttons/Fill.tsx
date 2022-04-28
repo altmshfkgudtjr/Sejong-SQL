@@ -6,25 +6,21 @@ import BaseButton from './Base';
 import { onlyHover } from 'sjds/lib';
 
 const FillButton = styled(BaseButton)`
-  background-color: ${({ color, disabled }) => {
+  background-color: ${({ color, disabled, theme }) => {
     if (disabled) {
-      return '#ccc';
-      // return palette.grey010;
+      return theme.background.bg4;
     }
 
     return color;
   }};
 
-  color: ${({ color, disabled }) => {
+  color: ${({ color, disabled, theme }) => {
     if (color && !disabled) {
-      return '#fff';
-      // return palette.white;
+      return theme.semantic.white;
     } else if (disabled) {
-      return '#aaa';
-      // return palette.grey040;
+      return theme.semantic.white;
     } else {
-      return '#484848';
-      // return palette.font.primary;
+      return color;
     }
   }};
 

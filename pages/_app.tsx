@@ -53,7 +53,7 @@ App.getInitialProps = async ({ ctx, Component }) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  const cookie = ctx.req.cookies;
+  const cookie = ctx?.req?.cookies;
   if (cookie) {
     Object.assign(pageProps, {
       theme: cookieUtils.getCookieFromServer('theme', ctx),

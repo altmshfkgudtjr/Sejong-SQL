@@ -32,6 +32,8 @@ const ThemeProvider = ({ themeType, children }) => {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       setSystem('Light');
     }
+
+    setSystem('Light'); // 임시
   }, [setSystem]);
 
   /** Store에 테마 저장 */

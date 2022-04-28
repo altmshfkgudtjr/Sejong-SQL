@@ -9,17 +9,17 @@ import { onlyHover } from '../../lib';
  */
 const OutlineButton = styled(BaseButton)`
   border: 1px solid
-    ${({ color, disabled }) => {
+    ${({ color, disabled, theme }) => {
       if (disabled) {
-        return '#aaaaaa';
+        return theme.border.b2;
       }
 
       return color;
     }};
 
-  color: ${({ color, disabled }) => {
+  color: ${({ color, disabled, theme }) => {
     if (disabled) {
-      return '#aaaaaa';
+      return theme.border.b2;
     }
 
     return color;

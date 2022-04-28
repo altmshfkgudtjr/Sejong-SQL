@@ -26,12 +26,12 @@ const MainHeader = () => {
         )}
         {!isLogined && (
           <div>
-            <Link href="/sign-up" passHref>
+            <Link href="/sign-in" passHref>
               <TextButton as="a" size="Small">
                 로그인
               </TextButton>
             </Link>
-            <Link href="/sign-in" passHref>
+            <Link href="/sign-up" passHref>
               <TextButton as="a" size="Small">
                 회원가입
               </TextButton>
