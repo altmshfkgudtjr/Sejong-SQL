@@ -1,6 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 // components
 import Layout from 'components/layouts';
 import Symbol from 'components/atoms/Symbol';
@@ -9,18 +9,30 @@ import TextInput from 'components/atoms/inputs/Text';
 import PasswordInput from 'components/atoms/inputs/Password';
 import { FillButton, TextButton } from 'sjds/components/buttons';
 import 개인정보처리방침 from 'components/presenters/auth/개인정보처리방침';
+// hooks
+import useMetaData from 'hooks/commons/useMetaData';
 // styles
 import { typo } from 'sjds';
 
 /** 회원가입 페이지 */
 const SignUpPage = () => {
+  const [isRead, setIsRead] = useState(false);
   const [isChecked, setisChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { MetaTitle } = useMetaData();
   const currentTheme = useTheme();
   const router = useRouter();
 
-  const scrollTarget = useRef<HTMLDivElement | null>(null);
+  const scrollTarget = useRef<HTMLDivElement>(null);
+  const readTarget = useRef<HTMLDivElement>(null);
+
+  const onIntersect = (entries, observer) => {
+    if (entries[0].isIntersecting) {
+      setIsRead(true);
+      observer.unobserve(entries[0].target);
+    }
+  };
 
   const onBack = () => router.back();
 
@@ -42,69 +54,85 @@ const SignUpPage = () => {
     // setIsLoading(false);
   };
 
+  useEffect(() => {
+    let observer;
+    if (readTarget.current) {
+      observer = new IntersectionObserver(onIntersect, {
+        threshold: 0.4,
+      });
+      observer.observe(readTarget.current);
+    }
+    return () => observer && observer.disconnect();
+  }, []);
+
   return (
-    <Wrapper>
-      <BrandWrapper>
-        <Symbol type="Color" w={48} h={48} isBackground />
-        <Logo type="Black" h={18} />
-      </BrandWrapper>
-      <Title>회원가입</Title>
-      {!isChecked && (
-        <>
-          <AgreementLayout>
-            <AgreementWrapper ref={scrollTarget}>
-              <개인정보처리방침 />
-            </AgreementWrapper>
-          </AgreementLayout>
-          <ScrollButton
-            size="Regular"
-            color={currentTheme.semantic.info}
-            onClick={onScrollAgreement}
-          >
-            스크롤 내리기
-          </ScrollButton>
-          <ButtonWrapper>
-            <FillButton size="Regular" color={currentTheme.background.bg5} onClick={onBack}>
-              돌아가기
-            </FillButton>
-            <FillButton
+    <>
+      <MetaTitle content="회원가입" />
+
+      <Wrapper>
+        <BrandWrapper>
+          <Symbol type="Color" w={48} h={48} isBackground />
+          <Logo type="Black" h={18} />
+        </BrandWrapper>
+        <Title>회원가입</Title>
+        {!isChecked && (
+          <>
+            <AgreementLayout>
+              <AgreementWrapper ref={scrollTarget}>
+                <개인정보처리방침 />
+                <div ref={readTarget} />
+              </AgreementWrapper>
+            </AgreementLayout>
+            <ScrollButton
               size="Regular"
-              color={currentTheme.primary}
-              onClick={() => setisChecked(true)}
-              disabled={isLoading}
+              color={currentTheme.semantic.info}
+              onClick={onScrollAgreement}
             >
-              동의 및 진행
-            </FillButton>
-          </ButtonWrapper>
-        </>
-      )}
-      {isChecked && (
-        <>
-          <FormWrapper>
-            <TextInput placeholder="학번 또는 사번 (Email ID)" autoComplete="off" autoFocus />
-            <TextInput placeholder="이름" autoComplete="off" />
-            <PasswordInput placeholder="비밀번호" autoComplete="off" />
-          </FormWrapper>
-          <ButtonWrapper>
-            <FillButton
-              size="Regular"
-              color={currentTheme.background.bg5}
-              onClick={() => setisChecked(false)}
-            >
-              돌아가기
-            </FillButton>
-            <FillButton
-              size="Regular"
-              color={currentTheme.primary}
-              onClick={isLoading ? undefined : onSignIn}
-              disabled={isLoading}
-            >
-              {isLoading ? '잠시만요!' : '계속하기'}
-            </FillButton>
-          </ButtonWrapper>
-        </>
-      )}
-    </Wrapper>
+              스크롤 내리기
+            </ScrollButton>
+            <ButtonWrapper>
+              <FillButton size="Regular" color={currentTheme.background.bg5} onClick={onBack}>
+                돌아가기
+              </FillButton>
+              <FillButton
+                size="Regular"
+                color={currentTheme.primary}
+                onClick={() => setisChecked(true)}
+                disabled={!isRead || isLoading}
+              >
+                동의 및 진행
+              </FillButton>
+            </ButtonWrapper>
+          </>
+        )}
+        {isChecked && (
+          <>
+            <FormWrapper>
+              <TextInput placeholder="학번 또는 사번 (Email ID)" autoComplete="off" autoFocus />
+              <TextInput placeholder="이름" autoComplete="off" />
+              <PasswordInput placeholder="비밀번호" autoComplete="off" />
+            </FormWrapper>
+            <ButtonWrapper>
+              <FillButton
+                size="Regular"
+                color={currentTheme.background.bg5}
+                onClick={() => setisChecked(false)}
+              >
+                돌아가기
+              </FillButton>
+              <FillButton
+                size="Regular"
+                color={currentTheme.primary}
+                onClick={isLoading ? undefined : onSignIn}
+                disabled={isLoading}
+              >
+                {isLoading ? '잠시만요!' : '계속하기'}
+              </FillButton>
+            </ButtonWrapper>
+          </>
+        )}
+      </Wrapper>
+    </>
   );
 };
 

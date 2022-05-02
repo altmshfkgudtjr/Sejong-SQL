@@ -49,6 +49,7 @@ const Wrapper = styled.header`
   left: 0;
   width: 100%;
   height: 40px;
+  background-color: ${({ theme }) => theme.background.bg1};
 
   ${mediaQuery.large} {
     display: relative;

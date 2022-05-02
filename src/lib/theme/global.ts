@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
 	html {
 		min-height: 100%;
 		font-size: 16px;
+		background-color: ${({ theme }) => theme.background.bg2};
 	}
 
 	body {

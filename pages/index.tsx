@@ -17,9 +17,8 @@ const HomePage = () => {
 
   return (
     <>
-      <MainLayout as="section"></MainLayout>
       <Wrapper>
-        <div>
+        <section>
           <Title>
             세종대학교
             <br />
@@ -45,8 +44,8 @@ const HomePage = () => {
               </Link>
             </LoginBox>
           )}
-        </div>
-        <div>
+        </section>
+        <section>
           <InfoBox>
             <InfoRow>
               <RadioButton name="info_1" label="info_1" checked readOnly />
@@ -69,7 +68,7 @@ const HomePage = () => {
               친화적 인터페이스를 사용
             </InfoRow>
           </InfoBox>
-        </div>
+        </section>
       </Wrapper>
 
       <ParagraphBox>
@@ -86,7 +85,7 @@ HomePage.getLayout = page => {
   return <Layout>{page}</Layout>;
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled(MainLayout)`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -127,7 +126,7 @@ const Title = styled.h1`
 const LoginBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 12px;
   margin-top: 30px;
 
   & > a {

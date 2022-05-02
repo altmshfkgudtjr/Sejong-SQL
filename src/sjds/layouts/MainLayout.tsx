@@ -7,7 +7,7 @@ import { mediaValue, mediaQuery } from 'sjds';
  */
 const MainLayout = styled.div`
   padding: 0 16px;
-  margin: auto;
+  margin: 0 auto;
 
   ${mediaQuery.medium} {
     padding: 0 20px;

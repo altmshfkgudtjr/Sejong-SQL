@@ -9,6 +9,8 @@ import TextInput from 'components/atoms/inputs/Text';
 import PasswordInput from 'components/atoms/inputs/Password';
 import CheckBox from 'components/atoms/inputs/Checkbox';
 import { FillButton } from 'sjds/components/buttons';
+// hooks
+import useMetaData from 'hooks/commons/useMetaData';
 // styles
 import { typo } from 'sjds';
 
@@ -17,6 +19,7 @@ const SignInPage = () => {
   const [isChecked, setIsChecked] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { MetaTitle } = useMetaData();
   const currentTheme = useTheme();
   const router = useRouter();
 
@@ -31,36 +34,40 @@ const SignInPage = () => {
   };
 
   return (
-    <Wrapper>
-      <BrandWrapper>
-        <Symbol type="Color" w={48} h={48} isBackground />
-        <Logo type="Black" h={18} />
-      </BrandWrapper>
-      <Title>로그인</Title>
-      <FormWrapper>
-        <TextInput placeholder="학번 또는 사번 (Email ID)" autoComplete="off" autoFocus />
-        <PasswordInput placeholder="비밀번호" autoComplete="off" />
-        <CheckBox
-          label="password-persist"
-          message="로그인 상태 유지"
-          checked={isChecked}
-          onChange={onChangeCheckBox}
-        />
-      </FormWrapper>
-      <ButtonWrapper>
-        <FillButton size="Regular" color={currentTheme.background.bg5} onClick={onBack}>
-          돌아가기
-        </FillButton>
-        <FillButton
-          size="Regular"
-          color={currentTheme.primary}
-          onClick={isLoading ? undefined : onSignIn}
-          disabled={isLoading}
-        >
-          {isLoading ? '잠시만요!' : '로그인'}
-        </FillButton>
-      </ButtonWrapper>
-    </Wrapper>
+    <>
+      <MetaTitle content="로그인" />
+
+      <Wrapper>
+        <BrandWrapper>
+          <Symbol type="Color" w={48} h={48} isBackground />
+          <Logo type="Black" h={18} />
+        </BrandWrapper>
+        <Title>로그인</Title>
+        <FormWrapper>
+          <TextInput placeholder="학번 또는 사번 (Email ID)" autoComplete="off" autoFocus />
+          <PasswordInput placeholder="비밀번호" autoComplete="off" />
+          <CheckBox
+            label="password-persist"
+            message="로그인 상태 유지"
+            checked={isChecked}
+            onChange={onChangeCheckBox}
+          />
+        </FormWrapper>
+        <ButtonWrapper>
+          <FillButton size="Regular" color={currentTheme.background.bg5} onClick={onBack}>
+            돌아가기
+          </FillButton>
+          <FillButton
+            size="Regular"
+            color={currentTheme.primary}
+            onClick={isLoading ? undefined : onSignIn}
+            disabled={isLoading}
+          >
+            {isLoading ? '잠시만요!' : '로그인'}
+          </FillButton>
+        </ButtonWrapper>
+      </Wrapper>
+    </>
   );
 };
 
