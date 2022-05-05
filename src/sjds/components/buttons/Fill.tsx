@@ -18,7 +18,7 @@ const FillButton = styled(BaseButton)`
     if (color && !disabled) {
       return theme.semantic.white;
     } else if (disabled) {
-      return theme.semantic.white;
+      return theme.text.f4;
     } else {
       return color;
     }

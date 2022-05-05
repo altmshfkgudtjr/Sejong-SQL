@@ -174,7 +174,7 @@ const ParagraphBox = styled.div`
 
 const SignInButton = styled(TextButton)`
   flex-grow: 0;
-  width: 72p;
+  width: 72px;
 `;
 
 export default HomePage;

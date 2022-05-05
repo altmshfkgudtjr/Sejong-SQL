@@ -7,36 +7,50 @@ const BaseButton = styled.button<BaseButtonType>`
   align-items: center;
   justify-content: center;
   flex: 1 0 auto;
-  height: ${({ size }) => {
-    if (size === 'ExtraSmall') {
-      return '36px';
-    } else if (size === 'Small') {
-      return '40px';
-    } else if (size === 'Regular') {
-      return '44px';
-    } else if (size === 'Large') {
-      return '50px';
-    } else if (size === 'ExtraLarge') {
-      return '54px';
-    } else {
-      return size;
-    }
+  height: ${({ size = 'Regular' }) => {
+    const _ = {
+      ExtraSmall: '36px',
+      Small: '40px',
+      Regular: '44px',
+      Large: '50px',
+      ExtraLarge: '54px',
+    };
+
+    return _[size];
   }};
-  padding: 14px 16px;
+  padding: ${({ size = 'Regular' }) => {
+    const _ = {
+      ExtraSmall: '10px 12px',
+      Small: '12px 14px',
+      Regular: '14px 16px',
+      Large: '16px 18px',
+      ExtraLarge: '18px 20px',
+    };
+
+    return _[size];
+  }};
   margin: 0;
-  border-radius: 16px;
-  font-size: ${({ size }) => {
-    if (size === 'ExtraSmall') {
-      return '14px';
-    } else if (size === 'Small') {
-      return '14px';
-    } else if (size === 'Regular') {
-      return '14px';
-    } else if (size === 'Large') {
-      return '16px';
-    } else if (size === 'ExtraLarge') {
-      return '16px';
-    }
+  border-radius: ${({ size = 'Regular' }) => {
+    const _ = {
+      ExtraSmall: '10px',
+      Small: '12px',
+      Regular: '16px',
+      Large: '18px',
+      ExtraLarge: '20px',
+    };
+
+    return _[size];
+  }};
+  font-size: ${({ size = 'Regular' }) => {
+    const _ = {
+      ExtraSmall: '14px',
+      Small: '14px',
+      Regular: '14px',
+      Large: '16px',
+      ExtraLarge: '16px',
+    };
+
+    return _[size];
   }};
   font-weight: 400;
   overflow: hidden;
@@ -56,8 +70,10 @@ const BaseButton = styled.button<BaseButtonType>`
   }
 `;
 
+type ButtonSize = 'ExtraSmall' | 'Small' | 'Regular' | 'Large' | 'ExtraLarge';
+
 export interface BaseButtonType {
-  size?: 'ExtraSmall' | 'Small' | 'Regular' | 'Large' | 'ExtraLarge';
+  size?: ButtonSize;
   color?: string;
   disabled?: boolean;
 }

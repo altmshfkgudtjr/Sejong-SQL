@@ -2,14 +2,12 @@ import styled, { css } from 'styled-components';
 // components
 import BaseButton from './Base';
 // styles
-// import { palette } from '../styles';
 import { onlyHover } from 'sjds/lib';
 
 const TextButton = styled(BaseButton)`
-  color: ${({ color, disabled }) => {
+  color: ${({ color, disabled, theme }) => {
     if (disabled) {
-      return '#ccc';
-      // return palette.grey030;
+      return theme.text.f4;
     }
 
     return color;

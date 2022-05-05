@@ -11,7 +11,7 @@ const OutlineButton = styled(BaseButton)`
   border: 1px solid
     ${({ color, disabled, theme }) => {
       if (disabled) {
-        return theme.border.b2;
+        return theme.text.f4;
       }
 
       return color;
@@ -19,7 +19,7 @@ const OutlineButton = styled(BaseButton)`
 
   color: ${({ color, disabled, theme }) => {
     if (disabled) {
-      return theme.border.b2;
+      return theme.text.f4;
     }
 
     return color;

@@ -48,7 +48,7 @@ const Wrapper = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 40px;
+  height: 48px;
   background-color: ${({ theme }) => theme.background.bg1};
 
   ${mediaQuery.large} {
@@ -61,12 +61,16 @@ const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 24px;
+  padding: 4px 24px;
 
   & > div {
     display: flex;
     align-items: center;
     gap: 4px;
+  }
+
+  ${mediaQuery.large} {
+    padding: 10px 24px;
   }
 `;
 
