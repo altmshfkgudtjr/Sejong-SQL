@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Layout from 'components/layouts';
 import { MainLayout } from 'sjds/layouts';
 import Sidebar from 'components/containers/Sidebar';
+import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 
@@ -14,7 +15,9 @@ const DashBoard = () => {
     <>
       <MetaTitle content="대시보드" />
 
-      <Wrapper>멤롱</Wrapper>
+      <Wrapper>
+        <Breadcrumb />
+      </Wrapper>
     </>
   );
 };
