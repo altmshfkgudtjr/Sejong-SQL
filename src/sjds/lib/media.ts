@@ -4,6 +4,7 @@ export const mediaValue = {
   small: 360,
   medium: 768,
   large: 1168,
+  xlarge: 1600,
 };
 
 /** 미디어쿼리 프리셋 */
@@ -11,5 +12,6 @@ export const mediaQuery = {
   small: `@media (min-width: ${mediaValue.small}px)`,
   medium: `@media (min-width: ${mediaValue.medium}px)`,
   large: `@media (min-width: ${mediaValue.large}px)`,
+  xlarge: `@media (min-width: ${mediaValue.xlarge}px)`,
   custom: value => `@media (min-width: ${value}px)`,
 };

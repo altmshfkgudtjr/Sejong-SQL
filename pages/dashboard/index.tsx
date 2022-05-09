@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 // components
 import Layout from 'components/layouts';
-import { MainLayout } from 'sjds/layouts';
+import { DashboardLayout } from 'sjds/layouts';
 import Sidebar from 'components/containers/Sidebar';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
+import TopMessage from 'components/presenters/dashboard/TopMessage';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 
@@ -17,6 +18,7 @@ const DashBoard = () => {
 
       <Wrapper>
         <Breadcrumb />
+        <TopMessage message="환영합니다!" />
       </Wrapper>
     </>
   );
@@ -31,8 +33,12 @@ DashBoard.getLayout = page => {
   );
 };
 
-const Wrapper = styled(MainLayout)`
+const Wrapper = styled(DashboardLayout)`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
 `;
 
 export default DashBoard;

@@ -8,7 +8,7 @@ import { Icon } from 'sjds/components/icons';
 // hooks
 import useScrollHeader from 'hooks/dom/useScrollHeader';
 // styles
-import { margin, zIndex } from 'sjds';
+import { margin, mediaQuery, zIndex } from 'sjds';
 
 /** 모바일 메인 헤더 */
 const MobileMainHeader = () => {
@@ -20,6 +20,9 @@ const MobileMainHeader = () => {
       <Wrapper>
         <Header ref={headerRef}>
           <LeftSide>
+            <TextButton size="ExtraSmall">
+              <Icon name="ic_category" width={32} />
+            </TextButton>
             <Logo h={18} />
           </LeftSide>
 
@@ -29,9 +32,6 @@ const MobileMainHeader = () => {
                 로그인
               </TextButton>
             </Link>
-            <TextButton size="ExtraSmall">
-              <Icon name="ic_category" width={32} />
-            </TextButton>
           </RightSide>
         </Header>
       </Wrapper>
@@ -54,12 +54,21 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 48px;
-  padding: 8px 12px;
+  padding: 8px 4px;
   background-color: ${({ theme }) => theme.background.bg1};
+
+  ${mediaQuery.large} {
+    padding: 8px 12px;
+  }
 `;
 
 const LeftSide = styled.div`
   display: flex;
+
+  & button {
+    padding: 4px;
+    margin-right: 8px;
+  }
 
   & > a:not(:first-of-type) {
     ${margin.horizontal};

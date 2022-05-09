@@ -1,26 +1,70 @@
+import styled, { useTheme } from 'styled-components';
 import { useState } from 'react';
 // components
 import SideLayout from 'components/layouts/Side';
+import { Icon } from 'sjds/components/icons';
+import SidebarBadge from 'components/presenters/sidebar/Badge';
+import SidebarClassToggle from 'components/presenters/sidebar/ClassToggle';
+import WeekButton from 'components/presenters/sidebar/WeekButton';
 
 /** 사이드바 */
 const Sidebar = () => {
-  const [isLoaded] = useState(false);
+  const [isLoaded] = useState(true);
+
+  const currentTheme = useTheme();
 
   return (
     <SideLayout>
       {!isLoaded && <div>Loading...</div>}
       {isLoaded && (
         <>
-          <h1>수업</h1>
-          <h2>
-            데이터베이스 <strong>신희재</strong>
-          </h2>
-          <p>연습문제</p>
-          <p>1주차</p>
+          <CategoryWrapper>
+            <ClassWrapper>
+              <SidebarBadge>
+                <Icon name="ic_class" width={16} height={16} fill={currentTheme.text.f4} />
+                수업
+              </SidebarBadge>
+
+              <SidebarClassToggle name="데이터베이스" managerName="신희재" />
+
+              <WeekButton selected weekId="1" name="1주차" />
+              <WeekButton weekId="2" name="2주차" />
+              <WeekButton weekId="3" name="3주차" />
+              <WeekButton weekId="4" name="4주차" />
+            </ClassWrapper>
+
+            <ClassWrapper>
+              <SidebarClassToggle name="연습문제" managerName="신희재" />
+            </ClassWrapper>
+          </CategoryWrapper>
+
+          <CategoryWrapper>
+            <ClassWrapper>
+              <SidebarBadge>
+                <Icon name="ic_setting" width={16} height={16} fill={currentTheme.text.f4} />
+                관리
+              </SidebarBadge>
+
+              <SidebarClassToggle name="데이터베이스 실습" managerName="서정민" />
+
+              <WeekButton weekId="1" name="연습문제" />
+              <WeekButton weekId="2" name="1주차 - 원하는 데이터 선택" />
+              <WeekButton weekId="3" name="2주차 - 원하는 조건문 추가" />
+              <WeekButton weekId="4" name="3주차 - 데이터베이스의 꽃, JOIN문" />
+            </ClassWrapper>
+          </CategoryWrapper>
         </>
       )}
     </SideLayout>
   );
 };
+
+const CategoryWrapper = styled.div`
+  margin-bottom: 40px;
+`;
+
+const ClassWrapper = styled.div`
+  margin-bottom: 16px;
+`;
 
 export default Sidebar;

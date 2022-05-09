@@ -17,14 +17,19 @@ const SideLayout = ({ children }) => {
 };
 
 const Wrapper = styled.aside<{ isOpen: boolean }>`
+  position: fixed;
+  top: 48px;
+  left: 0;
   width: 100%;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 48px);
   overflow-y: auto;
   background-color: ${({ theme }) => theme.background.bg3};
   transform: ${({ isOpen }) => (isOpen ? 'translate3d(-320px, 0 0)' : 'translate3d(0, 0 0)')};
   transition: transform 0.4s ease-in-out;
 
   ${mediaQuery.large} {
+    position: relative;
+    top: 0;
     display: block;
     width: 320px;
     height: calc(100vh - 60px);

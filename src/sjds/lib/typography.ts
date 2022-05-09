@@ -23,8 +23,8 @@ export const headline2 = css`
 `;
 
 export const headline3 = css`
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.03em;
   font-feature-settings: 'case' on, 'cpsp' on, 'salt' on, 'ss01' on, 'ss02' on, 'ss03' on, 'ss05' on,
