@@ -1,18 +1,26 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Link from 'next/link';
 // components
 import { FillButton } from 'sjds/components/buttons';
 // styles
-import { typo } from 'sjds';
+import { typo, lib } from 'sjds';
 
 /**
  * 주차 버튼
  * @param props
  * @param props.selected 선택 여부
+ * @param props.classId 분반 ID
  * @param props.weekId 주차 ID
  * @param props.name 주차명
  */
-const WeekButton = ({ selected, weekId, name }: Props) => {
-  return <Wrapper selected={selected}>ㆍ {name}</Wrapper>;
+const WeekButton = ({ selected, classId, weekId, name }: Props) => {
+  return (
+    <Link href={`/dashboard/${classId}/${weekId}`} passHref>
+      <Wrapper as="a" selected={selected}>
+        ㆍ {name}
+      </Wrapper>
+    </Link>
+  );
 };
 
 const Wrapper = styled(FillButton)<{ selected?: boolean }>`
@@ -23,10 +31,20 @@ const Wrapper = styled(FillButton)<{ selected?: boolean }>`
   ${typo.subtitle2};
   color: ${({ theme }) => theme.text.f1};
   background-color: ${({ selected, theme }) => selected && theme.background.bg2};
+
+  ${({ theme }) =>
+    lib.onlyHover(css`
+      color: ${theme.semantic.info};
+
+      &::before {
+        background-color: rgba(0, 0, 0, 0);
+      }
+    `)}
 `;
 
 type Props = {
   selected?: boolean;
+  classId: string;
   weekId: string;
   name: string;
 };

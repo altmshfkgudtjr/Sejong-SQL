@@ -9,20 +9,25 @@ import { css, CSSProp } from 'styled-components';
  * ${onlyHover(css`
  *   ...
  * `)}
+ *
+ * ${({ theme }) => lib.onlyHover(css`
+ *   ...
+ * `)}
  */
-export const onlyHover = (css?: CSSProp) => {
-  return `
-		@media (hover: hover) and (pointer: fine), 
-			only screen and (-ms-high-contrast: active), 
-			(-ms-high-contrast: none) {
-			&:hover {
-				${css}
-			}
-		}
-		&:active {
-			${css}
-		}
-	`;
+export const onlyHover = (cssProps?: CSSProp) => {
+  return css`
+    @media (hover: hover) and (pointer: fine),
+      only screen and (-ms-high-contrast: active),
+      (-ms-high-contrast: none) {
+      &:hover {
+        ${cssProps}
+      }
+    }
+
+    &:active {
+      ${cssProps}
+    }
+  `;
 };
 
 /**

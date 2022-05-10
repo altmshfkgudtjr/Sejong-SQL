@@ -45,7 +45,7 @@ const Wrapper = styled.section`
   grid-template-columns: repeat(1, 1fr);
   gap: 16px;
 
-  ${mediaQuery.small} {
+  ${mediaQuery.custom(500)} {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -53,12 +53,8 @@ const Wrapper = styled.section`
     grid-template-columns: repeat(3, 1fr);
   }
 
-  ${mediaQuery.large} {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
   ${mediaQuery.xlarge} {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 `;
 

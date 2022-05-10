@@ -11,7 +11,7 @@ import WeekList from 'components/containers/dashboard/WeekList';
 import useMetaData from 'hooks/commons/useMetaData';
 
 /** 클래스 페이지 */
-const DashBoard = () => {
+const ClassPage = () => {
   const { query } = useRouter();
   const { MetaTitle } = useMetaData();
 
@@ -21,14 +21,14 @@ const DashBoard = () => {
 
       <Wrapper>
         <Breadcrumb />
-        <TopMessage message="주차를 생성할 수 있어요!" />
+        <TopMessage message="주차를 생성할 수 있어요" />
         <WeekList classId={query.classId as string} />
       </Wrapper>
     </>
   );
 };
 
-DashBoard.getLayout = page => {
+ClassPage.getLayout = page => {
   return (
     <Layout isSide>
       <Sidebar />
@@ -45,4 +45,4 @@ const Wrapper = styled(DashboardLayout)`
   padding-top: 8px;
 `;
 
-export default DashBoard;
+export default ClassPage;

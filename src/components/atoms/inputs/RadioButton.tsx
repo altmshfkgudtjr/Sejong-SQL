@@ -48,8 +48,10 @@ const Label = styled.label<{ disabled: boolean }>`
       }
 
       @media (hover: hover) {
-        background: ${disabled ? theme.background.bg1 : theme.semantic.success};
-        border: 1px solid ${disabled ? theme.border.b1 : theme.semantic.success};
+        input ~ span {
+          background: ${disabled ? theme.background.bg1 : theme.semantic.success};
+          border: 1px solid ${disabled ? theme.background.bg1 : theme.semantic.success};
+        }
       }
     `)};
 
@@ -66,8 +68,8 @@ const Label = styled.label<{ disabled: boolean }>`
     }
 
     &:checked:disabled ~ span {
-      background: ${({ theme }) => theme.background.bg2};
-      border: 1px solid ${({ theme }) => theme.background.bg2};
+      background: ${({ theme }) => theme.background.bg4};
+      border: 1px solid ${({ theme }) => theme.background.bg4};
     }
 
     &:checked ~ span::after {
