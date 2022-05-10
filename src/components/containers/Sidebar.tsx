@@ -28,7 +28,7 @@ const Sidebar = () => {
                 수업
               </SidebarBadge>
 
-              <SidebarClassToggle name="데이터베이스" managerName="신희재">
+              <SidebarClassToggle classId={classId} name="데이터베이스" managerName="신희재">
                 <WeekButton classId={classId} weekId="1" name="1주차" />
                 <WeekButton classId={classId} weekId="2" name="2주차" />
                 <WeekButton classId={classId} weekId="3" name="3주차" />
@@ -37,7 +37,11 @@ const Sidebar = () => {
             </ClassWrapper>
 
             <ClassWrapper>
-              <SidebarClassToggle name="연습문제" managerName="신희재"></SidebarClassToggle>
+              <SidebarClassToggle
+                classId={classId}
+                name="연습문제"
+                managerName="신희재"
+              ></SidebarClassToggle>
             </ClassWrapper>
           </CategoryWrapper>
 
@@ -48,7 +52,7 @@ const Sidebar = () => {
                 관리
               </SidebarBadge>
 
-              <SidebarClassToggle name="데이터베이스 실습" managerName="서정민">
+              <SidebarClassToggle classId={classId} name="데이터베이스 실습" managerName="서정민">
                 <WeekButton classId={classId} weekId="1" name="연습문제" />
                 <WeekButton classId={classId} weekId="2" name="1주차 - 원하는 데이터 선택" />
                 <WeekButton classId={classId} weekId="3" name="2주차 - 원하는 조건문 추가" />

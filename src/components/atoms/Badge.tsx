@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 // types
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 /**
  * 뱃지

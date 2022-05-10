@@ -1,26 +1,37 @@
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
+import Link from 'next/link';
 import { useState } from 'react';
 // components
 import { Icon } from 'sjds/components/icons';
-import { typo } from 'sjds';
+import { lib, typo } from 'sjds';
 // types
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 /**
  * 사이드바 클래스 토글
+ * @param props
+ * @param props.classid 분반 ID
+ * @param props.name 분반명
+ * @param props.managerName 분반 관리자명
  */
-const SidebarClassToggle = ({ name, managerName, children }: PropsWithChildren<Props>) => {
+const SidebarClassToggle = ({ classId, name, managerName, children }: PropsWithChildren<Props>) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const currentTheme = useTheme();
 
   const onToggle = () => setIsOpen(v => !v);
 
+  const onStopEvent = e => e.stopPropagation();
+
   return (
     <Wrapper>
       <Button isOpen={isOpen} onClick={onToggle}>
         <Icon name="ic_arrow_down" width={16} height={16} stroke={currentTheme.text.f1} />
-        <Name>{name}</Name>
+        <Link href={`/dashboard/${classId}`} passHref>
+          <Name as="a" onClick={onStopEvent}>
+            {name}
+          </Name>
+        </Link>
         {managerName && <ManagerName>{managerName}</ManagerName>}
       </Button>
 
@@ -59,6 +70,11 @@ const Name = styled.span`
   ${typo.value1};
   color: ${({ theme }) => theme.text.f1};
   text-align: left;
+
+  ${({ theme }) =>
+    lib.onlyHover(css`
+      color: ${theme.semantic.info};
+    `)}
 `;
 
 const ManagerName = styled.span`
@@ -68,6 +84,7 @@ const ManagerName = styled.span`
 `;
 
 type Props = {
+  classId: string;
   name: string;
   managerName?: string;
 };

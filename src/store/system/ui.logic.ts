@@ -1,7 +1,7 @@
 import { selector } from 'recoil';
 import { uiState } from './ui';
 // types
-import { State, SideState } from './ui';
+import type { State, SideState } from './ui';
 
 /** 현재 사이드바 상태 설정 */
 export const setSideState = selector<SideState>({

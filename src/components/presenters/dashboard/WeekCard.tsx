@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Link from 'next/link';
 // utils
 import { commaFormatter } from 'utils/helpers/format';
 // styles
@@ -7,28 +8,34 @@ import { typo, lib } from 'sjds';
 /**
  * 주차 카드
  * @param props
- * @param props.name 주차명
- * @param props.passCount 주차 통과한 사람 수
- * @param props.problemCount 주차 문제 수
- * @param props.solvedCount 내가 푼 문제 수
+ * @param props.classId 분반 ID
+ * @param props.week 주차 정보
  */
-const WeekCard = ({ name, passCount, problemCount, solvedCount }: Props) => {
+const WeekCard = ({ classId, week }: Props) => {
   return (
-    <Wrapper>
-      <div>
-        <Name>{name}</Name>
-        <PassCount>총 통과자 {commaFormatter(passCount)}명</PassCount>
-      </div>
+    <Link href={`/dashboard/${classId}/${week.id}`} passHref>
+      <Wrapper as="a">
+        <div>
+          <Name>{week.name}</Name>
+          <PassCount>총 통과자 {commaFormatter(week.passCount)}명</PassCount>
+        </div>
 
-      <BottomWrapper>
-        <Score>
-          {solvedCount}/{problemCount}
-        </Score>
-        <ProblemCount>총 {problemCount} 문제</ProblemCount>
-      </BottomWrapper>
-    </Wrapper>
+        <BottomWrapper>
+          <Score>
+            {week.solvedCount}/{week.problemCount}
+          </Score>
+          <ProblemCount>총 {week.problemCount} 문제</ProblemCount>
+        </BottomWrapper>
+      </Wrapper>
+    </Link>
   );
 };
+
+const Name = styled.p`
+  margin-bottom: 8px;
+  ${typo.subtitle1};
+  color: ${({ theme }) => theme.text.f1};
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,12 +47,13 @@ const Wrapper = styled.div`
   border-radius: 16px;
   border: 1px solid ${({ theme }) => theme.border.b2};
   background-color: ${({ theme }) => theme.background.bg1};
-`;
 
-const Name = styled.p`
-  margin-bottom: 8px;
-  ${typo.subtitle1};
-  color: ${({ theme }) => theme.text.f1};
+  ${({ theme }) =>
+    lib.onlyHover(css`
+      ${Name} {
+        color: ${theme.semantic.info};
+      }
+    `)}
 `;
 
 const PassCount = styled.p`
@@ -72,10 +80,14 @@ const ProblemCount = styled.span`
 `;
 
 type Props = {
-  name: string;
-  passCount: number;
-  problemCount: number;
-  solvedCount: number;
+  classId: string;
+  week: {
+    id: string;
+    name: string;
+    passCount: number;
+    problemCount: number;
+    solvedCount: number;
+  };
 };
 
 export default WeekCard;

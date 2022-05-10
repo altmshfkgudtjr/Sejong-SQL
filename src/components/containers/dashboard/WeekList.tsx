@@ -28,13 +28,7 @@ const WeekList = ({ classId }: Props) => {
   ];
 
   const WeekCardList = weekList.map(week => (
-    <WeekCard
-      key={week.id}
-      name={week.name}
-      passCount={week.passCount}
-      problemCount={week.problemCount}
-      solvedCount={week.solvedCount}
-    />
+    <WeekCard key={week.id} classId={classId} week={week} />
   ));
 
   return <Wrapper>{WeekCardList}</Wrapper>;

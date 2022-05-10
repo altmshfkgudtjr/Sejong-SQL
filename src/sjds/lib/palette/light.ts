@@ -1,5 +1,5 @@
 // types
-import { ThemeVariables } from 'sjds/types/Palette';
+import type { ThemeVariables } from 'sjds/types/Palette';
 
 /** 라이트 테마 색상표 */
 const lightTheme: ThemeVariables = {

@@ -1,7 +1,7 @@
 import { selector } from 'recoil';
 import { themeState } from './theme';
 // types
-import { State, Mode, System } from './theme';
+import type { State, Mode, System } from './theme';
 
 /** 현재 테마 설정 */
 export const setTheme = selector<State | Mode>({
