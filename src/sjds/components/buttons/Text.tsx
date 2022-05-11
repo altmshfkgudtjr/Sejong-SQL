@@ -10,19 +10,27 @@ const TextButton = styled(BaseButton)`
       return theme.text.f4;
     }
 
-    return color;
+    if (color) {
+      return color;
+    }
+
+    return theme.text.f1;
   }};
+  z-index: 0;
 
   &::before {
     background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
+    z-index: -1;
   }
 
-  ${({ disabled }) =>
+  ${({ disabled, theme }) =>
     !disabled &&
     css`
       ${onlyHover(css`
         &::before {
-          background-color: rgba(0, 0, 0, 0.04);
+          background-color: ${theme.background.bg5};
+          opacity: 0.2;
         }
       `)}
     `};

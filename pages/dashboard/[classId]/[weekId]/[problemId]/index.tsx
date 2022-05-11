@@ -5,6 +5,9 @@ import { MainLayout } from 'sjds/layouts';
 import Sidebar from 'components/containers/Sidebar';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import ResizableArea from 'components/containers/dashboard/ResizableArea';
+import 문제영역 from 'components/containers/dashboard/shell/문제영역';
+import 풀이영역 from 'components/containers/dashboard/shell/풀이영역';
+import 출력영역 from 'components/containers/dashboard/shell/출력영역';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 
@@ -22,7 +25,7 @@ const DashBoard = () => {
         </TopWrapper>
 
         <ShellWrapper>
-          <ResizableArea left={null} top={null} bottom={null} />
+          <ResizableArea left={<문제영역 />} top={<풀이영역 />} bottom={<출력영역 />} />
         </ShellWrapper>
       </Wrapper>
     </>
@@ -52,6 +55,7 @@ const TopWrapper = styled(MainLayout)`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  max-width: 100%;
 `;
 
 const ShellWrapper = styled.div`

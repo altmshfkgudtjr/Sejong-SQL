@@ -38,7 +38,7 @@ const ProblemCard = ({ problem, classId, weekId }: Props) => {
         </LeftWrapper>
 
         <RightWrapper>
-          <RadioButton checked disabled={!problem.isTry} />
+          <RadioButton checked readOnly disabled={!problem.isTry} />
           <Box colorType={accuracyColorType}>
             <span>정확도</span>
             <p>{problem.scoreAccuracy ? 'PASS' : 'NON-PASS'}</p>

@@ -30,6 +30,7 @@ const Wrapper = styled.footer`
 
   & > span {
     ${typo.body3};
+    color: ${({ theme }) => theme.text.f3};
   }
 
   & > div {
@@ -40,7 +41,7 @@ const Wrapper = styled.footer`
 
     a {
       ${typo.subvalue3};
-      color: #ddd;
+      color: ${({ theme }) => theme.text.f4};
     }
   }
 `;

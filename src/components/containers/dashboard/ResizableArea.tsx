@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import Split from 'react-split';
 // types
 import type { ReactNode } from 'react';
 import { lib } from 'sjds';
@@ -9,80 +10,59 @@ import { lib } from 'sjds';
  */
 const ResizableArea = ({ left, top, bottom }: Props) => {
   return (
-    <Wrapper>
-      <LeftWrapper>{left}</LeftWrapper>
-
-      <VerticalHandle />
-
-      <RightWrapper>
-        <TopWrapper>{top}</TopWrapper>
-
-        <HorizontalHandle />
-
-        <BottomWrapper>{bottom}</BottomWrapper>
-      </RightWrapper>
-    </Wrapper>
+    <SplitLayout
+      direction="horizontal"
+      sizes={[40, 60]}
+      minSize={300}
+      gutterSize={12}
+      style={{ height: '100%' }}
+    >
+      <Area>{left}</Area>
+      <SplitLayout
+        direction="vertical"
+        sizes={[55, 45]}
+        minSize={100}
+        gutterSize={12}
+        style={{ width: '100%' }}
+      >
+        <Area isDeep>{top}</Area>
+        <Area isDeep>{bottom}</Area>
+      </SplitLayout>
+    </SplitLayout>
   );
 };
 
-const Wrapper = styled.div`
+const SplitLayout = styled(Split)<{ direction: 'horizontal' | 'vertical' }>`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
+  flex-direction: ${({ direction }) => (direction === 'vertical' ? 'column' : 'row')};
+
+  .gutter {
+    flex-shrink: 0;
+    background-color: ${({ theme }) => theme.background.bg4};
+    transition: background-color 0.2s ease;
+
+    ${lib.onlyHover(css`
+      background-color: ${({ theme }) => theme.background.bg5};
+    `)};
+  }
+
+  .gutter-horizontal {
+    width: 12px;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  .gutter-vertical {
+    width: 100%;
+    height: 12px;
+    cursor: row-resize;
+  }
 `;
 
-const LeftWrapper = styled.div`
-  flex: 1;
-  height: 100%;
+const Area = styled.div<{ isDeep?: boolean }>`
   padding: 20px;
-`;
-
-const RightWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-  background-color: ${({ theme }) => theme.background.bg3};
-`;
-
-const TopWrapper = styled.div`
-  flex: 1;
-  padding: 20px 0;
-`;
-
-const BottomWrapper = styled.div`
-  flex: 1;
-  padding: 20px 0;
-`;
-
-const VerticalHandle = styled.div`
-  flex-shrink: 0;
-  width: 16px;
-  height: 100%;
-  background-color: ${({ theme }) => theme.background.bg4};
-  cursor: col-resize;
-  transition: background-color 0.2s ease;
-
-  ${lib.onlyHover(css`
-    background-color: ${({ theme }) => theme.background.bg5};
-  `)};
-`;
-
-const HorizontalHandle = styled.div`
-  flex-shrink: 0;
-  width: 100%;
-  height: 16px;
-  background-color: ${({ theme }) => theme.background.bg4};
-  cursor: row-resize;
-  transition: background-color 0.2s ease;
-
-  ${lib.onlyHover(css`
-    background-color: ${({ theme }) => theme.background.bg5};
-  `)};
+  background-color: ${({ isDeep, theme }) =>
+    isDeep ? theme.background.bg3 : theme.background.bg2};
 `;
 
 type Props = {

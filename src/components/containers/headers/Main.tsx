@@ -1,13 +1,18 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 // components
 import Symbol from 'components/atoms/Symbol';
 import Logo from 'components/atoms/Logo';
 import { TextButton } from 'sjds/components/buttons';
+// store
+import { themeState } from 'store/system/theme';
 // styles
 import { mediaQuery } from 'sjds';
 
 const MainHeader = () => {
+  const currentTheme = useRecoilValue(themeState);
+
   const isLogined = false;
 
   return (
@@ -16,7 +21,11 @@ const MainHeader = () => {
         <div>
           <HomeLink href="/">
             <Symbol type="Color" h={32} isLinking={false} />
-            <Logo type="Black" h={18} isLinking={false} />
+            <Logo
+              type={currentTheme.mode === 'Dark' ? 'White' : 'Black'}
+              h={18}
+              isLinking={false}
+            />
           </HomeLink>
         </div>
         {isLogined && (

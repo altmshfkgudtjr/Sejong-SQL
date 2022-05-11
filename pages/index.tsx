@@ -11,7 +11,8 @@ import { MainLayout } from 'sjds/layouts';
 import { mediaQuery, typo } from 'sjds';
 
 /** 홈 페이지 */
-const HomePage = () => {
+const HomePage = pageProps => {
+  console.log(pageProps);
   const currentTheme = useTheme();
   const isLogined = false;
 
@@ -117,9 +118,10 @@ const Title = styled.h1`
   font-size: 64px;
   line-height: calc(100% + 24px);
   margin-bottom: 40px;
+  color: ${({ theme }) => theme.text.f3};
 
   & > strong {
-    color: #c21c3f;
+    color: ${({ theme }) => theme.primary};
   }
 `;
 
@@ -128,6 +130,7 @@ const LoginBox = styled.div`
   align-items: center;
   gap: 12px;
   margin-top: 30px;
+  color: ${({ theme }) => theme.text.f2};
 
   & > a {
     flex: 0 0 auto;
@@ -143,13 +146,14 @@ const InfoBox = styled.div`
   margin: auto;
   border-radius: 16px;
   box-shadow: 0px 4px 8px 2px rgba(0, 0, 0, 0.08);
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.background.bg1};
 `;
 
 const InfoRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  color: ${({ theme }) => theme.text.f3};
 
   & > label {
     cursor: default;
@@ -163,9 +167,10 @@ const ParagraphBox = styled.div`
   width: fit-content;
   padding: 32px 40px;
   margin: 80px auto 0;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.background.bg1};
   border-radius: 24px;
   box-shadow: 0px 4px 8px 2px rgba(0, 0, 0, 0.08);
+  color: ${({ theme }) => theme.text.f2};
 
   ${mediaQuery.large} {
     margin: 160px auto 0;
@@ -175,6 +180,7 @@ const ParagraphBox = styled.div`
 const SignInButton = styled(TextButton)`
   flex-grow: 0;
   width: 72px;
+  color: ${({ theme }) => theme.text.f1};
 `;
 
 export default HomePage;

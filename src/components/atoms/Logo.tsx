@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-1;
+
 /**
  * 로고
  * @param props
