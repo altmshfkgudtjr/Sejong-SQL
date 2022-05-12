@@ -7,9 +7,8 @@ import { typo } from 'sjds';
 
 /**
  * 코드 에디터
- * @param props
  */
-const CodeEditor = ({}: Props) => {
+const CodeEditor = () => {
   const shell = useRef<HTMLDivElement>(null);
 
   const [lineCount, setLineCount] = useState(1);
@@ -88,6 +87,7 @@ const CodeEditor = ({}: Props) => {
         ref={shell}
         contentEditable
         suppressContentEditableWarning
+        spellCheck={false}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onPaste={onPaste}
@@ -147,7 +147,5 @@ const CodeArea = styled.div`
     line-height: inherit;
   }
 `;
-
-type Props = {};
 
 export default CodeEditor;

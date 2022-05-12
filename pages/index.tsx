@@ -11,7 +11,7 @@ import { MainLayout } from 'sjds/layouts';
 import { mediaQuery, typo } from 'sjds';
 
 /** 홈 페이지 */
-const HomePage = pageProps => {
+const HomePage = () => {
   const currentTheme = useTheme();
   const isLogined = false;
 

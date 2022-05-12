@@ -1,6 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 // components
 import Layout from 'components/layouts';
 import Symbol from 'components/atoms/Symbol';
@@ -9,6 +10,8 @@ import TextInput from 'components/atoms/inputs/Text';
 import PasswordInput from 'components/atoms/inputs/Password';
 import CheckBox from 'components/atoms/inputs/Checkbox';
 import { FillButton } from 'sjds/components/buttons';
+// store
+import { themeState } from 'store/system/theme';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 // styles
@@ -22,6 +25,8 @@ const SignInPage = () => {
   const { MetaTitle } = useMetaData();
   const currentTheme = useTheme();
   const router = useRouter();
+
+  const currentThemeState = useRecoilValue(themeState);
 
   const onChangeCheckBox = () => setIsChecked(v => !v);
 
@@ -40,7 +45,7 @@ const SignInPage = () => {
       <Wrapper>
         <BrandWrapper>
           <Symbol type="Color" w={48} h={48} isBackground />
-          <Logo type="Black" h={18} />
+          <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} h={18} />
         </BrandWrapper>
         <Title>로그인</Title>
         <FormWrapper>

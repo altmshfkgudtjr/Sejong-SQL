@@ -1,6 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
 // components
 import Layout from 'components/layouts';
 import Symbol from 'components/atoms/Symbol';
@@ -9,6 +10,8 @@ import TextInput from 'components/atoms/inputs/Text';
 import PasswordInput from 'components/atoms/inputs/Password';
 import { FillButton, TextButton } from 'sjds/components/buttons';
 import 개인정보처리방침 from 'components/presenters/auth/개인정보처리방침';
+// store
+import { themeState } from 'store/system/theme';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 // styles
@@ -26,6 +29,8 @@ const SignUpPage = () => {
 
   const scrollTarget = useRef<HTMLDivElement>(null);
   const readTarget = useRef<HTMLDivElement>(null);
+
+  const currentThemeState = useRecoilValue(themeState);
 
   const onIntersect = (entries, observer) => {
     if (entries[0].isIntersecting) {
@@ -72,7 +77,7 @@ const SignUpPage = () => {
       <Wrapper>
         <BrandWrapper>
           <Symbol type="Color" w={48} h={48} isBackground />
-          <Logo type="Black" h={18} />
+          <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} h={18} />
         </BrandWrapper>
         <Title>회원가입</Title>
         {!isChecked && (
@@ -108,7 +113,7 @@ const SignUpPage = () => {
         {isChecked && (
           <>
             <FormWrapper>
-              <TextInput placeholder="학번 또는 사번 (Email ID)" autoComplete="off" autoFocus />
+              <TextInput placeholder="아이디" autoComplete="off" autoFocus />
               <TextInput placeholder="이름" autoComplete="off" />
               <PasswordInput placeholder="비밀번호" autoComplete="off" />
             </FormWrapper>
