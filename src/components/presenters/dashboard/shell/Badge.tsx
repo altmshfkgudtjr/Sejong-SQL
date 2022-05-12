@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin-bottom: 16px;
   ${typo.value3};
   color: ${({ theme }) => theme.primary};
 `;

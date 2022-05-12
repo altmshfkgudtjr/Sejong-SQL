@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 // components
 import Layout from 'components/layouts';
 import { MainLayout } from 'sjds/layouts';
@@ -13,6 +14,9 @@ import useMetaData from 'hooks/commons/useMetaData';
 
 /** 대시보드 페이지 */
 const DashBoard = () => {
+  const { query } = useRouter();
+  const { problemId } = query;
+
   const { MetaTitle } = useMetaData();
 
   return (
@@ -25,7 +29,11 @@ const DashBoard = () => {
         </TopWrapper>
 
         <ShellWrapper>
-          <ResizableArea left={<문제영역 />} top={<풀이영역 />} bottom={<출력영역 />} />
+          <ResizableArea
+            left={<문제영역 problemId={problemId as string} />}
+            top={<풀이영역 />}
+            bottom={<출력영역 />}
+          />
         </ShellWrapper>
       </Wrapper>
     </>
@@ -60,6 +68,7 @@ const TopWrapper = styled(MainLayout)`
 
 const ShellWrapper = styled.div`
   flex: 1;
+  max-height: calc(100% - 36px - 16px);
   border-top: 1px solid ${({ theme }) => theme.background.bg4};
 `;
 

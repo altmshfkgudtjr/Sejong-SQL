@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import Split from 'react-split';
 // types
 import type { ReactNode } from 'react';
-import { lib } from 'sjds';
+import { boxShadow, lib } from 'sjds';
 
 /**
  * 대시보드 조절이 가능한 3등분 영역
@@ -35,6 +35,7 @@ const ResizableArea = ({ left, top, bottom }: Props) => {
 const SplitLayout = styled(Split)<{ direction: 'horizontal' | 'vertical' }>`
   display: flex;
   flex-direction: ${({ direction }) => (direction === 'vertical' ? 'column' : 'row')};
+  position: relative;
 
   .gutter {
     flex-shrink: 0;
@@ -60,9 +61,27 @@ const SplitLayout = styled(Split)<{ direction: 'horizontal' | 'vertical' }>`
 `;
 
 const Area = styled.div<{ isDeep?: boolean }>`
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   background-color: ${({ isDeep, theme }) =>
     isDeep ? theme.background.bg3 : theme.background.bg2};
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    background-color: ${({ theme }) => theme.background.bg4};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 12px;
+    background-color: ${({ theme }) => theme.background.bg5};
+    opacity: 0.8;
+    ${boxShadow.e1};
+
+    ${lib.onlyHover(css`
+      opacity: 1;
+    `)}
+  }
 `;
 
 type Props = {
