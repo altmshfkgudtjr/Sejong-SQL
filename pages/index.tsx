@@ -12,7 +12,6 @@ import { mediaQuery, typo } from 'sjds';
 
 /** 홈 페이지 */
 const HomePage = pageProps => {
-  console.log(pageProps);
   const currentTheme = useTheme();
   const isLogined = false;
 

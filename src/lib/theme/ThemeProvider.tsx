@@ -32,8 +32,6 @@ const ThemeProvider = ({ themeType, children }) => {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       setSystem('Light');
     }
-
-    setSystem('Light'); // 임시
   }, [setSystem]);
 
   /** Store에 테마 저장 */
@@ -59,6 +57,8 @@ const ThemeProvider = ({ themeType, children }) => {
 
   /** 쿠키에 현재 테마 저장 */
   useEffect(() => {
+    cookieUtils.removeCookie('theme');
+
     if (currentTheme.mode === 'Light') {
       cookieUtils.setCookie('theme', 'light');
     }

@@ -17,6 +17,7 @@ const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: CustomAppProps) => {
   const { MetaTitle } = useMetaData();
+  const themeType = pageProps.theme ? pageProps.theme : cookieUtils.getCookieFromClient('theme');
 
   /** 공통 레이아웃 적용 */
   const getLayout = Component.getLayout || (page => page);
@@ -34,7 +35,7 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
       {/* ------------------------------ Main ------------------------------ */}
       <QueryClientProvider client={queryClient}>
         <RecoilProvider>
-          <ThemeProvider themeType={pageProps.theme}>
+          <ThemeProvider themeType={themeType}>
             <GlobalStyles />
             <>{getLayout(<Component {...pageProps} />)}</>
           </ThemeProvider>

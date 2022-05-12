@@ -8,9 +8,21 @@ export const setCookie = (key: string, value: string, expiredDays: number = 7) =
   const exdate = new Date();
   exdate.setDate(exdate.getDate() + expiredDays);
   const cookieValue =
-    encodeURI(value) + (expiredDays === null ? '' : `; expires=${exdate.toUTCString()}`);
+    encodeURI(value) +
+    (expiredDays === null ? '' : `; expires=${exdate.toUTCString()}`) +
+    '; path=/';
 
   document.cookie = `${key}=${cookieValue}`;
+};
+
+/**
+ * 쿠키 삭제하기
+ * - Client
+ * @param key 쿠키 Key
+ */
+export const removeCookie = (key: string) => {
+  const cookieValue = `${key}=''; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+  document.cookie = cookieValue;
 };
 
 /**

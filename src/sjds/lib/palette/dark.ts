@@ -26,7 +26,7 @@ const darkTheme: ThemeVariables = {
   // Border
   border: {
     b1: '#969C9C',
-    b2: '#94949B',
+    b2: '#303035',
   },
 
   // Semantic
