@@ -12,7 +12,7 @@ import 출력영역 from 'components/containers/dashboard/shell/출력영역';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 
-/** 대시보드 페이지 */
+/** 문제 페이지 */
 const DashBoard = () => {
   const { query } = useRouter();
   const { problemId } = query;
@@ -21,7 +21,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <MetaTitle content="대시보드" />
+      <MetaTitle content="문제" />
 
       <Wrapper>
         <TopWrapper>

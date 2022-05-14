@@ -14,7 +14,7 @@ import { typo, lib } from 'sjds';
  * @param props.classId 분반 ID
  * @param props.weekId 주차 ID
  */
-const ProblemCard = ({ problem, classId, weekId }: Props) => {
+const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
   const accuracyColorType: ColorType = !problem.isTry
     ? 'Default'
     : problem.scoreAccuracy
@@ -29,8 +29,12 @@ const ProblemCard = ({ problem, classId, weekId }: Props) => {
     ? 'Warning'
     : 'Danger';
 
+  const url = isManager
+    ? `/dashboard/${classId}/${weekId}/${problem.id}/edit`
+    : `/dashboard/${classId}/${weekId}/${problem.id}`;
+
   return (
-    <Link href={`/dashboard/${classId}/${weekId}/${problem.id}`} passHref>
+    <Link href={url} passHref>
       <Wrapper as="a">
         <LeftWrapper>
           <Name>{problem.name}</Name>
@@ -136,6 +140,7 @@ type Props = {
   };
   classId: string;
   weekId: string;
+  isManager: boolean;
 };
 
 export default ProblemCard;

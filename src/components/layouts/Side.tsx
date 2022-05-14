@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 // store
 import { uiState } from 'store/system/ui';
 // styles
-import { mediaQuery } from 'sjds';
+import { mediaQuery, zIndex } from 'sjds';
 
 /** 사이드 레이아웃 */
 const SideLayout = ({ children }) => {
@@ -24,6 +24,7 @@ const Wrapper = styled.aside<{ isOpen: boolean }>`
   height: calc(100vh - 48px);
   overflow-y: auto;
   background-color: ${({ theme }) => theme.background.bg3};
+  z-index: ${zIndex.sidebar};
   transform: ${({ isOpen }) => (isOpen ? 'translate3d(-320px, 0 0)' : 'translate3d(0, 0 0)')};
   transition: transform 0.4s ease-in-out;
 

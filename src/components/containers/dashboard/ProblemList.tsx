@@ -36,8 +36,17 @@ const ProblemList = ({ classId, weekId }: Props) => {
     },
   ];
 
+  /** 관리자 여부 */
+  const isManager = true;
+
   const ProblemCardList = problemList.map(problem => (
-    <ProblemCard key={problem.id} problem={problem} classId={classId} weekId={weekId} />
+    <ProblemCard
+      key={problem.id}
+      problem={problem}
+      classId={classId}
+      weekId={weekId}
+      isManager={isManager}
+    />
   ));
 
   return <Wrapper>{ProblemCardList}</Wrapper>;
