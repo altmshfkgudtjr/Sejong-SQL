@@ -7,7 +7,6 @@ import request from 'api';
  * @param {object} data
  * @param {string} data.id 계정 아이디
  * @param {string} data.pw 계정 비밀번호
- * @param {string} data.name 사용자 이름
  */
 export const signupAPI = data => {
   return request.post(`/api/auth/signup`, data);

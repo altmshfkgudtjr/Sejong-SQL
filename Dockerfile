@@ -7,7 +7,6 @@ RUN ["apk", "add", "--no-cache", "libc6-compat"]
 
 COPY package.json yarn.lock ./
 RUN --mount=type=cache,id=yarn,sharing=locked,target=/usr/local/share/.cache/yarn yarn install --frozen-lockfile
-# RUN yarn install --frozen-lockfile
 
 
 # 2. Build 단계
@@ -41,5 +40,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 USER appuser
+
+EXPOSE 3000
 
 ENTRYPOINT ["yarn", "start"]

@@ -53,7 +53,7 @@ const SignUpPage = () => {
     });
   };
 
-  const onSignIn = async () => {
+  const onSignUp = async () => {
     setIsLoading(true);
     // await ...
     // setIsLoading(false);
@@ -114,7 +114,6 @@ const SignUpPage = () => {
           <>
             <FormWrapper>
               <TextInput placeholder="아이디" autoComplete="off" autoFocus />
-              <TextInput placeholder="이름" autoComplete="off" />
               <PasswordInput placeholder="비밀번호" autoComplete="off" />
             </FormWrapper>
             <ButtonWrapper>
@@ -128,7 +127,7 @@ const SignUpPage = () => {
               <FillButton
                 size="Regular"
                 color={currentTheme.primary}
-                onClick={isLoading ? undefined : onSignIn}
+                onClick={isLoading ? undefined : onSignUp}
                 disabled={isLoading}
               >
                 {isLoading ? '잠시만요!' : '계속하기'}

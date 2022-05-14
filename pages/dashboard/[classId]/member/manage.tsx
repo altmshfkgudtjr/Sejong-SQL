@@ -6,20 +6,20 @@ import Sidebar from 'components/containers/Sidebar';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 
-/** 분반 생성 페이지 */
-const ClassCreatePage = () => {
+/** 분반 학생 관리 페이지 */
+const ClassMemberManagePage = () => {
   const { MetaTitle } = useMetaData();
 
   return (
     <>
-      <MetaTitle content="분반 생성" />
+      <MetaTitle content="분반 학생 관리" />
 
       <Wrapper></Wrapper>
     </>
   );
 };
 
-ClassCreatePage.getLayout = page => {
+ClassMemberManagePage.getLayout = page => {
   return (
     <Layout isSide>
       <Sidebar />
@@ -36,4 +36,4 @@ const Wrapper = styled(DashboardLayout)`
   padding-top: 8px;
 `;
 
-export default ClassCreatePage;
+export default ClassMemberManagePage;

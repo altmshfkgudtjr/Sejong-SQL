@@ -49,7 +49,7 @@ const SignInPage = () => {
         </BrandWrapper>
         <Title>로그인</Title>
         <FormWrapper>
-          <TextInput placeholder="학번 또는 사번 (Email ID)" autoComplete="off" autoFocus />
+          <TextInput placeholder="아이디" autoComplete="off" autoFocus />
           <PasswordInput placeholder="비밀번호" autoComplete="off" />
           <CheckBox
             label="password-persist"

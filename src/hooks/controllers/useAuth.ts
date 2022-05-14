@@ -11,7 +11,11 @@ import baseOption from 'lib/reactQueryOptions';
 const useAuth = () => {
   const { status, error, data } = useQuery(
     ['signupAPI'],
-    () => userAPIs.signupAPI({ userId: 1 }),
+    () =>
+      userAPIs.signupAPI({
+        id: '',
+        pw: '',
+      }),
     baseOption,
   );
 

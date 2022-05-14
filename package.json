@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --debug",
-    "start": "next start -p $PORT",
+    "start": "next start",
     "local-start": "next start",
     "test": "jest --watch",
     "testCoverage": "jest --watchAll --coverage",
@@ -13,7 +13,7 @@
     "analysis": "ANALYZE=true yarn build",
     "clean": "npx rimraf build out",
     "export": "next build && next export",
-    "docker-build-m1": "docker buildx build --platform linux/amd64 --build-arg BUILD_ID=$(git rev-parse --verify HEAD) -t incheon-web ./",
+    "docker-build-m1": "docker buildx build --platform linux/amd64 --build-arg BUILD_ID=$(git rev-parse --verify HEAD) -t altmshfkgudtjr/ssql-client ./",
     "gcloud-build": "gcloud builds submit --config=./cloudbuild.yaml"
   },
   "dependencies": {
