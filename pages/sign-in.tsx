@@ -1,6 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 // components
 import Layout from 'components/layouts';
@@ -14,29 +14,82 @@ import { FillButton } from 'sjds/components/buttons';
 import { themeState } from 'store/system/theme';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
+import useSnackbar from 'hooks/dom/useSnackbar';
+import * as useUserController from 'hooks/controllers/useUserController';
 // styles
 import { typo } from 'sjds';
 
 /** 로그인 페이지 */
 const SignInPage = () => {
   const [isChecked, setIsChecked] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const id = useRef<HTMLInputElement>(null);
+  const pw = useRef<HTMLInputElement>(null);
 
   const { MetaTitle } = useMetaData();
   const currentTheme = useTheme();
   const router = useRouter();
+  const { initSnackbar } = useSnackbar();
 
   const currentThemeState = useRecoilValue(themeState);
+
+  const { mutate, status } = useUserController.SignIn();
 
   const onChangeCheckBox = () => setIsChecked(v => !v);
 
   const onBack = () => router.back();
 
-  const onSignIn = async () => {
-    setIsLoading(true);
-    // await ...
-    // setIsLoading(false);
+  const onSignIn = () => {
+    if (status === 'loading') {
+      return;
+    }
+
+    if (!id.current || !pw.current) {
+      return;
+    }
+
+    if (id.current.value === '') {
+      initSnackbar({ type: 'Warning', title: '아이디 입력', message: '올바른 값을 입력해주세요' });
+      return id.current.focus();
+    }
+
+    if (pw.current.value === '') {
+      initSnackbar({
+        type: 'Warning',
+        title: '비밀번호 입력',
+        message: '올바른 값을 입력해주세요',
+      });
+      return pw.current.focus();
+    }
+
+    mutate({ id: id.current.value, pw: pw.current.value });
   };
+
+  const onKeyDown = e => {
+    if (e.code === 'Enter') {
+      onSignIn();
+    }
+  };
+
+  useEffect(() => {
+    switch (status) {
+      case 'error':
+        initSnackbar({
+          type: 'Danger',
+          title: '서버와의 연결 오류',
+          message: '잠시 후 다시 시도해주세요',
+        });
+        break;
+
+      case 'success':
+        initSnackbar({
+          type: 'Success',
+          title: '로그인 성공',
+          message: '이제 Sejong-SQL을 사용하실 수 있습니다',
+        });
+        break;
+    }
+  }, [status, initSnackbar]);
 
   return (
     <>
@@ -49,8 +102,14 @@ const SignInPage = () => {
         </BrandWrapper>
         <Title>로그인</Title>
         <FormWrapper>
-          <TextInput placeholder="아이디" autoComplete="off" autoFocus />
-          <PasswordInput placeholder="비밀번호" autoComplete="off" />
+          <TextInput
+            ref={id}
+            placeholder="아이디"
+            autoComplete="off"
+            autoFocus
+            onKeyDown={onKeyDown}
+          />
+          <PasswordInput ref={pw} placeholder="비밀번호" autoComplete="off" onKeyDown={onKeyDown} />
           <CheckBox
             label="password-persist"
             message="로그인 상태 유지"
@@ -65,10 +124,10 @@ const SignInPage = () => {
           <FillButton
             size="Regular"
             color={currentTheme.primary}
-            onClick={isLoading ? undefined : onSignIn}
-            disabled={isLoading}
+            onClick={status === 'loading' ? undefined : onSignIn}
+            disabled={status === 'loading'}
           >
-            {isLoading ? '잠시만요!' : '로그인'}
+            {status === 'loading' ? '진입 중' : '로그인'}
           </FillButton>
         </ButtonWrapper>
       </Wrapper>
@@ -93,7 +152,7 @@ const BrandWrapper = styled.div`
 
 const Title = styled.h1`
   ${typo.headline1};
-  margin: 50px auto 60px;
+  margin: 40px auto 50px;
   color: ${({ theme }) => theme.text.f2};
 `;
 

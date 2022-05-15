@@ -7,6 +7,7 @@ export const zIndex = {
   notification: 200,
 
   modal: 300,
+  snackbar: 330,
   toast: 350,
 
   loading: 500,

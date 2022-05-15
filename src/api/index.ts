@@ -34,9 +34,12 @@ const responseSuccessHandler = res => {
  * Response 실패 handler
  */
 const responseErrorHandler = err => {
-  // TODO API 서버 연결 후에, 바꾸기
-  return Promise.reject('API 서버 연결 후에 변경해주세요.');
-  // return Promise.reject(err.response.data);
+  if (process.env.NODE_ENV === 'development') {
+    console.group('API 호출 도중 오류가 발생하였습니다.');
+    console.log(err);
+    console.groupEnd();
+  }
+  return Promise.reject(err.name);
 };
 
 /**
@@ -44,7 +47,8 @@ const responseErrorHandler = err => {
  */
 const request = axios.create({
   headers: {
-    'Content-Type': 'application/json, charset=utf8',
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
     'Cache-Control': 'no-cache',
   },
 });

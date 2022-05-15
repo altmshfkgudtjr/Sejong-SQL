@@ -1,74 +1,112 @@
 import styled, { useTheme } from 'styled-components';
-import { useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useRouter } from 'next/router';
 // components
 import Layout from 'components/layouts';
 import Symbol from 'components/atoms/Symbol';
 import Logo from 'components/atoms/Logo';
 import TextInput from 'components/atoms/inputs/Text';
 import PasswordInput from 'components/atoms/inputs/Password';
-import { FillButton, TextButton } from 'sjds/components/buttons';
-import 개인정보처리방침 from 'components/presenters/auth/개인정보처리방침';
+import { FillButton } from 'sjds/components/buttons';
+import AgreementSection from 'components/presenters/auth/AgreementSection';
 // store
 import { themeState } from 'store/system/theme';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
+import useSnackbar from 'hooks/dom/useSnackbar';
+import * as useUserController from 'hooks/controllers/useUserController';
 // styles
 import { typo } from 'sjds';
 
 /** 회원가입 페이지 */
 const SignUpPage = () => {
-  const [isRead, setIsRead] = useState(false);
-  const [isChecked, setisChecked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const id = useRef<HTMLInputElement>(null);
+  const pw = useRef<HTMLInputElement>(null);
+  const name = useRef<HTMLInputElement>(null);
 
   const { MetaTitle } = useMetaData();
   const currentTheme = useTheme();
   const router = useRouter();
-
-  const scrollTarget = useRef<HTMLDivElement>(null);
-  const readTarget = useRef<HTMLDivElement>(null);
+  const { initSnackbar } = useSnackbar();
 
   const currentThemeState = useRecoilValue(themeState);
+  const { mutate, status } = useUserController.SignUp();
 
-  const onIntersect = (entries, observer) => {
-    if (entries[0].isIntersecting) {
-      setIsRead(true);
-      observer.unobserve(entries[0].target);
-    }
-  };
-
-  const onBack = () => router.back();
-
-  const onScrollAgreement = () => {
-    if (!scrollTarget.current) {
+  const onSignUp = async () => {
+    if (status === 'loading') {
       return;
     }
 
-    scrollTarget.current.scrollBy({
-      top: 2000,
-      left: 0,
-      behavior: 'smooth',
-    });
+    if (!id.current || !name.current || !pw.current) {
+      return;
+    }
+
+    if (id.current.value === '') {
+      initSnackbar({ type: 'Warning', title: '아이디 입력', message: '올바른 값을 입력해주세요' });
+      return id.current.focus();
+    } else if (id.current.value.length < 4) {
+      initSnackbar({
+        type: 'Warning',
+        title: '아이디 입력',
+        message: '최소 4글자 이상 입력해주세요',
+      });
+      return id.current.focus();
+    }
+
+    if (name.current.value === '') {
+      initSnackbar({ type: 'Warning', title: '이름 입력', message: '올바른 값을 입력해주세요' });
+      return name.current.focus();
+    }
+
+    if (pw.current.value === '') {
+      initSnackbar({
+        type: 'Warning',
+        title: '비밀번호 입력',
+        message: '올바른 값을 입력해주세요',
+      });
+      return pw.current.focus();
+    } else if (pw.current.value.length < 8) {
+      initSnackbar({
+        type: 'Warning',
+        title: '비밀번호 입력',
+        message: '최소 8글자 이상 입력해주세요',
+      });
+      return pw.current.focus();
+    }
+
+    mutate({ id: id.current.value, name: name.current.value, pw: pw.current.value });
   };
 
-  const onSignUp = async () => {
-    setIsLoading(true);
-    // await ...
-    // setIsLoading(false);
+  const onKeyDown = e => {
+    if (e.code === 'Enter') {
+      onSignUp();
+    }
   };
 
   useEffect(() => {
-    let observer;
-    if (readTarget.current) {
-      observer = new IntersectionObserver(onIntersect, {
-        threshold: 0.4,
-      });
-      observer.observe(readTarget.current);
+    switch (status) {
+      case 'error':
+        initSnackbar({
+          type: 'Danger',
+          title: '서버와의 연결 오류',
+          message: '잠시 후 다시 시도해주세요',
+        });
+        break;
+
+      case 'success':
+        initSnackbar({
+          type: 'Success',
+          title: '회원가입 성공',
+          message: '환영합니다! 가입한 계정으로 다시 한번 로그인해주세요',
+        });
+        router.push('/sign-in');
+        break;
     }
-    return () => observer && observer.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, initSnackbar]);
 
   return (
     <>
@@ -80,57 +118,40 @@ const SignUpPage = () => {
           <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} h={18} />
         </BrandWrapper>
         <Title>회원가입</Title>
-        {!isChecked && (
-          <>
-            <AgreementLayout>
-              <AgreementWrapper ref={scrollTarget}>
-                <개인정보처리방침 />
-                <div ref={readTarget} />
-              </AgreementWrapper>
-            </AgreementLayout>
-            <ScrollButton
-              size="Regular"
-              color={currentTheme.semantic.info}
-              onClick={onScrollAgreement}
-            >
-              스크롤 내리기
-            </ScrollButton>
-            <ButtonWrapper>
-              <FillButton size="Regular" color={currentTheme.background.bg5} onClick={onBack}>
-                돌아가기
-              </FillButton>
-              <FillButton
-                size="Regular"
-                color={currentTheme.primary}
-                onClick={() => setisChecked(true)}
-                disabled={!isRead || isLoading}
-              >
-                동의 및 진행
-              </FillButton>
-            </ButtonWrapper>
-          </>
-        )}
+        {!isChecked && <AgreementSection onRead={() => setIsChecked(true)} />}
         {isChecked && (
           <>
             <FormWrapper>
-              <TextInput placeholder="아이디" autoComplete="off" autoFocus />
-              <PasswordInput placeholder="비밀번호" autoComplete="off" />
+              <TextInput
+                ref={id}
+                placeholder="아이디 (4자리 이상)"
+                autoComplete="off"
+                autoFocus
+                onKeyDown={onKeyDown}
+              />
+              <TextInput ref={name} placeholder="이름" autoComplete="off" onKeyDown={onKeyDown} />
+              <PasswordInput
+                ref={pw}
+                placeholder="비밀번호 (8자리 이상)"
+                autoComplete="off"
+                onKeyDown={onKeyDown}
+              />
             </FormWrapper>
             <ButtonWrapper>
               <FillButton
                 size="Regular"
                 color={currentTheme.background.bg5}
-                onClick={() => setisChecked(false)}
+                onClick={() => setIsChecked(false)}
               >
                 돌아가기
               </FillButton>
               <FillButton
                 size="Regular"
                 color={currentTheme.primary}
-                onClick={isLoading ? undefined : onSignUp}
-                disabled={isLoading}
+                onClick={status === 'loading' ? undefined : onSignUp}
+                disabled={status === 'loading'}
               >
-                {isLoading ? '잠시만요!' : '계속하기'}
+                {status === 'loading' ? '등록 중' : '계속하기'}
               </FillButton>
             </ButtonWrapper>
           </>
@@ -157,7 +178,7 @@ const BrandWrapper = styled.div`
 
 const Title = styled.h1`
   ${typo.headline1};
-  margin: 50px auto 60px;
+  margin: 40px auto 50px;
   color: ${({ theme }) => theme.text.f2};
 `;
 
@@ -184,45 +205,6 @@ const ButtonWrapper = styled.div`
 
   & > button {
     flex: 1;
-  }
-`;
-
-const ScrollButton = styled(TextButton)`
-  flex: 0 0 auto;
-  width: 320px;
-  margin-bottom: 16px;
-`;
-
-const AgreementLayout = styled.div`
-  width: calc(100% - 32px);
-  max-width: 600px;
-  max-height: 320px;
-  padding: 16px 0;
-  margin-bottom: 16px;
-  border-radius: 16px;
-  background-color: ${({ theme }) => theme.background.bg3};
-  overflow: hidden;
-`;
-
-const AgreementWrapper = styled.div`
-  height: 100%;
-  padding: 16px 32px;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    width: 6px;
-    background-color: ${({ theme }) => theme.border.b2};
-    border-radius: 16px;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.border.b1};
-    }
   }
 `;
 

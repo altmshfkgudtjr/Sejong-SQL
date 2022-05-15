@@ -6,9 +6,10 @@ import request from 'api';
  *
  * @param {object} data
  * @param {string} data.id 계정 아이디
+ * @param {string} data.name 계정 이름
  * @param {string} data.pw 계정 비밀번호
  */
-export const signupAPI = data => {
+export const signUpAPI = data => {
   return request.post(`/api/auth/signup`, data);
 };
 
@@ -19,8 +20,8 @@ export const signupAPI = data => {
  * @param {string} data.id 계정 아이디
  * @param {string} data.pw 계정 비밀번호
  */
-export const signinAPI = data => {
-  return request.post(`/api/auth/signup`, data);
+export const signInAPI = data => {
+  return request.post(`/api/auth/signin`, data);
 };
 
 /**
@@ -31,7 +32,7 @@ export const signinAPI = data => {
  * @param {string} data.sejong_pw 세종대학교 포털 비밀번호
  */
 export const authroizatonSejongUnivAPI = data => {
-  return request.post(`/api/auth/signup`, data);
+  return request.post(`/api/auth/sejong`, data);
 };
 
 // SERVER API 제작 진행 중

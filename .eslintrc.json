@@ -9,7 +9,7 @@
     "sourceType": "module"
   },
 
-  "plugins": ["react", "react-hooks"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "@typescript-eslint/eslint-plugin"],
 
   "extends": ["eslint:recommended", "plugin:react/recommended", "next", "prettier"],
 
@@ -50,5 +50,16 @@
     // React Hooks 규칙
     "react-hooks/rules-of-hooks": "error", // Hook 규칙 검사
     "react-hooks/exhaustive-deps": "warn" // useEffect Dependencies 검사
-  }
+  },
+
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": 1
+      }
+    }
+  ]
 }

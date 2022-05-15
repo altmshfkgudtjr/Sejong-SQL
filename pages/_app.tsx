@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import type { AppProps } from 'next/app';
-import ThemeProvider from 'lib/theme/ThemeProvider';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import ThemeProvider from 'lib/theme';
+import QueryProvider from 'lib/reactQuery';
 import RecoilProvider from 'store';
+import ModalProvider from 'components/containers/modals/ModalProvider';
+import SnackbarProvider from 'components/containers/commons/SnackbarProvider';
 // components
 import { SpriteIcons, SpriteEmojis } from 'sjds/components/icons';
 // hooks
@@ -12,8 +13,8 @@ import * as cookieUtils from 'utils/cookie';
 import GlobalStyles from 'lib/theme/global';
 // styles
 import 'public/font.css';
-
-const queryClient = new QueryClient();
+// types
+import type { CustomAppProps } from 'next/app';
 
 const App = ({ Component, pageProps }: CustomAppProps) => {
   const { MetaTitle } = useMetaData();
@@ -33,14 +34,20 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
       </Head>
       <MetaTitle content="세종대학교 SQL OJ System" />
       {/* ------------------------------ Main ------------------------------ */}
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider>
         <RecoilProvider>
           <ThemeProvider themeType={themeType}>
+            {/* Global Styles */}
             <GlobalStyles />
-            <>{getLayout(<Component {...pageProps} />)}</>
+            {/* Main App */}
+            {getLayout(<Component {...pageProps} />)}
+            {/* Modal */}
+            <ModalProvider />
+            {/* Snackbar */}
+            <SnackbarProvider />
           </ThemeProvider>
         </RecoilProvider>
-      </QueryClientProvider>
+      </QueryProvider>
       {/* ------------------------------ Icons ------------------------------ */}
       <SpriteIcons />
       <SpriteEmojis />
@@ -63,10 +70,5 @@ App.getInitialProps = async ({ ctx, Component }) => {
 
   return { pageProps };
 };
-
-/** App Props 커스텀 타입 */
-interface CustomAppProps extends Omit<AppProps, 'Component'> {
-  Component: AppProps['Component'] & { getLayout: Function };
-}
 
 export default App;

@@ -1,6 +1,6 @@
 import { ThemeProvider as SC_ThemeProvider } from 'styled-components';
-import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
 // store
 import { themeState } from 'store/system/theme';
 import { setTheme, setSystemTheme } from 'store/system/theme.logic';
@@ -8,8 +8,16 @@ import { setTheme, setSystemTheme } from 'store/system/theme.logic';
 import * as cookieUtils from 'utils/cookie';
 // styles
 import themePalette from 'sjds/lib/palette';
+// types
+import type { PropsWithChildren } from 'react';
 
-const ThemeProvider = ({ themeType, children }) => {
+/**
+ * Theme Component Provider
+ *
+ * @param props
+ * @param props.themeType 테마 타입
+ */
+const ThemeProvider = ({ themeType, children }: PropsWithChildren<Props>) => {
   const currentTheme = useRecoilValue(themeState);
   const theme =
     currentTheme.system === 'Pending'
@@ -70,5 +78,11 @@ const ThemeProvider = ({ themeType, children }) => {
 
   return <SC_ThemeProvider theme={theme}>{children}</SC_ThemeProvider>;
 };
+
+type ThemeType = 'light' | 'dark';
+
+interface Props {
+  themeType?: ThemeType;
+}
 
 export default ThemeProvider;

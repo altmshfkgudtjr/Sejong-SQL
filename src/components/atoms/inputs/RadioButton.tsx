@@ -44,14 +44,8 @@ const Label = styled.label<{ disabled: boolean }>`
   ${({ disabled, theme }) =>
     onlyHover(css`
       input ~ span {
-        background: ${theme.background.bg2};
-      }
-
-      @media (hover: hover) {
-        input ~ span {
-          background: ${disabled ? theme.background.bg1 : theme.semantic.success};
-          border: 1px solid ${disabled ? theme.background.bg1 : theme.semantic.success};
-        }
+        background: ${disabled ? theme.background.bg1 : theme.background.bg2};
+        border: 1px solid ${disabled ? theme.border.b1 : theme.semantic.success};
       }
     `)};
 
@@ -88,7 +82,7 @@ const Label = styled.label<{ disabled: boolean }>`
     height: 20px;
     width: 20px;
     background-color: ${({ theme }) => theme.background.bg1};
-    border: 1px solid ${({ theme }) => theme.background.bg3};
+    border: 1px solid ${({ theme }) => theme.border.b2};
     border-radius: 20px;
     transition: background-color 0.1s ease, border 0.1s ease;
 
