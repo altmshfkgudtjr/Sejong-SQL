@@ -4,14 +4,15 @@ import request from 'api';
  * 분반 생성 API
  * @version 1
  *
- * @param {object} data
- * @param {string} data.name 분반 이름 (수업명)
- * @param {string} data.comment 분반 설명 (수업 설명)
- * @param {string} data.semester 개설학기
- * @param {string} data.prof_id 담당 교수 아이디
- * @param {boolean} data.activate 활성화 여부
+ * @param {object} props
+ * @param {object} props.data
+ * @param {string} props.data.name 분반 이름 (수업명)
+ * @param {string} props.data.comment 분반 설명 (수업 설명)
+ * @param {string} props.data.semester 개설학기
+ * @param {string} props.data.prof_id 담당 교수 아이디
+ * @param {boolean} props.data.activate 활성화 여부
  */
-export const craeteClassAPI = data => {
+export const createClassAPI = ({ data }) => {
   return request.post(`/api/v1/class`, data);
 };
 
@@ -21,9 +22,10 @@ export const craeteClassAPI = data => {
  * - 분반 ID가 없을 시, 본인이 속한 분반 전체 반환
  * @version 1
  *
- * @param {number =} classId 분반 ID
+ * @param {object} props
+ * @param {number =} props.classId 분반 ID
  */
-export const getClassAPI = classId => {
+export const getClassAPI = ({ classId }) => {
   return request.get(`/ap1/v1/class${classId ? `/${classId}` : ''}`);
 };
 
@@ -32,15 +34,16 @@ export const getClassAPI = classId => {
  * 분반 수정 API
  * @version 1
  *
- * @param {number} classId 분반 ID
- * @param {object} data
- * @param {string} data.name 분반 이름 (수업명)
- * @param {string} data.comment 분반 설명 (수업 설명)
- * @param {string} data.semester 개설학기
- * @param {string} data.prof_id 담당 교수 아이디
- * @param {boolean} data.activate 활성화 여부
+ * @param {object} props
+ * @param {number} props.classId 분반 ID
+ * @param {object} props.data
+ * @param {string} props.data.name 분반 이름 (수업명)
+ * @param {string} props.data.comment 분반 설명 (수업 설명)
+ * @param {string} props.data.semester 개설학기
+ * @param {string} props.data.prof_id 담당 교수 아이디
+ * @param {boolean} props.data.activate 활성화 여부
  */
-export const authorizationSejongUnivAPI = (classId, data) => {
+export const updateClassAPI = ({ classId, data }) => {
   return request.put(`/ap1/v1/class/${classId}`, data);
 };
 
@@ -48,9 +51,10 @@ export const authorizationSejongUnivAPI = (classId, data) => {
  * 분반 제거 API
  * @version 1
  *
- * @param {number} classId 분반 ID
+ * @param {object} props
+ * @param {number} props.classId 분반 ID
  */
-export const deleteClassAPI = classId => {
+export const deleteClassAPI = ({ classId }) => {
   return request.delete(`/ap1/v1/class/${classId}`);
 };
 
@@ -59,9 +63,10 @@ export const deleteClassAPI = classId => {
  * - 조교와 학생을 반환
  * @version 1
  *
- * @param {number} classId 분반 ID
- */
-export const getClassMemberListAPI = classId => {
+ * @param {object} props
+ * @param {number} props.classId 분반 ID
+ */ s;
+export const getClassMemberListAPI = ({ classId }) => {
   return request.get(`/api/v1/class/${classId}/users`);
 };
 
@@ -69,10 +74,11 @@ export const getClassMemberListAPI = classId => {
  * 사용자 검색 API
  * @version 1
  *
- * @param {number} classId 분반 ID
- * @param {string} studentId 사용자 아이디(학번)
+ * @param {object} props
+ * @param {number} props.classId 분반 ID
+ * @param {string} props.studentId 사용자 아이디(학번)
  */
-export const getUserListAPI = (classId, studentId) => {
+export const getUserListAPI = ({ classId, studentId }) => {
   return request.get(`/api/v1/class/${classId}/user/${studentId}`);
 };
 
@@ -80,9 +86,10 @@ export const getUserListAPI = (classId, studentId) => {
  * 분반에 사용자 추가 API
  * @version 1
  *
- * @param {number} classId 분반 ID
- * @param {string} userId 사용자 ID
+ * @param {object} props
+ * @param {number} props.classId 분반 ID
+ * @param {string} props.userId 사용자 ID
  */
-export const addClassMemeberAPI = (classId, userId) => {
+export const addClassMemeberAPI = ({ classId, userId }) => {
   return request.post(`/api/v1/class/${classId}/users/${userId}`);
 };

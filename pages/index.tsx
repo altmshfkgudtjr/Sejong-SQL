@@ -1,5 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import Link from 'next/link';
+import { useEffect } from 'react';
 // components
 import Layout from 'components/layouts';
 import Badge from 'components/atoms/Badge';
@@ -7,13 +8,21 @@ import RadioButton from 'components/atoms/inputs/RadioButton';
 import Footer from 'components/containers/Footer';
 import { FillButton, TextButton } from 'sjds/components/buttons';
 import { MainLayout } from 'sjds/layouts';
+// hooks
+import useSnackbar from 'hooks/dom/useSnackbar';
 // style
 import { mediaQuery, typo } from 'sjds';
 
 /** 홈 페이지 */
 const HomePage = () => {
-  const currentTheme = useTheme();
   const isLogined = false;
+  const currentTheme = useTheme();
+
+  const { initSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    initSnackbar({ type: 'Info', message: '2022년 데이터베이스 수업은 저희와 함께하세요!' });
+  }, [initSnackbar]);
 
   return (
     <>

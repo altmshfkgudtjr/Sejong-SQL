@@ -4,34 +4,37 @@ import request from 'api';
 /**
  * 회원가입 API
  *
- * @param {object} data
- * @param {string} data.id 계정 아이디
- * @param {string} data.name 계정 이름
- * @param {string} data.pw 계정 비밀번호
+ * @param {object} props
+ * @param {object} props.data
+ * @param {string} props.data.id 계정 아이디
+ * @param {string} props.data.name 계정 이름
+ * @param {string} props.data.pw 계정 비밀번호
  */
-export const signUpAPI = data => {
+export const signUpAPI = ({ data }) => {
   return request.post(`/api/auth/signup`, data);
 };
 
 /**
  * 로그인 API
  *
- * @param {object} data
- * @param {string} data.id 계정 아이디
- * @param {string} data.pw 계정 비밀번호
+ * @param {object} props
+ * @param {object} propsdata
+ * @param {string} propsdata.id 계정 아이디
+ * @param {string} propsdata.pw 계정 비밀번호
  */
-export const signInAPI = data => {
+export const signInAPI = ({ data }) => {
   return request.post(`/api/auth/signin`, data);
 };
 
 /**
  * 세종대학교 구성원 인증 API
  *
- * @param {object} data
- * @param {string} data.sejong_id 세종대학교 포털 아이디
- * @param {string} data.sejong_pw 세종대학교 포털 비밀번호
+ * @param {object} props
+ * @param {object} props.data
+ * @param {string} props.data.sejong_id 세종대학교 포털 아이디
+ * @param {string} props.data.sejong_pw 세종대학교 포털 비밀번호
  */
-export const authroizatonSejongUnivAPI = data => {
+export const authroizatonSejongUnivAPI = ({ data }) => {
   return request.post(`/api/auth/sejong`, data);
 };
 
@@ -48,12 +51,13 @@ export const getProfileAPI = () => {
  * 내 정보 수정 API
  * @version 1
  *
- * @param {object} data
- * @param {string} data.old_pw 기존 비밀번호
- * @param {string} data.new_pw 새로운 비밀번호
- * @param {string} data.name 이름
+ * @param {object} props
+ * @param {object} props.data
+ * @param {string} props.data.old_pw 기존 비밀번호
+ * @param {string} props.data.new_pw 새로운 비밀번호
+ * @param {string} props.data.name 이름
  */
-export const updateProfileAPI = data => {
+export const updateProfileAPI = ({ data }) => {
   return request.put(`/api/v1/users/me`, data);
 };
 
@@ -62,9 +66,10 @@ export const updateProfileAPI = data => {
  * 회원탈퇴 API
  * @version 1
  *
- * @param {object} data
- * @param {string} data.pw 계정 비밀번호
+ * @param {object} props
+ * @param {object} props.data
+ * @param {string} props.data.pw 계정 비밀번호
  */
-export const successionAPI = data => {
+export const successionAPI = ({ data }) => {
   return request.delete(`/api/v1/users/me`, data);
 };

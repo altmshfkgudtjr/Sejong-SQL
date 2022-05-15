@@ -77,7 +77,13 @@ const SignUpPage = () => {
       return pw.current.focus();
     }
 
-    mutate({ id: id.current.value, name: name.current.value, pw: pw.current.value });
+    mutate({
+      data: {
+        id: id.current.value,
+        name: name.current.value,
+        pw: pw.current.value,
+      },
+    });
   };
 
   const onKeyDown = e => {

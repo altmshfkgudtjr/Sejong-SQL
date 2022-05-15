@@ -62,7 +62,12 @@ const SignInPage = () => {
       return pw.current.focus();
     }
 
-    mutate({ id: id.current.value, pw: pw.current.value });
+    mutate({
+      data: {
+        id: id.current.value,
+        pw: pw.current.value,
+      },
+    });
   };
 
   const onKeyDown = e => {

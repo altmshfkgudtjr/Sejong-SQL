@@ -34,7 +34,7 @@ const AgreementSection = ({ onRead }: Props) => {
     }
 
     scrollTarget.current.scrollBy({
-      top: 2000,
+      top: 3000,
       left: 0,
       behavior: 'smooth',
     });

@@ -23,7 +23,7 @@ const requestErrorHandler = err => {
  * Response 성공 handler
  */
 const responseSuccessHandler = res => {
-  if (res.status === 200) {
+  if (200 <= res.status && res.status < 300) {
     return res.data;
   } else {
     return responseErrorHandler(res.data);

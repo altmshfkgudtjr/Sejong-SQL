@@ -45,7 +45,7 @@ export const createWeekAPI = (classId, data) => {
  * @param {string | null} data.activate_end 활성화 종료 시간
  *
  */
-export const editWeekAPI = (classId, weekId, data) => {
+export const updateWeekAPI = (classId, weekId, data) => {
   return request.put(`/api/v1/class/${classId}/pgroups/${weekId}`, data);
 };
 
