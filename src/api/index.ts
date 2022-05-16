@@ -1,4 +1,6 @@
 import axios from 'axios';
+// utils
+import * as storageUtils from 'utils/storage';
 
 /**
  * Request 성공 handler
@@ -7,6 +9,14 @@ const requestSuccessHandler = config => {
   // Next.js ServerSideRendering
   if (typeof window === 'undefined') {
     return config;
+  }
+
+  const accessToken =
+    storageUtils.getSessionStorage('ssql-accessToken') ||
+    storageUtils.getLocalStorage('ssql-accessToken');
+
+  if (accessToken) {
+    Object.assign(config, { Authorization: `Bearer ${accessToken}` });
   }
 
   return config;

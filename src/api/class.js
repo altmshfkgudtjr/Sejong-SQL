@@ -65,7 +65,7 @@ export const deleteClassAPI = ({ classId }) => {
  *
  * @param {object} props
  * @param {number} props.classId 분반 ID
- */ s;
+ */
 export const getClassMemberListAPI = ({ classId }) => {
   return request.get(`/api/v1/class/${classId}/users`);
 };

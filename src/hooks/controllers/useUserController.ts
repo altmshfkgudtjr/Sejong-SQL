@@ -1,6 +1,8 @@
 import { useQuery, useMutation } from 'react-query';
 // api
 import * as userAPIs from 'api/user';
+// utils
+import * as storageUtils from 'utils/storage';
 
 /**
  * 회원가입
@@ -13,9 +15,23 @@ export const SignUp = () => {
 
 /**
  * 로그인
+ * @param isPersist 로그인 상태 유지 여부
  */
-export const SignIn = () => {
+export const SignIn = (isPersist: boolean) => {
   const result = useMutation(['signInAPI'], userAPIs.signInAPI);
+
+  storageUtils.removeSessionStorage('ssql-accessToken');
+  storageUtils.removeSessionStorage('ssql-refreshToken');
+  storageUtils.removeLocalStorage('ssql-accessToken');
+  storageUtils.removeLocalStorage('ssql-refreshToken');
+
+  if (isPersist && !!result.data) {
+    storageUtils.saveLocalStorage('ssql-accessToken', result.data.result?.access_token);
+    storageUtils.saveLocalStorage('ssql-refreshToken', result.data.result?.refresh_token);
+  } else if (!isPersist && !!result.data) {
+    storageUtils.saveSessionStorage('ssql-accessToken', result.data.result?.access_token);
+    storageUtils.saveSessionStorage('ssql-refreshToken', result.data.result?.refresh_token);
+  }
 
   return result;
 };

@@ -4,7 +4,9 @@
 	"include": [
     "src/**/*",
     "pages/**/*",
-		"next-env.d.ts", "src/__tests__",
+		"next-env.d.ts", 
+		"src/__tests__", 
+		"@types",
   ],
   "exclude": [
 		".next",
@@ -63,7 +65,7 @@
     },
 		"baseUrl": "./src",
     "typeRoots": [
-      "./src/@types",
+      "@types",
 			"./node_modules/@types"
     ]
   }

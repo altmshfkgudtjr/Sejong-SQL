@@ -32,8 +32,7 @@ const SignInPage = () => {
   const { initSnackbar } = useSnackbar();
 
   const currentThemeState = useRecoilValue(themeState);
-
-  const { mutate, status } = useUserController.SignIn();
+  const { mutate, status } = useUserController.SignIn(isChecked);
 
   const onChangeCheckBox = () => setIsChecked(v => !v);
 
