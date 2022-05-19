@@ -1,3 +1,4 @@
+import { useState, useLayoutEffect } from 'react';
 import Head from 'next/head';
 import ThemeProvider from 'lib/theme';
 import QueryProvider from 'lib/reactQuery';
@@ -17,11 +18,17 @@ import 'public/font.css';
 import type { CustomAppProps } from 'next/app';
 
 const App = ({ Component, pageProps }: CustomAppProps) => {
+  const [themeType, setThemeType] = useState(pageProps.theme);
+
   const { MetaTitle } = useMetaData();
-  const themeType = pageProps.theme ? pageProps.theme : cookieUtils.getCookieFromClient('theme');
 
   /** 공통 레이아웃 적용 */
   const getLayout = Component.getLayout || (page => page);
+
+  useLayoutEffect(() => {
+    const value = cookieUtils.getCookieFromClient('theme');
+    setThemeType(v => (v ? v : value));
+  }, []);
 
   return (
     <>
