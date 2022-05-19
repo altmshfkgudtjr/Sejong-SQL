@@ -7,11 +7,14 @@ import { TextButton } from 'sjds/components/buttons';
 import { Icon } from 'sjds/components/icons';
 // hooks
 import useScrollHeader from 'hooks/dom/useScrollHeader';
+import * as useUserController from 'hooks/controllers/useUserController';
 // styles
 import { margin, mediaQuery, zIndex } from 'sjds';
 
 /** 모바일 메인 헤더 */
 const MobileMainHeader = () => {
+  const { status, data } = useUserController.GetProfile();
+
   const headerRef = useRef(null);
   useScrollHeader(headerRef);
 
@@ -27,11 +30,20 @@ const MobileMainHeader = () => {
           </LeftSide>
 
           <RightSide>
-            <Link href="/signin" passHref>
-              <TextButton as="a" size="ExtraSmall">
-                로그인
-              </TextButton>
-            </Link>
+            {status === 'success' && !!data && (
+              <Link href="/user" passHref>
+                <TextButton as="a" size="ExtraSmall">
+                  {data.result?.name} 님
+                </TextButton>
+              </Link>
+            )}
+            {status !== 'success' && (
+              <Link href="/signin" passHref>
+                <TextButton as="a" size="ExtraSmall">
+                  로그인
+                </TextButton>
+              </Link>
+            )}
           </RightSide>
         </Header>
       </Wrapper>

@@ -35,7 +35,7 @@ export type AuthorizationSejongUnivResponse = {};
 
 /* =============================================== */
 
-export type GetProfileProps = {};
+export type GetProfileProps = never;
 
 export type GetProfileResponse = {
   /** 사용자 아이디 */

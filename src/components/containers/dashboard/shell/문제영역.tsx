@@ -2,6 +2,8 @@ import styled from 'styled-components';
 // components
 import Badge from 'components/presenters/dashboard/shell/Badge';
 import ProblemTitle from 'components/presenters/dashboard/shell/ProblemTitle';
+// hooks
+import * as useProblemController from 'hooks/controllers/useProblemController';
 // styles
 import { typo } from 'sjds';
 
@@ -11,19 +13,21 @@ import { typo } from 'sjds';
  * @param props.problemId 문제 ID
  */
 const 문제영역 = ({ problemId }: Props) => {
+  const { status, data } = useProblemController.GetProblem(problemId);
+
   return (
     <Wrapper>
-      <TitleWrapper>
-        <ProblemTitle title="강아지 이름 출력하는 문제" />
-      </TitleWrapper>
+      {status === 'success' && (
+        <>
+          <TitleWrapper>
+            <ProblemTitle title={data?.result?.title} />
+          </TitleWrapper>
 
-      <Badge text="문제 설명" />
+          <Badge text="문제 설명" />
 
-      <ContentWrapper>
-        {`문제 설명
-
-왈왈왈 짖는 강아지의 이름을 출력하세요.`}
-      </ContentWrapper>
+          <ContentWrapper>{data?.result?.content}</ContentWrapper>
+        </>
+      )}
     </Wrapper>
   );
 };
@@ -46,7 +50,7 @@ const ContentWrapper = styled.div`
 `;
 
 type Props = {
-  problemId: string;
+  problemId: number;
 };
 
 export default 문제영역;

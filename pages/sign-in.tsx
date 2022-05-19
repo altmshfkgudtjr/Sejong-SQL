@@ -86,11 +86,7 @@ const SignInPage = () => {
         break;
 
       case 'success':
-        initSnackbar({
-          type: 'Success',
-          title: '로그인 성공',
-          message: '이제 Sejong-SQL을 사용하실 수 있습니다',
-        });
+        window.location.href = '/';
         break;
     }
   }, [status, initSnackbar]);

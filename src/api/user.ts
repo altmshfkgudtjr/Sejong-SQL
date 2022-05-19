@@ -1,6 +1,6 @@
 import request from 'api';
 // types
-import * as userTypes from 'types/api/user';
+import type * as userTypes from 'types/api/user';
 
 /**
  * 회원가입 API

@@ -8,7 +8,7 @@ import * as storageUtils from 'utils/storage';
  * 회원가입
  */
 export const SignUp = () => {
-  const result = useMutation(['signInAPI'], userAPIs.signUpAPI);
+  const result = useMutation(['signUpAPI'], userAPIs.signUpAPI);
 
   return result;
 };

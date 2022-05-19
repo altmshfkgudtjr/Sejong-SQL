@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+// hooks
+import * as useUserController from 'hooks/controllers/useUserController';
 // components
 import ProblemCard from 'components/presenters/dashboard/ProblemCard';
 
@@ -9,6 +11,8 @@ import ProblemCard from 'components/presenters/dashboard/ProblemCard';
  * @param props.weekId 주차 ID
  */
 const ProblemList = ({ classId, weekId }: Props) => {
+  const { status, data } = useUserController.GetProfile();
+
   const problemList = [
     {
       id: 1,
@@ -37,7 +41,7 @@ const ProblemList = ({ classId, weekId }: Props) => {
   ];
 
   /** 관리자 여부 */
-  const isManager = true;
+  const isManager = status === 'success' && data?.result?.role === 'sa';
 
   const ProblemCardList = problemList.map(problem => (
     <ProblemCard

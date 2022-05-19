@@ -8,7 +8,7 @@ import { typo } from 'sjds';
 /**
  * 코드 에디터
  */
-const CodeEditor = () => {
+const CodeEditor = ({ onChangeValue }: Props) => {
   const shell = useRef<HTMLDivElement>(null);
 
   const [lineCount, setLineCount] = useState(1);
@@ -21,6 +21,8 @@ const CodeEditor = () => {
     const count = shell.current.childNodes.length;
     setLineCount(count);
   };
+
+  const onInput = e => onChangeValue(e.target.innerText);
 
   const onKeyDown = e => {
     if (e.code === 'Backspace' && e.target.innerHTML === '<div><br></div>') {
@@ -88,6 +90,7 @@ const CodeEditor = () => {
         contentEditable
         suppressContentEditableWarning
         spellCheck={false}
+        onInput={onInput}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         onPaste={onPaste}
@@ -147,5 +150,9 @@ const CodeArea = styled.div`
     line-height: inherit;
   }
 `;
+
+type Props = {
+  onChangeValue: (value: string) => void;
+};
 
 export default CodeEditor;

@@ -21,6 +21,7 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
   const [themeType, setThemeType] = useState(pageProps.theme);
 
   const { MetaTitle } = useMetaData();
+  // useAuth();
 
   /** 공통 레이아웃 적용 */
   const getLayout = Component.getLayout || (page => page);

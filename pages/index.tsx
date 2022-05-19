@@ -9,6 +9,7 @@ import Footer from 'components/containers/Footer';
 import { FillButton, TextButton } from 'sjds/components/buttons';
 import { MainLayout } from 'sjds/layouts';
 // hooks
+import * as useUserController from 'hooks/controllers/useUserController';
 import useSnackbar from 'hooks/dom/useSnackbar';
 // style
 import { mediaQuery, typo } from 'sjds';
@@ -18,11 +19,29 @@ const HomePage = () => {
   const isLogined = false;
   const currentTheme = useTheme();
 
+  const { status } = useUserController.GetProfile();
+
   const { initSnackbar } = useSnackbar();
 
   useEffect(() => {
-    initSnackbar({ type: 'Info', message: '2022년 데이터베이스 수업은 저희와 함께하세요!' });
+    initSnackbar({
+      type: 'Info',
+      title: '반갑습니다',
+      message: '2022년 데이터베이스 수업은 저희와 함께하세요!',
+    });
   }, [initSnackbar]);
+
+  useEffect(() => {
+    if (status !== 'success') {
+      return;
+    }
+
+    initSnackbar({
+      type: 'Success',
+      title: '로그인 성공',
+      message: '이제 Sejong-SQL을 사용하실 수 있습니다',
+    });
+  }, [status, initSnackbar]);
 
   return (
     <>

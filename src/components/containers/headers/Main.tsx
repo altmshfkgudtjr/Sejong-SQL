@@ -5,6 +5,8 @@ import { useRecoilValue } from 'recoil';
 import Symbol from 'components/atoms/Symbol';
 import Logo from 'components/atoms/Logo';
 import { TextButton } from 'sjds/components/buttons';
+// hooks
+import * as useUserController from 'hooks/controllers/useUserController';
 // store
 import { themeState } from 'store/system/theme';
 // styles
@@ -12,8 +14,7 @@ import { mediaQuery } from 'sjds';
 
 const MainHeader = () => {
   const currentTheme = useRecoilValue(themeState);
-
-  const isLogined = false;
+  const { status, data } = useUserController.GetProfile();
 
   return (
     <Wrapper>
@@ -28,12 +29,12 @@ const MainHeader = () => {
             />
           </HomeLink>
         </div>
-        {isLogined && (
+        {status === 'success' && !!data && (
           <div>
-            <TextButton>16011075 님</TextButton>
+            <TextButton>{data.result?.name} 님</TextButton>
           </div>
         )}
-        {!isLogined && (
+        {status !== 'success' && (
           <div>
             <Link href="/sign-in" passHref>
               <TextButton as="a" size="Small">

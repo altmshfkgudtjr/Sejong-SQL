@@ -6,7 +6,7 @@ import * as storageUtils from 'utils/storage';
  * Request 성공 handler
  */
 const requestSuccessHandler = config => {
-  // Next.js ServerSideRendering
+  // Next.js ServerSide
   if (typeof window === 'undefined') {
     return config;
   }
@@ -16,7 +16,7 @@ const requestSuccessHandler = config => {
     storageUtils.getLocalStorage('ssql-accessToken');
 
   if (accessToken) {
-    Object.assign(config, { Authorization: `Bearer ${accessToken}` });
+    Object.assign(config.headers, { Authorization: `Bearer ${accessToken}` });
   }
 
   return config;

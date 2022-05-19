@@ -21,7 +21,11 @@ export const queryClient = new QueryClient({
  * React-Query Component Provider
  */
 const QueryProvider = ({ children }) => {
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={queryClient} contextSharing={true}>
+      {children}
+    </QueryClientProvider>
+  );
 };
 
 export default QueryProvider;

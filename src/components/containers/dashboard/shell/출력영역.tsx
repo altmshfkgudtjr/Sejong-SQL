@@ -2,18 +2,56 @@ import styled, { useTheme } from 'styled-components';
 // components
 import Badge from 'components/presenters/dashboard/shell/Badge';
 import { FillButton } from 'sjds/components/buttons';
+// hooks
+import * as useProblemController from 'hooks/controllers/useProblemController';
+import { typo } from 'sjds';
 
-const 출력영역 = () => {
+const 출력영역 = ({ classId, problemId, getUserQuery }: Props) => {
   const currentTheme = useTheme();
+
+  const { mutate, status, data } = useProblemController.RunProblem();
+
+  const onRun = () => {
+    const query = getUserQuery();
+
+    mutate({
+      classId,
+      problemId,
+      data: { query },
+    });
+  };
+
+  const TableHeader =
+    status === 'success' && !!data
+      ? Object.keys(data.result?.query_result[0]).map((key, idx) => <td key={idx}>{key}</td>)
+      : null;
+
+  const TableRowList =
+    status === 'success' && !!data
+      ? data.result?.query_result.map((row, idx) => (
+          <tr key={idx}>
+            {Object.keys(row).map((key, idx) => (
+              <td key={idx}>{row[key]}</td>
+            ))}
+          </tr>
+        ))
+      : null;
 
   return (
     <Wrapper>
       <Badge text="실행 결과" />
 
-      <Body></Body>
+      <Body>
+        {status === 'success' && (
+          <table>
+            <thead>{TableHeader}</thead>
+            <tbody>{TableRowList}</tbody>
+          </table>
+        )}
+      </Body>
 
       <Footer>
-        <Button color={currentTheme.primary} size="Regular">
+        <Button onClick={onRun} color={currentTheme.primary} size="Regular">
           쿼리 실행
         </Button>
         <Button color={currentTheme.primary} size="Regular">
@@ -34,6 +72,25 @@ const Wrapper = styled.section`
 
 const Body = styled.div`
   flex: 1;
+
+  table {
+    width: 100%;
+  }
+
+  thead td {
+    ${typo.subtitle2};
+  }
+
+  table,
+  tr,
+  td {
+    border: 1px solid ${({ theme }) => theme.border.b2};
+    ${typo.body2};
+  }
+
+  td {
+    padding: 4px 8px;
+  }
 `;
 
 const Footer = styled.div`
@@ -54,5 +111,11 @@ const Button = styled(FillButton)`
   flex: 0 1 auto;
   width: 120px;
 `;
+
+type Props = {
+  classId: number;
+  problemId: number;
+  getUserQuery: () => string;
+};
 
 export default 출력영역;
