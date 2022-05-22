@@ -24,6 +24,13 @@ export const authroizatonSejongUnivAPI = ({ data }: userTypes.AuthorizationSejon
 };
 
 /**
+ * Token 갱신 API
+ */
+export const getTokenAPI = () => {
+  return request.post<userTypes.GetTokenResponse>(`/api/auth/token/refresh`);
+};
+
+/**
  * 내 정보 반환 API
  * @version 1
  */

@@ -46,10 +46,42 @@ export const AuthorizationSejongUniv = () => {
 };
 
 /**
+ * Token 갱신
+ * @param isPersist 로그인 상태 유지 여부
+ */
+export const GetToken = (isPersist: boolean) => {
+  const result = useMutation(['getTokenAPI'], userAPIs.getTokenAPI);
+
+  storageUtils.removeSessionStorage('ssql-accessToken');
+  storageUtils.removeSessionStorage('ssql-refreshToken');
+  storageUtils.removeLocalStorage('ssql-accessToken');
+  storageUtils.removeLocalStorage('ssql-refreshToken');
+
+  if (isPersist && !!result.data?.result) {
+    storageUtils.saveLocalStorage('ssql-accessToken', result.data.result.access_token);
+    storageUtils.saveLocalStorage('ssql-refreshToken', result.data.result.refresh_token);
+  } else if (!isPersist && !!result.data?.result) {
+    storageUtils.saveSessionStorage('ssql-accessToken', result.data.result.access_token);
+    storageUtils.saveSessionStorage('ssql-refreshToken', result.data.result.refresh_token);
+  }
+
+  return result;
+};
+
+/**
  * 내 정보 반환
  */
 export const GetProfile = () => {
-  const result = useQuery(['getProfileAPI'], userAPIs.getProfileAPI);
+  const result = useQuery(['getProfileAPI'], () => {
+    const token =
+      storageUtils.getLocalStorage('ssql-accessToken') ||
+      storageUtils.getSessionStorage('ssql-accessToken');
+    if (!token) {
+      return;
+    }
+
+    return userAPIs.getProfileAPI();
+  });
 
   return result;
 };

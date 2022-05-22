@@ -115,7 +115,6 @@ export type RemoveProblemResponse = never;
 /* =============================================== */
 
 export type RunProblemProps = {
-  classId: number;
   problemId: number;
   data: {
     query: string;
@@ -124,13 +123,12 @@ export type RunProblemProps = {
 
 export type RunProblemResponse = {
   status: boolean;
-  query_result: any;
+  query_result: object[] | string;
 };
 
 /* =============================================== */
 
 export type SubmitProblemProps = {
-  classId: number;
   problemId: number;
   data: {
     query: string;

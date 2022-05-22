@@ -20,3 +20,12 @@ export const RunProblem = () => {
 
   return result;
 };
+
+/**
+ * 특정 문제 제출
+ */
+export const SubmitProblem = () => {
+  const result = useMutation(['submitProblemAPI'], prolbemAPIs.submitProblemAPI);
+
+  return result;
+};

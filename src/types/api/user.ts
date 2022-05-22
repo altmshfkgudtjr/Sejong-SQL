@@ -35,6 +35,15 @@ export type AuthorizationSejongUnivResponse = {};
 
 /* =============================================== */
 
+export type GetTokenProps = never;
+
+export type GetTokenResponse = {
+  access_token: string;
+  refresh_token: string;
+};
+
+/* =============================================== */
+
 export type GetProfileProps = never;
 
 export type GetProfileResponse = {

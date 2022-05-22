@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 // api
 import * as classAPIs from 'api/class';
 
@@ -14,9 +14,10 @@ export const CreateClass = () => {
 /**
  * 분반 반환 API
  * - 분반 ID가 없을 시, 본인이 속한 분반 전체 반환
+ * @param classId 분반 ID
  */
-export const GetClass = () => {
-  const result = useMutation(['getClassAPI'], classAPIs.getClassAPI);
+export const GetClass = (classId?: number) => {
+  const result = useQuery(['getClassAPI'], () => classAPIs.getClassAPI({ classId }));
 
   return result;
 };
