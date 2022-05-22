@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { animations, boxShadow, typo } from 'sjds';
 // types
 import { Snackbar as SnackbarInfo, SnackbarType } from 'store/system/snackbar';
-import { SnackbarPosition } from 'components/containers/commons/SnackbarProvider';
+import { SnackbarPosition } from 'components/containers/providers/SnackbarProvider';
 
 /**
  * 스낵바

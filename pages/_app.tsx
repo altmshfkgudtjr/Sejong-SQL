@@ -1,18 +1,20 @@
 import { useState, useLayoutEffect } from 'react';
 import Head from 'next/head';
-import ThemeProvider from 'lib/theme';
-import QueryProvider from 'lib/reactQuery';
-import RecoilProvider from 'store';
-import ModalProvider from 'components/containers/modals/ModalProvider';
-import SnackbarProvider from 'components/containers/commons/SnackbarProvider';
+import {
+  QueryProvider,
+  RecoilProvider,
+  ThemeProvider,
+  ModalProvider,
+  SnackbarProvider,
+} from 'components/containers/providers';
 // components
 import { SpriteIcons, SpriteEmojis } from 'sjds/components/icons';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 // utils
 import * as cookieUtils from 'utils/cookie';
-import GlobalStyles from 'lib/theme/global';
 // styles
+import GlobalStyles from 'lib/GlobalStyles';
 import 'public/font.css';
 // types
 import type { CustomAppProps } from 'next/app';
@@ -21,7 +23,6 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
   const [themeType, setThemeType] = useState(pageProps.theme);
 
   const { MetaTitle } = useMetaData();
-  // useAuth();
 
   /** 공통 레이아웃 적용 */
   const getLayout = Component.getLayout || (page => page);

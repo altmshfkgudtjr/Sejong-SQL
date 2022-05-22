@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Suspense, useState, useEffect } from 'react';
 // components
-import * as modals from 'components/containers/modals/ModalProvider';
+import * as modals from 'components/containers/modals';
 // hooks
 import useModal from 'hooks/dom/useModal';
 // styles

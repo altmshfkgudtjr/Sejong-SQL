@@ -12,7 +12,7 @@ import { zIndex, mediaQuery } from 'sjds';
  * @param options 스낵바 초기 옵션
  */
 const SnackbarProvider = ({
-  position = 'BottomRight',
+  position = 'BottomLeft',
   duration = 3000,
   animationDuration = 250,
   closeEnabled = true,
