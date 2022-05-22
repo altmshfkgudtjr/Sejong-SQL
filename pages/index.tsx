@@ -16,10 +16,9 @@ import { mediaQuery, typo } from 'sjds';
 
 /** 홈 페이지 */
 const HomePage = () => {
-  const isLogined = false;
   const currentTheme = useTheme();
 
-  const { status } = useUserController.GetProfile();
+  const { status, data } = useUserController.GetProfile();
 
   const { initSnackbar } = useSnackbar();
 
@@ -32,7 +31,7 @@ const HomePage = () => {
   }, [initSnackbar]);
 
   useEffect(() => {
-    if (status !== 'success') {
+    if (status !== 'success' || !data) {
       return;
     }
 
@@ -41,7 +40,7 @@ const HomePage = () => {
       title: '로그인 성공',
       message: '이제 Sejong-SQL을 사용하실 수 있습니다',
     });
-  }, [status, initSnackbar]);
+  }, [status, data, initSnackbar]);
 
   return (
     <>
@@ -62,7 +61,7 @@ const HomePage = () => {
               대시보드로 이동하기
             </FillButton>
           </Link>
-          {!isLogined && (
+          {status !== 'idle' && status !== 'loading' && !data && (
             <LoginBox>
               이미 회원가입 하셨나요?
               <Link href="/sign-in" passHref>

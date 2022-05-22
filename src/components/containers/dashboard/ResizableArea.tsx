@@ -69,6 +69,7 @@ const Area = styled.div<{ isDeep?: boolean }>`
 
   &::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
     background-color: ${({ theme }) => theme.background.bg4};
   }
 

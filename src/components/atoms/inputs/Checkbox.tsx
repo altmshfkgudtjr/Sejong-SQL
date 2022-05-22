@@ -32,6 +32,7 @@ const Label = styled.label<{ disabled: boolean }>`
   display: block;
   position: relative;
   padding-left: 30px;
+  padding-bottom: 22px;
   font-size: 14px;
   line-height: 20px;
   color: ${({ disabled, theme }) => (disabled ? theme.text.f2 : theme.text.f1)};

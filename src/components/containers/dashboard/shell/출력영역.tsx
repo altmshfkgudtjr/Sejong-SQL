@@ -1,61 +1,101 @@
 import styled, { useTheme } from 'styled-components';
+import { useEffect } from 'react';
 // components
 import Badge from 'components/presenters/dashboard/shell/Badge';
+import QueryTable from 'components/presenters/dashboard/shell/QueryTable';
 import { FillButton } from 'sjds/components/buttons';
 // hooks
 import * as useProblemController from 'hooks/controllers/useProblemController';
+import useSnackbar from 'hooks/dom/useSnackbar';
+// styles
 import { typo } from 'sjds';
 
-const 출력영역 = ({ classId, problemId, getUserQuery }: Props) => {
+const 출력영역 = ({ problemId, getUserQuery }: Props) => {
   const currentTheme = useTheme();
 
-  const { mutate, status, data } = useProblemController.RunProblem();
+  const { initSnackbar } = useSnackbar();
+  const { mutate: runMutate, status: runStatus, data: runData } = useProblemController.RunProblem();
+  const { mutate: submitMutate, status: submitStatus } = useProblemController.SubmitProblem();
 
   const onRun = () => {
     const query = getUserQuery();
 
-    mutate({
-      classId,
+    if (query.length === 0) {
+      initSnackbar({ type: 'Warning', title: 'Warning', message: '쿼리가 비어있습니다' });
+      return;
+    }
+
+    runMutate({
       problemId,
       data: { query },
     });
   };
 
-  const TableHeader =
-    status === 'success' && !!data
-      ? Object.keys(data.result?.query_result[0]).map((key, idx) => <td key={idx}>{key}</td>)
-      : null;
+  const onSubmit = () => {
+    const query = getUserQuery();
 
-  const TableRowList =
-    status === 'success' && !!data
-      ? data.result?.query_result.map((row, idx) => (
-          <tr key={idx}>
-            {Object.keys(row).map((key, idx) => (
-              <td key={idx}>{row[key]}</td>
-            ))}
-          </tr>
-        ))
-      : null;
+    if (query.length === 0) {
+      initSnackbar({ type: 'Warning', title: 'Warning', message: '쿼리가 비어있습니다' });
+      return;
+    }
+
+    submitMutate({
+      problemId,
+      data: { query },
+    });
+  };
+
+  useEffect(() => {
+    if (runStatus === 'success') {
+      initSnackbar({ type: 'Success', title: 'RUN', message: '쿼리가 실행 완료되었습니다' });
+    }
+
+    if (runStatus === 'error') {
+      initSnackbar({ type: 'Danger', title: 'WARNING', message: '잠시 후 다시 시도해주세요' });
+    }
+  }, [runStatus, initSnackbar]);
+
+  useEffect(() => {
+    if (submitStatus === 'success') {
+      initSnackbar({ type: 'Success', title: 'COMPLETE', message: '쿼리가 제출되었습니다' });
+    }
+
+    if (submitStatus === 'error') {
+      initSnackbar({ type: 'Danger', title: 'WARNING', message: '잠시 후 다시 시도해주세요' });
+    }
+  }, [submitStatus, initSnackbar]);
 
   return (
     <Wrapper>
       <Badge text="실행 결과" />
 
       <Body>
-        {status === 'success' && (
-          <table>
-            <thead>{TableHeader}</thead>
-            <tbody>{TableRowList}</tbody>
-          </table>
+        {runStatus === 'success' && runData?.result?.status && (
+          <QueryTable data={runData?.result.query_result as object[]} />
+        )}
+        {runStatus === 'success' && !runData?.result?.status && (
+          <ErrorMessage>{runData?.result?.query_result}</ErrorMessage>
         )}
       </Body>
 
       <Footer>
-        <Button onClick={onRun} color={currentTheme.primary} size="Regular">
-          쿼리 실행
+        <Button
+          onClick={onRun}
+          color={currentTheme.primary}
+          size="Regular"
+          disabled={runStatus === 'loading'}
+        >
+          {runStatus === 'loading' && <>실행 중</>}
+          {runStatus !== 'loading' && <>쿼리 실행</>}
         </Button>
-        <Button color={currentTheme.primary} size="Regular">
-          제출하기
+        <Button
+          onClick={onSubmit}
+          color={currentTheme.primary}
+          size="Regular"
+          disabled={submitStatus === 'loading'}
+        >
+          {submitStatus === 'loading' && <>제출 중</>}
+          {submitStatus !== 'loading' && <>제출하기</>}
         </Button>
       </Footer>
     </Wrapper>
@@ -72,25 +112,11 @@ const Wrapper = styled.section`
 
 const Body = styled.div`
   flex: 1;
+  padding-right: 20px;
+`;
 
-  table {
-    width: 100%;
-  }
-
-  thead td {
-    ${typo.subtitle2};
-  }
-
-  table,
-  tr,
-  td {
-    border: 1px solid ${({ theme }) => theme.border.b2};
-    ${typo.body2};
-  }
-
-  td {
-    padding: 4px 8px;
-  }
+const ErrorMessage = styled.p`
+  ${typo.subtitle2};
 `;
 
 const Footer = styled.div`
@@ -113,7 +139,6 @@ const Button = styled(FillButton)`
 `;
 
 type Props = {
-  classId: number;
   problemId: number;
   getUserQuery: () => string;
 };

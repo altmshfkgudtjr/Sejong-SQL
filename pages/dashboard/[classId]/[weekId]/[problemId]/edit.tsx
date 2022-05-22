@@ -16,7 +16,6 @@ import useMetaData from 'hooks/commons/useMetaData';
 /** 문제 수정 페이지 */
 const DashBoard = () => {
   const { query } = useRouter();
-  const classId = parseInt(query.classId as string, 10);
   const problemId = parseInt(query.problemId as string, 10);
 
   const queryStr = useRef('');
@@ -40,13 +39,7 @@ const DashBoard = () => {
           <ResizableArea
             left={<문제영역 problemId={problemId} />}
             top={<풀이영역 onChangeValue={onChangeValue} />}
-            bottom={
-              <출력영역
-                classId={classId}
-                problemId={problemId}
-                getUserQuery={() => queryStr.current}
-              />
-            }
+            bottom={<출력영역 problemId={problemId} getUserQuery={() => queryStr.current} />}
           />
         </ShellWrapper>
       </Wrapper>

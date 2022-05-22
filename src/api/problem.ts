@@ -67,7 +67,7 @@ export const removeProblemAPI = ({ classId, problemId }: problemTypes.RemoveProb
  * 문제 실행 API
  * @version 1
  */
-export const runProblemAPI = ({ classId, problemId, data }: problemTypes.RunProblemProps) => {
+export const runProblemAPI = ({ problemId, data }: problemTypes.RunProblemProps) => {
   return request.post<problemTypes.RunProblemResponse>(`/api/v1/problems/${problemId}/run`, data);
 };
 
@@ -75,7 +75,7 @@ export const runProblemAPI = ({ classId, problemId, data }: problemTypes.RunProb
  * 문제 제출 API
  * @version 1
  */
-export const submitProblemAPI = ({ classId, problemId, data }: problemTypes.SubmitProblemProps) => {
+export const submitProblemAPI = ({ problemId, data }: problemTypes.SubmitProblemProps) => {
   return request.post<problemTypes.SubmitProblemResponse>(
     `/api/v1/problems/${problemId}/submit`,
     data,
