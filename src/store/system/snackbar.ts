@@ -11,7 +11,7 @@ export type Snackbar = {
   /** 스낵바 타입 */
   type: SnackbarType;
   /** 스낵바 제목 */
-  title?: string;
+  title: string;
   /** 스낵바 내용 */
   message: string;
 };

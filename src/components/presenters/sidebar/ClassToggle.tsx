@@ -15,7 +15,7 @@ import type { PropsWithChildren } from 'react';
  * @param props.managerName 분반 관리자명
  */
 const SidebarClassToggle = ({ classId, name, managerName, children }: PropsWithChildren<Props>) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const currentTheme = useTheme();
 

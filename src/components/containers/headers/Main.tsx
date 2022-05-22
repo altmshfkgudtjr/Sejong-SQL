@@ -34,7 +34,7 @@ const MainHeader = () => {
             <TextButton>{data.result?.name} 님</TextButton>
           </div>
         )}
-        {status !== 'success' && (
+        {status !== 'idle' && status !== 'loading' && !data && (
           <div>
             <Link href="/sign-in" passHref>
               <TextButton as="a" size="Small">
@@ -71,6 +71,7 @@ const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
   padding: 4px 24px;
 
   & > div {

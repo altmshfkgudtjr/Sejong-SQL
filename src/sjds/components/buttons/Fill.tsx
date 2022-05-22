@@ -24,6 +24,8 @@ const FillButton = styled(BaseButton)`
     }
   }};
 
+  transition: 0.2s ease;
+
   &::before {
     background-color: rgba(0, 0, 0, 0);
   }
