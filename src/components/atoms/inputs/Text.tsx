@@ -32,7 +32,7 @@ const TextInput = ({ autoFocus, onFocus, onBlur, ...props }, ref) => {
 
 const Wrapper = styled.div<{ isFocus: boolean }>`
   width: 100%;
-  max-width: 320px;
+  max-width: 400px;
   height: 48px;
   padding: 16px;
   border-radius: ${({ isFocus }) => (isFocus ? '8px 8px 0 0' : '8px')};

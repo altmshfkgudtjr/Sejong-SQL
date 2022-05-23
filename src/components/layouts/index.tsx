@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 // components
+import Sidebar from 'components/containers/Sidebar';
 import HeaderLayout from 'components/containers/headers';
 import MainHeader from 'components/containers/headers/Main';
 import MobileMainHeader from 'components/containers/headers/MobileMain';
+// styles
+import { mediaQuery } from 'sjds';
 // types
 import type { ReactNode, PropsWithChildren } from 'react';
 
@@ -22,7 +25,10 @@ const Layout = ({
   return (
     <>
       <HeaderLayout desktop={desktopHeader} mobile={mobileHeader} />
-      <Wrapper isSide={isSide}>{children}</Wrapper>
+      <Wrapper isSide={isSide}>
+        {isSide && <Sidebar />}
+        <Body isSide={isSide}>{children}</Body>
+      </Wrapper>
     </>
   );
 };
@@ -31,6 +37,17 @@ const Wrapper = styled.div<{ isSide: boolean }>`
   display: ${({ isSide }) => (isSide ? 'flex' : 'block')};
   align-items: flex-start;
   justify-content: space-between;
+  overflow: auto;
+`;
+
+const Body = styled.div<{ isSide: boolean }>`
+  width: 100%;
+  margin-left: auto;
+
+  ${mediaQuery.large} {
+    width: ${({ isSide }) => (isSide ? `calc(100% - 320px)` : `100%`)};
+    margin-top: 60px;
+  }
 `;
 
 type Props = {

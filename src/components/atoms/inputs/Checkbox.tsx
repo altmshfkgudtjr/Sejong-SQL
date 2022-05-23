@@ -29,7 +29,7 @@ const CheckBox = ({ label, message, disabled = false, ...props }: Props) => {
 };
 
 const Label = styled.label<{ disabled: boolean }>`
-  display: block;
+  display: inline-block;
   position: relative;
   padding-left: 30px;
   padding-bottom: 22px;

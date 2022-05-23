@@ -67,3 +67,12 @@ export const AddClassMemeber = () => {
 
   return result;
 };
+
+/**
+ * 분반에 사용자 제거
+ */
+export const DeletedClassMemeber = () => {
+  const result = useMutation(['deleteClassMemeberAPI'], classAPIs.deleteClassMemeberAPI);
+
+  return result;
+};

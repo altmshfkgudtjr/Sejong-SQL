@@ -29,8 +29,7 @@ const Wrapper = styled.aside<{ isOpen: boolean }>`
   transition: transform 0.4s ease-in-out;
 
   ${mediaQuery.large} {
-    position: relative;
-    top: 0;
+    top: 60px;
     display: block;
     width: 320px;
     height: calc(100vh - 60px);

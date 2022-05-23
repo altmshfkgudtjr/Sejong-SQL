@@ -118,7 +118,7 @@ export type GetUserListResponse = {
 export type AddClassMemeberProps = {
   /** 분반 ID */
   classId: number;
-  /** 사용자 ID */
+  /** 추가할 사용자 ID */
   userId: string;
   data: {
     /** ta: 조교, st: 학생 */
@@ -133,7 +133,7 @@ export type AddClassMemeberResponse = never;
 export type DeleteClassMemeberProps = {
   /** 분반 ID */
   classId: number;
-  /** 사용자 ID */
+  /** 제거할 사용자 ID */
   userId: string;
 };
 

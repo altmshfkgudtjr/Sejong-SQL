@@ -10,7 +10,7 @@ import * as useUserController from 'hooks/controllers/useUserController';
 // store
 import { themeState } from 'store/system/theme';
 // styles
-import { mediaQuery } from 'sjds';
+import { mediaQuery, zIndex } from 'sjds';
 
 const MainHeader = () => {
   const currentTheme = useRecoilValue(themeState);
@@ -54,15 +54,16 @@ const MainHeader = () => {
 };
 
 const Wrapper = styled.header`
-  display: sticky;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
   height: 48px;
   background-color: ${({ theme }) => theme.background.bg1};
+  z-index: ${zIndex.header};
 
   ${mediaQuery.large} {
-    display: relative;
+    position: fixed;
     height: 60px;
   }
 `;

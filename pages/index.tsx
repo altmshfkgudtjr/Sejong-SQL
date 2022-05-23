@@ -51,7 +51,7 @@ const HomePage = () => {
             <br />
             <strong>SQL</strong>과 만나다
           </Title>
-          <Link href="/dashboard" passHref>
+          <Link href={status === 'success' && !!data ? '/dashboard' : '/sign-in'} passHref>
             <FillButton
               forwardedAs="a"
               color={currentTheme.primary}
@@ -72,6 +72,7 @@ const HomePage = () => {
             </LoginBox>
           )}
         </section>
+
         <section>
           <InfoBox>
             <InfoRow>
