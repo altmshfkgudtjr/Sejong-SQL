@@ -3,7 +3,9 @@ import Link from 'next/link';
 // utils
 import { commaFormatter } from 'utils/helpers/format';
 // styles
-import { typo, lib } from 'sjds';
+import { typo, lib, animations } from 'sjds';
+// types
+import { Week } from 'types/api/week';
 
 /**
  * 주차 카드
@@ -17,14 +19,14 @@ const WeekCard = ({ classId, week }: Props) => {
       <Wrapper as="a">
         <div>
           <Name>{week.name}</Name>
-          <PassCount>총 통과자 {commaFormatter(week.passCount)}명</PassCount>
+          <PassCount>총 통과자 {commaFormatter(week.solve_cnt)}명</PassCount>
         </div>
 
         <BottomWrapper>
           <Score>
-            {week.solvedCount}/{week.problemCount}
+            {week.solve_cnt}/{week.problem_cnt}
           </Score>
-          <ProblemCount>총 {week.problemCount} 문제</ProblemCount>
+          <ProblemCount>총 {week.problem_cnt} 문제</ProblemCount>
         </BottomWrapper>
       </Wrapper>
     </Link>
@@ -47,6 +49,7 @@ const Wrapper = styled.div`
   border-radius: 16px;
   border: 1px solid ${({ theme }) => theme.border.b2};
   background-color: ${({ theme }) => theme.background.bg1};
+  animation: 0.4s ease ${animations.fadeIn};
 
   ${({ theme }) =>
     lib.onlyHover(css`
@@ -81,13 +84,7 @@ const ProblemCount = styled.span`
 
 type Props = {
   classId: string;
-  week: {
-    id: string;
-    name: string;
-    passCount: number;
-    problemCount: number;
-    solvedCount: number;
-  };
+  week: Week;
 };
 
 export default WeekCard;

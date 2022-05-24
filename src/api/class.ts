@@ -15,8 +15,10 @@ export const createClassAPI = ({ data }: types.CreateClassProps) => {
  * - 분반 ID가 없을 시, 본인이 속한 분반 전체 반환
  * @version 1
  */
-export const getClassAPI = ({ classId }: types.GetClassProps) => {
-  return request.get<types.GetClassResponse>(`/api/v1/class${classId ? `/${classId}` : ''}`);
+export const getClassAPI = <T extends types.GetClassResponse | types.GetClassListResponse>({
+  classId,
+}: types.GetClassProps) => {
+  return request.get<T>(`/api/v1/class${classId ? `/${classId}` : ''}`);
 };
 
 /**

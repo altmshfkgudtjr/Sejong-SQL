@@ -13,6 +13,13 @@ export type MyClass = {
   activate: boolean;
   /** 반 담당 교수 이름 */
   prof: string;
+  /** 분반에서 내 역할 */
+  type: 'Super Admin' | 'prof' | 'ta' | 'st';
+  /** 주차 리스트 */
+  pgroup: {
+    id: number;
+    name: string;
+  }[];
 };
 
 /* =============================================== */
@@ -41,7 +48,9 @@ export type GetClassProps = {
   classId?: number;
 };
 
-export type GetClassResponse = MyClass | MyClass[];
+export type GetClassResponse = MyClass;
+
+export type GetClassListResponse = MyClass[];
 
 /* =============================================== */
 

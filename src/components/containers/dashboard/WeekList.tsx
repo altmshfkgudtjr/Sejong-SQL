@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 // components
 import WeekCard from 'components/presenters/dashboard/WeekCard';
+// hooks
+import * as useWeekController from 'hooks/controllers/useWeekController';
 // styles
 import { mediaQuery } from 'sjds';
 
@@ -10,24 +12,9 @@ import { mediaQuery } from 'sjds';
  * @param props.classId 분반 ID
  */
 const WeekList = ({ classId }: Props) => {
-  const weekList = [
-    {
-      id: '1',
-      name: '1주차 - 원하는 데이터 선택',
-      passCount: 1002,
-      problemCount: 8,
-      solvedCount: 6,
-    },
-    {
-      id: '2',
-      name: '2주차 - 원하는 조건문 추가',
-      passCount: 14,
-      problemCount: 8,
-      solvedCount: 3,
-    },
-  ];
+  const { data } = useWeekController.GetWeekist(parseInt(classId, 10));
 
-  const WeekCardList = weekList.map(week => (
+  const WeekCardList = data?.result?.map(week => (
     <WeekCard key={week.id} classId={classId} week={week} />
   ));
 

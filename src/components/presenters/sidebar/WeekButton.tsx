@@ -44,8 +44,8 @@ const Wrapper = styled(FillButton)<{ selected?: boolean }>`
 
 type Props = {
   selected?: boolean;
-  classId: string;
-  weekId: string;
+  classId: number;
+  weekId: number;
   name: string;
 };
 

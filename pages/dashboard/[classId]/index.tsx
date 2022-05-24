@@ -11,16 +11,21 @@ import TopMessage from 'components/presenters/dashboard/TopMessage';
 import WeekList from 'components/containers/dashboard/WeekList';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
+import * as useClassController from 'hooks/controllers/useClassController';
+// styles
+import { animations } from 'sjds';
 
 /** 분반 페이지 */
 const ClassPage = () => {
   const { query } = useRouter();
   const { classId } = query;
-  const { MetaTitle } = useMetaData();
+
   const currentTheme = useTheme();
+  const { MetaTitle } = useMetaData();
+  const { data: classData } = useClassController.GetClass(parseInt(classId as string, 10));
 
   /** 관리자 여부 */
-  const isManager = true;
+  const isManager = classData?.result?.type === 'Super Admin';
 
   return (
     <>
@@ -75,6 +80,7 @@ const ManagerWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  animation: 0.4s ease ${animations.fadeIn};
 `;
 
 const ButtonWrapper = styled.div`

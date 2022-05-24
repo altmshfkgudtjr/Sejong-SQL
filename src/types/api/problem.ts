@@ -33,7 +33,6 @@ export type GetMyProblemListResponse = {
 /* =============================================== */
 
 export type GetProblemListProps = {
-  classId: number;
   weekId: number;
 };
 

@@ -1,3 +1,5 @@
+/* =============================================== */
+
 export type SignUpProps = {
   data: {
     id: string;
@@ -57,7 +59,7 @@ export type GetProfileResponse = {
    * - sa: 전체 어드민
    * - general: 서비스 이용자
    */
-  role: string;
+  role: 'sa' | 'general';
   /** 사용자 가입 날짜 */
   created_at: string;
   /** 사용자 정보가 수정된 날짜 */

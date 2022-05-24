@@ -1,6 +1,8 @@
 import { useQuery, useMutation } from 'react-query';
 // api
 import * as classAPIs from 'api/class';
+// types
+import * as types from 'types/api/class';
 
 /**
  * 분반 생성
@@ -12,12 +14,24 @@ export const CreateClass = () => {
 };
 
 /**
- * 분반 반환 API
- * - 분반 ID가 없을 시, 본인이 속한 분반 전체 반환
+ * 분반 반환
  * @param classId 분반 ID
  */
-export const GetClass = (classId?: number) => {
-  const result = useQuery(['getClassAPI'], () => classAPIs.getClassAPI({ classId }));
+export const GetClass = (classId: number) => {
+  const result = useQuery(['getClassAPI', classId], () =>
+    classAPIs.getClassAPI<types.GetClassResponse>({ classId }),
+  );
+
+  return result;
+};
+
+/**
+ * 분반 리스트 반환
+ */
+export const GetClassList = () => {
+  const result = useQuery(['getClassAPI'], () =>
+    classAPIs.getClassAPI<types.GetClassListResponse>({ classId: undefined }),
+  );
 
   return result;
 };
