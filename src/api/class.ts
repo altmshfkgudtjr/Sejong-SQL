@@ -50,8 +50,8 @@ export const getClassMemberListAPI = ({ classId }: types.GetClassMemeberProps) =
  * 사용자 검색 API
  * @version 1
  */
-export const getUserListAPI = ({ classId, userId }: types.GetUserListProps) => {
-  return request.get<types.GetUserListResponse>(`/api/v1/class/${classId}/user/${userId}`);
+export const getUserListAPI = ({ classId, sejongId }: types.GetUserListProps) => {
+  return request.get<types.GetUserListResponse>(`/api/v1/class/${classId}/user/${sejongId}`);
 };
 
 /**

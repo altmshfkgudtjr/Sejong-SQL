@@ -21,6 +21,11 @@ const SidebarClassToggle = ({ classId, name, managerName, children }: PropsWithC
 
   const onToggle = () => setIsOpen(v => !v);
 
+  const onOpen = e => {
+    onStopEvent(e);
+    setIsOpen(true);
+  };
+
   const onStopEvent = e => e.stopPropagation();
 
   return (
@@ -28,7 +33,7 @@ const SidebarClassToggle = ({ classId, name, managerName, children }: PropsWithC
       <Button isOpen={isOpen} onClick={onToggle}>
         <Icon name="ic_arrow_down" width={16} height={16} stroke={currentTheme.text.f1} />
         <Link href={`/dashboard/${classId}`} passHref>
-          <Name as="a" onClick={onStopEvent}>
+          <Name as="a" onClick={onOpen}>
             {name}
           </Name>
         </Link>

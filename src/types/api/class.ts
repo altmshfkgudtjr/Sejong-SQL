@@ -67,7 +67,7 @@ export type UpdateClassProps = {
     /** 담당 교수 아이디 */
     prof_id: string;
     /** 활성화 여부 */
-    activate: string;
+    activate: boolean;
   };
 };
 
@@ -100,6 +100,8 @@ export type GetClassMemeberResponse = {
   type: string;
   /** 특정 분반에 추가된 날짜 */
   created_at: string;
+  /** 학과 */
+  major: string;
 }[];
 
 /* =============================================== */
@@ -107,8 +109,8 @@ export type GetClassMemeberResponse = {
 export type GetUserListProps = {
   /** 분반 ID */
   classId: number;
-  /** 사용자 ID */
-  userId: string;
+  /** 사용자 학번 */
+  sejongId: string;
 };
 
 export type GetUserListResponse = {
@@ -120,6 +122,8 @@ export type GetUserListResponse = {
   name: string;
   /** 해당 분반에 이미 속한 상태인지 아닌지 여부 */
   exists: boolean;
+  /** 학과 */
+  major: string;
 }[];
 
 /* =============================================== */

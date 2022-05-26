@@ -19,9 +19,17 @@ import { MyClass } from 'types/api/class';
 const Sidebar = () => {
   const currentTheme = useTheme();
 
-  const { status, data } = useClassController.GetClassList();
   const { data: profileData } = useUserController.GetProfile();
-  const classList = data?.result as MyClass[];
+  const { status, data: classData } = useClassController.GetClassList();
+  const { mutate: removeMutate } = useClassController.DeleteClass();
+  const classList = classData?.result as MyClass[];
+
+  const onDeleteClass = (classId: number) => {
+    const res = confirm('정말로 제거하시겠습니까?');
+    if (res) {
+      removeMutate({ classId });
+    }
+  };
 
   const StudentClassList = classList
     ?.filter(cl => cl.type === 'st')
@@ -49,7 +57,11 @@ const Sidebar = () => {
             학생 관리
           </ManageButton>
         </Link>
-        <ManageButton size="ExtraSmall" color={currentTheme.semantic.danger}>
+        <ManageButton
+          size="ExtraSmall"
+          color={currentTheme.semantic.danger}
+          onClick={() => onDeleteClass(cl.id)}
+        >
           수업 제거
         </ManageButton>
       </ClassWrapper>

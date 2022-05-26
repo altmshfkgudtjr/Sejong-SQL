@@ -130,14 +130,7 @@ const Box = styled.div<{ colorType: ColorType }>`
 type ColorType = 'Default' | 'Success' | 'Warning' | 'Danger';
 
 type Props = {
-  problem: {
-    id: number;
-    name: string;
-    passCount: number;
-    isTry: boolean;
-    scoreAccuracy: boolean;
-    scoreEfficiency: number;
-  };
+  problem: any;
   classId: string;
   weekId: string;
   isManager: boolean;

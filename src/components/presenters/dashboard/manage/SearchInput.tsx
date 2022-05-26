@@ -15,21 +15,25 @@ const SearchInput = ({ children, ...props }: PropsWithChildren<Props>) => {
 
   const onFocus = () => setIsOpen(true);
 
-  const onPreventClick = e => e.stopPropagation();
+  const onPreventClose = e => {
+    if (isOpen) {
+      e.stopPropagation();
+    }
+  };
 
   useEffect(() => {
     const callback = () => setIsOpen(false);
 
     if (isOpen) {
-      document.addEventListener('click', callback);
+      document.addEventListener('mousedown', callback);
     }
 
-    return () => document.removeEventListener('click', callback);
+    return () => document.removeEventListener('mousedown', callback);
   }, [isOpen]);
 
   return (
     <Wrapper>
-      <SearchWrapper isOpen={isOpen} onFocus={onFocus} onClick={onPreventClick}>
+      <SearchWrapper isOpen={isOpen} onFocus={onFocus} onMouseDown={onPreventClose}>
         <InputWrapper isOpen={isOpen}>
           <Input type="text" {...props} />
         </InputWrapper>

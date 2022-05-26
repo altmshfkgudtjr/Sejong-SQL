@@ -7,8 +7,8 @@ import * as types from 'types/api/class';
 /**
  * 분반 생성
  */
-export const CreateClass = () => {
-  const result = useMutation(['createClassAPI'], classAPIs.createClassAPI);
+export const CreateClass = (config?: object) => {
+  const result = useMutation(['createClassAPI'], classAPIs.createClassAPI, config);
 
   return result;
 };
@@ -58,8 +58,10 @@ export const DeleteClass = () => {
  * 분반 사용자 목록 반환
  * - 조교와 학생
  */
-export const GetClassMemeberList = () => {
-  const result = useMutation(['getClassMemberListAPI'], classAPIs.getClassMemberListAPI);
+export const GetClassMemeberList = (classId: number) => {
+  const result = useQuery(['getClassMemberListAPI', classId], () =>
+    classAPIs.getClassMemberListAPI({ classId }),
+  );
 
   return result;
 };
@@ -76,8 +78,8 @@ export const GetUserList = () => {
 /**
  * 분반에 사용자 추가
  */
-export const AddClassMemeber = () => {
-  const result = useMutation(['addClassMemeberAPI'], classAPIs.addClassMemeberAPI);
+export const AddClassMemeber = (config?: object) => {
+  const result = useMutation(['addClassMemeberAPI'], classAPIs.addClassMemeberAPI, config);
 
   return result;
 };
@@ -85,8 +87,8 @@ export const AddClassMemeber = () => {
 /**
  * 분반에 사용자 제거
  */
-export const DeletedClassMemeber = () => {
-  const result = useMutation(['deleteClassMemeberAPI'], classAPIs.deleteClassMemeberAPI);
+export const DeletedClassMemeber = (config?: object) => {
+  const result = useMutation(['deleteClassMemeberAPI'], classAPIs.deleteClassMemeberAPI, config);
 
   return result;
 };

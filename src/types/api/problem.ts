@@ -42,7 +42,7 @@ export type GetProblemListResponse = {
   status: 'Correct' | 'Wrong Answer' | 'No Submit';
   problem_warnings: number;
   user_warnings: number;
-};
+}[];
 
 /* =============================================== */
 

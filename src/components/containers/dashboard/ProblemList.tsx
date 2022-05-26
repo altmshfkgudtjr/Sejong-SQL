@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-// hooks
-import * as useUserController from 'hooks/controllers/useUserController';
 // components
 import ProblemCard from 'components/presenters/dashboard/ProblemCard';
+// hooks
+import * as useUserController from 'hooks/controllers/useUserController';
+import * as useProblemController from 'hooks/controllers/useProblemController';
 
 /**
  * 대시보드 문제 리스트
@@ -11,39 +12,13 @@ import ProblemCard from 'components/presenters/dashboard/ProblemCard';
  * @param props.weekId 주차 ID
  */
 const ProblemList = ({ classId, weekId }: Props) => {
-  const { status, data } = useUserController.GetProfile();
-
-  const problemList = [
-    {
-      id: 1,
-      name: 'World에서 대한민국 국민들만 거르기',
-      passCount: 2412220,
-      isTry: true,
-      scoreAccuracy: true,
-      scoreEfficiency: 50,
-    },
-    {
-      id: 2,
-      name: 'World에서 나이별로 그룹짓기',
-      passCount: 4120,
-      isTry: true,
-      scoreAccuracy: true,
-      scoreEfficiency: 80,
-    },
-    {
-      id: 3,
-      name: '그들만의 리그',
-      passCount: 14,
-      isTry: false,
-      scoreAccuracy: false,
-      scoreEfficiency: 0,
-    },
-  ];
+  const { data: problemData } = useProblemController.GetProblemList(parseInt(weekId as string, 10));
+  const { data: profileData } = useUserController.GetProfile();
 
   /** 관리자 여부 */
-  const isManager = status === 'success' && data?.result?.role === 'sa';
+  const isManager = profileData?.result?.role === 'sa';
 
-  const ProblemCardList = problemList.map(problem => (
+  const ProblemCardList = problemData?.result?.map(problem => (
     <ProblemCard
       key={problem.id}
       problem={problem}

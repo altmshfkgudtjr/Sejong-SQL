@@ -12,7 +12,7 @@ import { typo } from 'sjds';
  * @param props.onClick
  */
 const MemberManageButton = ({ isExist, labelList, onClick }: Props) => {
-  const LabelList = labelList.map((label, idx) => <span key={idx}>{label}</span>);
+  const LabelList = labelList.map((label, idx) => <span key={idx}>{label ? label : '-'}</span>);
 
   return (
     <Wrapper>

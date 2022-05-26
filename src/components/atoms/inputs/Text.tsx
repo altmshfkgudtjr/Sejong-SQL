@@ -50,6 +50,10 @@ const Input = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.text.f4};
   }
+
+  &:read-only {
+    cursor: not-allowed;
+  }
 `;
 
 export default React.forwardRef(TextInput);

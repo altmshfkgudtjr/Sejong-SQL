@@ -13,8 +13,9 @@ import CheckBox from 'components/atoms/inputs/Checkbox';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useSnackbar from 'hooks/dom/useSnackbar';
-import * as useClassController from 'hooks/controllers/useClassController';
 import useDebounce from 'hooks/event/useDebounce';
+import * as useUserController from 'hooks/controllers/useUserController';
+import * as useClassController from 'hooks/controllers/useClassController';
 // styles
 import { typo } from 'sjds';
 // types
@@ -23,6 +24,8 @@ import type { ChangeEvent } from 'react';
 /** 분반 생성 페이지 */
 const ClassCreatePage = () => {
   const currentTheme = useTheme();
+  const { MetaTitle } = useMetaData();
+  const { initSnackbar } = useSnackbar();
 
   const name = useRef<HTMLInputElement>(null);
   const description = useRef<HTMLInputElement>(null);
@@ -32,28 +35,11 @@ const ClassCreatePage = () => {
   const [professor, setProfessor] = useState<Professor | null>(null);
   const [isChecked, setIsChecked] = useState(true);
 
-  const { MetaTitle } = useMetaData();
-  const { initSnackbar } = useSnackbar();
-
-  const { mutate, status } = useClassController.CreateClass();
-
-  const professorList = [
-    {
-      id: 'aaaa',
-      name: '김형석',
-      department: '소프트웨어학과',
-    },
-    {
-      id: 'bbbb',
-      name: '서정민',
-      department: '컴퓨터공학과',
-    },
-    {
-      id: 'cccc',
-      name: '원태보',
-      department: '데이터베이스학과',
-    },
-  ];
+  const { refetch } = useClassController.GetClassList();
+  const { mutate: createMutate, status } = useClassController.CreateClass({
+    onSuccess: refetch,
+  });
+  const { mutate: searchMutate, data: searchData } = useUserController.GetProfessorList();
 
   const getCurrentDate = () => {
     const time = new Date();
@@ -77,7 +63,10 @@ const ClassCreatePage = () => {
   );
 
   const onSearchProfessor = useDebounce((e: ChangeEvent<HTMLInputElement>) => {
-    console.log('검색 API 추가 :', e.target.value);
+    if (e.target.value.length === 0) {
+      return;
+    }
+    searchMutate({ name: e.target.value });
   }, 300);
 
   const onAddProfessor = (prof: Professor) => {
@@ -125,7 +114,7 @@ const ClassCreatePage = () => {
       return;
     }
 
-    mutate({
+    createMutate({
       data: {
         name: nameTarget.value,
         comment: descriptionTarget.value
@@ -136,7 +125,7 @@ const ClassCreatePage = () => {
         activate: isChecked,
       },
     });
-  }, [initSnackbar, onEmptyCheck, mutate, professor, isChecked]);
+  }, [initSnackbar, onEmptyCheck, createMutate, professor, isChecked]);
 
   return (
     <>
@@ -167,12 +156,12 @@ const ClassCreatePage = () => {
         <section>
           <Title>담당 교수</Title>
           <SearchInput placeholder="이름으로 검색해주세요." onInput={onSearchProfessor}>
-            {professorList
-              .filter(prof => prof.id !== professor?.id)
+            {searchData?.result
+              ?.filter(prof => prof.id !== professor?.id)
               .map(prof => (
                 <MemberManageButton
                   key={prof.id}
-                  labelList={[prof.id, prof.name, prof.department]}
+                  labelList={[prof.id, prof.name, prof.major]}
                   onClick={() => onAddProfessor(prof)}
                 />
               ))}
@@ -241,6 +230,7 @@ const TopMessageWrapper = styled.div`
 const Title = styled.h1`
   margin-bottom: 16px;
   ${typo.headline1};
+  color: ${({ theme }) => theme.text.f1};
 `;
 
 const SubmitButton = styled(FillButton)`
@@ -269,9 +259,14 @@ const MemeberListHead = styled.div`
 
 /** 교수 데이터 타입 */
 type Professor = {
+  /** 아이디 */
   id: string;
+  /** 학번 */
+  sejong_id: string;
+  /** 이름 */
   name: string;
-  department: string;
+  /** 학과 */
+  major: string;
 };
 
 export default ClassCreatePage;

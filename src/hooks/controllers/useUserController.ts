@@ -103,3 +103,12 @@ export const Succession = () => {
 
   return result;
 };
+
+/**
+ * 교수명 검색
+ */
+export const GetProfessorList = () => {
+  const result = useMutation(['getProfessorListAPI'], userAPIs.getProfessorListAPI);
+
+  return result;
+};

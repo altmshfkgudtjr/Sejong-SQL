@@ -53,3 +53,11 @@ export const updateProfileAPI = ({ data }: types.UpdateProfileProps) => {
 export const successionAPI = ({ data }: types.SuccessionProps) => {
   return request.delete<types.SuccessionResponse>(`/api/v1/users/me`, { data });
 };
+
+/**
+ * 교수명 검색 API
+ * @version 1
+ */
+export const getProfessorListAPI = ({ name }: types.GetProfessorListProps) => {
+  return request.get<types.GetProfessorListResponse>(`/api/v1/users/${name}`);
+};

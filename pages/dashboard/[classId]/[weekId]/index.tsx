@@ -12,7 +12,6 @@ import ProblemList from 'components/containers/dashboard/ProblemList';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import * as useClassController from 'hooks/controllers/useClassController';
-import * as useProblemController from 'hooks/controllers/useProblemController';
 
 /** 주차별 페이지 */
 const WeekPage = () => {
@@ -21,7 +20,6 @@ const WeekPage = () => {
 
   const currentTheme = useTheme();
   const { MetaTitle } = useMetaData();
-  const { status, data } = useProblemController.GetProblemList(parseInt(weekId as string, 10));
   const { data: classData } = useClassController.GetClass(parseInt(classId as string, 10));
 
   /** 관리자 여부 */

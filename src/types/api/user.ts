@@ -89,3 +89,22 @@ export type SuccessionProps = {
 };
 
 export type SuccessionResponse = {};
+
+/* =============================================== */
+
+export type GetProfessorListProps = {
+  name: string;
+};
+
+export type GetProfessorListResponse = {
+  /** 아이디 */
+  id: string;
+  /** 학번 */
+  sejong_id: string;
+  /** 이름 */
+  name: string;
+  /** 학과 */
+  major: string;
+}[];
+
+/* =============================================== */

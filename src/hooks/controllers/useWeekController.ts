@@ -7,7 +7,7 @@ import * as weekAPIs from 'api/week';
  * @param classId 문제 ID
  */
 export const GetWeekist = (classId: number) => {
-  const result = useQuery(['getWeekListAPI'], () => weekAPIs.getWeekListAPI({ classId }));
+  const result = useQuery(['getWeekListAPI', classId], () => weekAPIs.getWeekListAPI({ classId }));
 
   return result;
 };
@@ -15,8 +15,8 @@ export const GetWeekist = (classId: number) => {
 /**
  * 주차 생성
  */
-export const CreateWeek = () => {
-  const result = useMutation(['createWeekAPI'], weekAPIs.createWeekAPI);
+export const CreateWeek = (config?: object) => {
+  const result = useMutation(['createWeekAPI'], weekAPIs.createWeekAPI, config);
 
   return result;
 };
