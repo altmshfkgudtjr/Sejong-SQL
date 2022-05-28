@@ -11,6 +11,14 @@ export const getWeekListAPI = ({ classId }: types.GetWeekListProps) => {
 };
 
 /**
+ * 주차 반환 API
+ * @version 1
+ */
+export const getWeekAPI = ({ weekId }: types.GetWeekProps) => {
+  return request.get<types.GetWeekResponse>(`/api/v1/pgroups/${weekId}`);
+};
+
+/**
  * 주차 생성 API
  * @version 1
  */

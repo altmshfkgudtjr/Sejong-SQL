@@ -29,6 +29,29 @@ export type GetWeekListResponse = Week[];
 
 /* =============================================== */
 
+export type GetWeekProps = {
+  weekId: number;
+};
+
+export type GetWeekResponse = {
+  /** 문제집 ID */
+  id: number;
+  /** 문제집 이름 */
+  name: string;
+  /** 문제집 설명 */
+  comment: string;
+  /** 시험모드 */
+  exam: boolean;
+  /** 활성화 상태 */
+  activate: boolean;
+  /** 활성화 시작시간 */
+  activate_start: string;
+  /** 활성화 종료시간 */
+  activate_end: string;
+};
+
+/* =============================================== */
+
 export type CreateWeekProps = {
   classId: number;
   data: {

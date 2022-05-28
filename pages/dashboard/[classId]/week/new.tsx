@@ -1,5 +1,5 @@
 import styled, { useTheme } from 'styled-components';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState, useRef, useCallback } from 'react';
 import { format, isBefore } from 'date-fns';
 // components
@@ -39,7 +39,7 @@ const WeekCreatePage = () => {
   const { mutate: createMutate, status } = useWeekController.CreateWeek({
     onSuccess: refetch,
   });
-  const { refetch: weekRefetch } = useWeekController.GetWeekist(classId);
+  const { refetch: weekRefetch } = useWeekController.GetWeekList(classId);
 
   const onEmptyCheck = useCallback(
     (target: HTMLInputElement, message: string) => {
@@ -107,7 +107,7 @@ const WeekCreatePage = () => {
       {
         onSuccess: () => {
           weekRefetch();
-          router.replace(`/dashboard/${classId}`);
+          Router.replace(`/dashboard/${classId}`);
         },
       },
     );

@@ -1,31 +1,213 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
+import Router, { useRouter } from 'next/router';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { format, parse, isBefore } from 'date-fns';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
-import Sidebar from 'components/containers/Sidebar';
+import { FillButton } from 'sjds/components/buttons';
+import TextInput from 'components/atoms/inputs/Text';
+import CheckBox from 'components/atoms/inputs/Checkbox';
+import TopMessage from 'components/presenters/dashboard/TopMessage';
+import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
+import DatePicker from 'components/containers/commons/DatePicker';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
+import useSnackbar from 'hooks/dom/useSnackbar';
+import * as useClassController from 'hooks/controllers/useClassController';
+import * as useWeekController from 'hooks/controllers/useWeekController';
+// styles
+import { typo } from 'sjds';
 
 /** 주차 수정 페이지 */
 const WeekEditPage = () => {
+  const currentTheme = useTheme();
   const { MetaTitle } = useMetaData();
+  const { initSnackbar } = useSnackbar();
+  const router = useRouter();
+  const classId = parseInt(router.query.classId as string, 10);
+  const weekId = parseInt(router.query.weekId as string, 10);
+
+  const name = useRef<HTMLInputElement>(null);
+  const description = useRef<HTMLInputElement>(null);
+
+  const [isCheckedTest, setIsCheckedTest] = useState(false);
+  const [isCheckedActive, setIsCheckedActive] = useState(true);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const { refetch: classRefetch } = useClassController.GetClassList();
+  const { refetch: weekRefetch } = useWeekController.GetWeekList(classId);
+  const { status: weekStatus, data: weekData } = useWeekController.GetWeek(weekId);
+  const { mutate: createMutate, status } = useWeekController.CreateWeek({
+    onSuccess: () => {
+      classRefetch();
+      weekRefetch();
+    },
+  });
+
+  const onEmptyCheck = useCallback(
+    (target: HTMLInputElement, message: string) => {
+      if (target.value.length === 0) {
+        initSnackbar({
+          title: 'WARNING',
+          message,
+          type: 'Warning',
+        });
+        target.focus();
+        return true;
+      }
+      return false;
+    },
+    [initSnackbar],
+  );
+
+  const onChangeTest = () => {
+    if (!isCheckedTest) {
+      setIsCheckedActive(true);
+    }
+    setIsCheckedTest(v => !v);
+  };
+  const onChangeActive = () => {
+    if (isCheckedActive) {
+      setIsCheckedTest(false);
+    }
+    setIsCheckedActive(v => !v);
+  };
+
+  const onSubmit = useCallback(() => {
+    const nameTarget = name.current;
+    const descriptionTarget = description.current;
+
+    if (!nameTarget || !descriptionTarget) {
+      return;
+    }
+
+    if (onEmptyCheck(nameTarget, '클래스명을 입력해주세요')) {
+      return;
+    }
+
+    if (isBefore(endDate, startDate)) {
+      initSnackbar({
+        title: 'WARNING',
+        message: '주차 시작일 또는 종료일을 확인해주세요',
+        type: 'Warning',
+      });
+      return;
+    }
+
+    // 주차 생성하기 API 호출
+    createMutate(
+      {
+        classId,
+        data: {
+          name: nameTarget.value,
+          comment: descriptionTarget.value,
+          exam: isCheckedTest,
+          activate: isCheckedActive,
+          activate_start: format(startDate, 'yyyy-MM-dd HH:mm:ss'),
+          activate_end: format(endDate, 'yyyy-MM-dd HH:mm:ss'),
+        },
+      },
+      {
+        onSuccess: () => {
+          weekRefetch();
+          Router.replace(`/dashboard/${classId}`);
+        },
+      },
+    );
+  }, [
+    onEmptyCheck,
+    endDate,
+    startDate,
+    createMutate,
+    weekRefetch,
+    classId,
+    isCheckedTest,
+    isCheckedActive,
+    initSnackbar,
+  ]);
+
+  /** 초기 데이터 설정 */
+  useEffect(() => {
+    if (!weekData?.result) {
+      return;
+    }
+
+    setIsCheckedActive(!!weekData.result?.activate);
+    setIsCheckedTest(!!weekData.result?.exam);
+    setStartDate(parse(weekData.result?.activate_start, 'yyyy-MM-dd HH:mm:ss', new Date()));
+    setEndDate(parse(weekData.result?.activate_end, 'yyyy-MM-dd HH:mm:ss', new Date()));
+  }, [weekData]);
 
   return (
     <>
       <MetaTitle content="주차 수정" />
 
-      <Wrapper></Wrapper>
+      <Wrapper>
+        <Breadcrumb />
+
+        <TopMessageWrapper>
+          <TopMessage message="주차에 대한 정보를 수정해주세요." />
+        </TopMessageWrapper>
+
+        <section>
+          <Title>주차명</Title>
+          <TextInput placeholder="새로운 주차" ref={name} defaultValue={weekData?.result?.name} />
+        </section>
+
+        <section>
+          <Title>주차 설명</Title>
+          <TextInput
+            placeholder="새로운 주차 설명 (선택사항)"
+            ref={description}
+            defaultValue={weekData?.result?.comment}
+          />
+        </section>
+
+        <section>
+          <Title>시험모드</Title>
+          <CheckBox label="class-test" message="" checked={isCheckedTest} onChange={onChangeTest} />
+        </section>
+
+        <section>
+          <Title>주차 활성화</Title>
+          <CheckBox
+            label="class-activate"
+            message=""
+            checked={isCheckedActive}
+            onChange={onChangeActive}
+          />
+        </section>
+
+        {weekStatus === 'success' && isCheckedActive && (
+          <section>
+            <DatePickerWrapper>
+              <i>시작</i>
+              <DatePicker defaultDate={startDate} selectsStart onChange={setStartDate} />
+            </DatePickerWrapper>
+            <DatePickerWrapper>
+              <i>종료</i>
+              <DatePicker defaultDate={endDate} selectsEnd onChange={setEndDate} />
+            </DatePickerWrapper>
+          </section>
+        )}
+
+        <SubmitButton
+          onClick={onSubmit}
+          size="Regular"
+          color={currentTheme.primary}
+          disabled={status === 'loading'}
+        >
+          생성하기
+        </SubmitButton>
+      </Wrapper>
     </>
   );
 };
 
 WeekEditPage.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled(DashboardLayout)`
@@ -33,7 +215,39 @@ const Wrapper = styled(DashboardLayout)`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding-top: 8px;
+
+  & > section {
+    margin-bottom: 16px;
+  }
+`;
+
+const TopMessageWrapper = styled.div`
+  margin-bottom: 16px;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 16px;
+  ${typo.headline1};
+  color: ${({ theme }) => theme.text.f1};
+`;
+
+const DatePickerWrapper = styled.div`
+  & > i {
+    display: block;
+    ${typo.badge};
+    color: ${({ theme }) => theme.text.f4};
+    margin-bottom: 8px;
+  }
+
+  & ~ & {
+    margin-top: 16px;
+  }
+`;
+
+const SubmitButton = styled(FillButton)`
+  flex: 0;
+  width: 164px;
+  margin-top: 48px;
 `;
 
 export default WeekEditPage;

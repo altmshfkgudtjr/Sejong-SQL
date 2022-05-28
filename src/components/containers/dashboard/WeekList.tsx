@@ -12,7 +12,7 @@ import { mediaQuery } from 'sjds';
  * @param props.classId 분반 ID
  */
 const WeekList = ({ classId }: Props) => {
-  const { data } = useWeekController.GetWeekist(classId);
+  const { data } = useWeekController.GetWeekList(classId);
 
   const WeekCardList = data?.result?.map(week => (
     <WeekCard key={week.id} classId={`${classId}`} week={week} />

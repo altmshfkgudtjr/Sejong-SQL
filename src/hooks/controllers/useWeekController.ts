@@ -4,10 +4,20 @@ import * as weekAPIs from 'api/week';
 
 /**
  * 주차 목록 반환
- * @param classId 문제 ID
+ * @param classId 분반 ID
  */
-export const GetWeekist = (classId: number) => {
+export const GetWeekList = (classId: number) => {
   const result = useQuery(['getWeekListAPI', classId], () => weekAPIs.getWeekListAPI({ classId }));
+
+  return result;
+};
+
+/**
+ * 주차 반환
+ * @param weekId 주차 ID
+ */
+export const GetWeek = (weekId: number) => {
+  const result = useQuery(['getWeekAPI', weekId], () => weekAPIs.getWeekAPI({ weekId }));
 
   return result;
 };
