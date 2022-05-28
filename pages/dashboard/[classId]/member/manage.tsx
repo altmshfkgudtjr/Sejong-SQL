@@ -37,11 +37,8 @@ const ClassMemberManagePage = () => {
   const { mutate: deleteMutate } = useClassController.DeletedClassMemeber({ onSuccess: refetch });
 
   const onSearchUser = useDebounce((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 0) {
-      return;
-    }
     searchMutate({ classId, sejongId: e.target.value });
-  }, 300);
+  }, 200);
 
   const onAddAssistant = (user: User) => {
     addMutate({
@@ -95,6 +92,8 @@ const ClassMemberManagePage = () => {
     setStudentList(studentList_);
   }, [memberData]);
 
+  useEffect(() => searchMutate({ classId, sejongId: '' }), []);
+
   return (
     <>
       <MetaTitle content="분반 학생 관리" />
@@ -110,7 +109,11 @@ const ClassMemberManagePage = () => {
           <Title>조교 관리</Title>
           <SearchInput placeholder="이름으로 검색해주세요." onInput={onSearchUser}>
             {searchData?.result
-              ?.filter(user => !assistantList.map(v => v.id).includes(user.id))
+              ?.filter(
+                user =>
+                  !assistantList.map(v => v.id).includes(user.id) &&
+                  !memberData?.result?.map(v => v.id).includes(user.id),
+              )
               .map(user => (
                 <MemberManageButton
                   key={user.id}
@@ -142,7 +145,11 @@ const ClassMemberManagePage = () => {
           <Title>학생 관리</Title>
           <SearchInput placeholder="이름으로 검색해주세요." onInput={onSearchUser}>
             {searchData?.result
-              ?.filter(user => !assistantList.map(v => v.id).includes(user.id))
+              ?.filter(
+                user =>
+                  !assistantList.map(v => v.id).includes(user.id) &&
+                  !memberData?.result?.map(v => v.id).includes(user.id),
+              )
               .map(user => (
                 <MemberManageButton
                   key={user.id}

@@ -1,7 +1,7 @@
 import styled, { useTheme } from 'styled-components';
 import Router, { useRouter } from 'next/router';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { format, parse, isBefore } from 'date-fns';
+import { format, parseISO, isBefore } from 'date-fns';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
@@ -17,7 +17,7 @@ import useSnackbar from 'hooks/dom/useSnackbar';
 import * as useClassController from 'hooks/controllers/useClassController';
 import * as useWeekController from 'hooks/controllers/useWeekController';
 // styles
-import { typo } from 'sjds';
+import { mediaQuery, typo, animations } from 'sjds';
 
 /** 주차 수정 페이지 */
 const WeekEditPage = () => {
@@ -39,12 +39,13 @@ const WeekEditPage = () => {
   const { refetch: classRefetch } = useClassController.GetClassList();
   const { refetch: weekRefetch } = useWeekController.GetWeekList(classId);
   const { status: weekStatus, data: weekData } = useWeekController.GetWeek(weekId);
-  const { mutate: createMutate, status } = useWeekController.CreateWeek({
+  const { mutate: createMutate, status: createStatus } = useWeekController.CreateWeek({
     onSuccess: () => {
       classRefetch();
       weekRefetch();
     },
   });
+  const { mutate: removeMutate, status: removeStatus } = useWeekController.RemoveWeek();
 
   const onEmptyCheck = useCallback(
     (target: HTMLInputElement, message: string) => {
@@ -112,6 +113,11 @@ const WeekEditPage = () => {
       {
         onSuccess: () => {
           weekRefetch();
+          initSnackbar({
+            type: 'Success',
+            title: '수정 완료',
+            message: '주차 내용이 수정되었습니다',
+          });
           Router.replace(`/dashboard/${classId}`);
         },
       },
@@ -128,6 +134,26 @@ const WeekEditPage = () => {
     initSnackbar,
   ]);
 
+  const onDelete = useCallback(() => {
+    if (confirm('주차를 정말 삭제하시겠습니까?')) {
+      removeMutate(
+        { classId, weekId },
+        {
+          onSuccess: () => {
+            classRefetch();
+            weekRefetch();
+            initSnackbar({
+              type: 'Success',
+              title: '삭제 완료',
+              message: '주차가 삭제 완료되었습니다',
+            });
+            Router.replace(`/dashboard/${classId}`);
+          },
+        },
+      );
+    }
+  }, [removeMutate, classId, weekId, classRefetch, weekRefetch, initSnackbar]);
+
   /** 초기 데이터 설정 */
   useEffect(() => {
     if (!weekData?.result) {
@@ -136,8 +162,8 @@ const WeekEditPage = () => {
 
     setIsCheckedActive(!!weekData.result?.activate);
     setIsCheckedTest(!!weekData.result?.exam);
-    setStartDate(parse(weekData.result?.activate_start, 'yyyy-MM-dd HH:mm:ss', new Date()));
-    setEndDate(parse(weekData.result?.activate_end, 'yyyy-MM-dd HH:mm:ss', new Date()));
+    setStartDate(parseISO(weekData.result?.activate_start));
+    setEndDate(parseISO(weekData.result?.activate_end));
   }, [weekData]);
 
   return (
@@ -193,14 +219,24 @@ const WeekEditPage = () => {
           </section>
         )}
 
-        <SubmitButton
-          onClick={onSubmit}
-          size="Regular"
-          color={currentTheme.primary}
-          disabled={status === 'loading'}
-        >
-          생성하기
-        </SubmitButton>
+        <ButtonWrapper>
+          <SubmitButton
+            onClick={onSubmit}
+            size="Regular"
+            color={currentTheme.primary}
+            disabled={createStatus === 'loading'}
+          >
+            수정하기
+          </SubmitButton>
+          <DeleteButton
+            onClick={onDelete}
+            size="Regular"
+            color={currentTheme.background.bg5}
+            disabled={removeStatus === 'loading'}
+          >
+            삭제하기
+          </DeleteButton>
+        </ButtonWrapper>
       </Wrapper>
     </>
   );
@@ -232,6 +268,8 @@ const Title = styled.h1`
 `;
 
 const DatePickerWrapper = styled.div`
+  animation: 0.4s ease ${animations.fadeIn};
+
   & > i {
     display: block;
     ${typo.badge};
@@ -244,10 +282,27 @@ const DatePickerWrapper = styled.div`
   }
 `;
 
-const SubmitButton = styled(FillButton)`
-  flex: 0;
-  width: 164px;
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;
   margin-top: 48px;
+
+  ${mediaQuery.medium} {
+    flex-direction: row;
+  }
+`;
+
+const SubmitButton = styled(FillButton)`
+  flex: 1;
+  max-width: 164px;
+`;
+
+const DeleteButton = styled(FillButton)`
+  flex: 1;
+  max-width: 164px;
 `;
 
 export default WeekEditPage;

@@ -51,7 +51,11 @@ export const getClassMemberListAPI = ({ classId }: types.GetClassMemeberProps) =
  * @version 1
  */
 export const getUserListAPI = ({ classId, sejongId }: types.GetUserListProps) => {
-  return request.get<types.GetUserListResponse>(`/api/v1/class/${classId}/user/${sejongId}`);
+  return request.get<types.GetUserListResponse>(`/api/v1/class/${classId}/users/search`, {
+    params: {
+      sejong_id: sejongId,
+    },
+  });
 };
 
 /**

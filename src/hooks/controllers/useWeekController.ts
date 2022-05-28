@@ -39,3 +39,12 @@ export const UpdateWeek = () => {
 
   return result;
 };
+
+/**
+ * 주차 제거
+ */
+export const RemoveWeek = () => {
+  const result = useMutation(['removeWeekAPI'], weekAPIs.removeWeekAPI);
+
+  return result;
+};

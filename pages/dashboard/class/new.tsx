@@ -1,5 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Router from 'next/router';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
@@ -111,17 +112,22 @@ const ClassCreatePage = () => {
       return;
     }
 
-    createMutate({
-      data: {
-        name: nameTarget.value,
-        comment: descriptionTarget.value
-          ? descriptionTarget.value
-          : `교수님의 ${nameTarget.value} 수업입니다.`,
-        semester: semesterTarget.value,
-        prof_id: professor.id,
-        activate: isChecked,
+    createMutate(
+      {
+        data: {
+          name: nameTarget.value,
+          comment: descriptionTarget.value
+            ? descriptionTarget.value
+            : `교수님의 ${nameTarget.value} 수업입니다.`,
+          semester: semesterTarget.value,
+          prof_id: professor.id,
+          activate: isChecked,
+        },
       },
-    });
+      {
+        onSuccess: () => Router.replace('/dashboard'),
+      },
+    );
   }, [initSnackbar, onEmptyCheck, createMutate, professor, isChecked]);
 
   useEffect(() => searchMutate({ name: '' }), [searchMutate]);

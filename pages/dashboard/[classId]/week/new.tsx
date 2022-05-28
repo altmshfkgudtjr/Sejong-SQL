@@ -107,6 +107,11 @@ const WeekCreatePage = () => {
       {
         onSuccess: () => {
           weekRefetch();
+          initSnackbar({
+            type: 'Success',
+            title: '생성 완료',
+            message: '새로운 주차가 생성되었습니다',
+          });
           Router.replace(`/dashboard/${classId}`);
         },
       },

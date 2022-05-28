@@ -35,6 +35,10 @@ const Wrapper = styled.div`
     width: 100px;
     ${typo.value3};
     color: ${({ theme }) => theme.text.f1};
+
+    &:nth-child(2) {
+      width: 80px;
+    }
   }
 
   & ~ & {

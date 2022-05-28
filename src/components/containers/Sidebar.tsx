@@ -20,14 +20,21 @@ const Sidebar = () => {
   const currentTheme = useTheme();
 
   const { data: profileData } = useUserController.GetProfile();
-  const { status, data: classData } = useClassController.GetClassList();
+  const { status, data: classData, refetch: classListRefetch } = useClassController.GetClassList();
   const { mutate: removeMutate } = useClassController.DeleteClass();
   const classList = classData?.result as MyClass[];
 
   const onDeleteClass = (classId: number) => {
     const res = confirm('정말로 제거하시겠습니까?');
     if (res) {
-      removeMutate({ classId });
+      removeMutate(
+        { classId },
+        {
+          onSuccess: () => {
+            classListRefetch();
+          },
+        },
+      );
     }
   };
 

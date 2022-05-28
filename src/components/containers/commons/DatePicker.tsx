@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Picker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
@@ -20,6 +20,14 @@ const DatePicker = ({ defaultDate = new Date(), onChange, ...config }: Props) =>
     setDate(value);
     onChange && onChange(value);
   };
+
+  useEffect(() => {
+    if (!defaultDate) {
+      return;
+    }
+
+    setDate(defaultDate);
+  }, [defaultDate]);
 
   return (
     <Wrapper>
