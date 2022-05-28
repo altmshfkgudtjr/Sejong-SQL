@@ -1,5 +1,5 @@
 import styled, { useTheme } from 'styled-components';
-import { useState, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
@@ -63,9 +63,6 @@ const ClassCreatePage = () => {
   );
 
   const onSearchProfessor = useDebounce((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 0) {
-      return;
-    }
     searchMutate({ name: e.target.value });
   }, 300);
 
@@ -127,6 +124,8 @@ const ClassCreatePage = () => {
     });
   }, [initSnackbar, onEmptyCheck, createMutate, professor, isChecked]);
 
+  useEffect(() => searchMutate({ name: '' }), [searchMutate]);
+
   return (
     <>
       <MetaTitle content="수업 생성" />
@@ -161,7 +160,7 @@ const ClassCreatePage = () => {
               .map(prof => (
                 <MemberManageButton
                   key={prof.id}
-                  labelList={[prof.id, prof.name, prof.major]}
+                  labelList={[prof.name, prof.major]}
                   onClick={() => onAddProfessor(prof)}
                 />
               ))}
@@ -169,13 +168,13 @@ const ClassCreatePage = () => {
           {professor && (
             <MemeberListWrapper>
               <MemeberListHead>
-                <span>학번</span>
+                <span>학과</span>
                 <span>이름</span>
                 <span>날짜</span>
               </MemeberListHead>
               <MemberManageButton
                 isExist
-                labelList={[professor.id, professor.name, getCurrentDate()]}
+                labelList={[professor.major, professor.name, getCurrentDate()]}
                 onClick={onDeleteProfessor}
               />
             </MemeberListWrapper>
@@ -216,7 +215,6 @@ const Wrapper = styled(DashboardLayout)`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* padding-top: 8px; */
 
   & > section {
     margin-bottom: 16px;
@@ -261,8 +259,8 @@ const MemeberListHead = styled.div`
 type Professor = {
   /** 아이디 */
   id: string;
-  /** 학번 */
-  sejong_id: string;
+  /** 학번 - 교수는 null */
+  sejong_id: null;
   /** 이름 */
   name: string;
   /** 학과 */

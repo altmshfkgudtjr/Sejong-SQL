@@ -18,7 +18,7 @@ const requestSuccessHandler = config => {
     storageUtils.getSessionStorage('ssql-accessToken') ||
     storageUtils.getLocalStorage('ssql-accessToken');
 
-  if (accessToken) {
+  if (accessToken && !config.headers.Authorization) {
     Object.assign(config.headers, { Authorization: `Bearer ${accessToken}` });
   }
 
@@ -51,10 +51,11 @@ const responseErrorHandler = async err => {
     response: { status: statusCode, data },
   } = err;
 
-  // TODO Token값이 유효하지 않을 떄 뜨는 오류
-  if (statusCode === 401 && data.msg === 'Signature verification failed.') {
+  if (statusCode === 401 && data.msg === 'JWT Token has expired') {
     developmentLog('Access Token이 유효하지 않습니다.');
-    const res = await userAPIs.getTokenAPI();
+    if (confirm('리프레시?!')) {
+      await userAPIs.getTokenAPI();
+    }
     developmentLog('API 호출 도중 오류가 발생하였습니다.', () => console.log('Are you alive?'));
   }
 

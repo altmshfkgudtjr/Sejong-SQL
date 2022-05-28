@@ -40,6 +40,7 @@ const ClassEditPage = () => {
   const { initSnackbar } = useSnackbar();
 
   const { data: classData } = useClassController.GetClass(classId);
+  const { refetch: classRefetch } = useClassController.GetClassList();
   const { mutate: updateMutate, status } = useClassController.UpdateClass();
   const { mutate: searchMutate, data: searchData } = useUserController.GetProfessorList();
 
@@ -65,9 +66,6 @@ const ClassEditPage = () => {
   );
 
   const onSearchProfessor = useDebounce((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 0) {
-      return;
-    }
     searchMutate({ name: e.target.value });
   }, 300);
 
@@ -116,19 +114,24 @@ const ClassEditPage = () => {
       return;
     }
 
-    updateMutate({
-      classId,
-      data: {
-        name: nameTarget.value,
-        comment: descriptionTarget.value
-          ? descriptionTarget.value
-          : `교수님의 ${nameTarget.value} 수업입니다.`,
-        semester: semesterTarget.value,
-        prof_id: professor.id,
-        activate: isChecked,
+    updateMutate(
+      {
+        classId,
+        data: {
+          name: nameTarget.value,
+          comment: descriptionTarget.value
+            ? descriptionTarget.value
+            : `교수님의 ${nameTarget.value} 수업입니다.`,
+          semester: semesterTarget.value,
+          prof_id: professor.id,
+          activate: isChecked,
+        },
       },
-    });
-  }, [initSnackbar, onEmptyCheck, updateMutate, classId, professor, isChecked]);
+      {
+        onSuccess: () => classRefetch(),
+      },
+    );
+  }, [initSnackbar, onEmptyCheck, updateMutate, classRefetch, classId, professor, isChecked]);
 
   useEffect(() => {
     if (!classData?.result) {
@@ -137,6 +140,8 @@ const ClassEditPage = () => {
 
     setProfessor(classData.result.prof);
   }, [classData]);
+
+  useEffect(() => searchMutate({ name: '' }), [searchMutate]);
 
   return (
     <>
@@ -181,7 +186,7 @@ const ClassEditPage = () => {
               .map(prof => (
                 <MemberManageButton
                   key={prof.id}
-                  labelList={[prof.id, prof.name, prof.major]}
+                  labelList={[prof.name, prof.major]}
                   onClick={() => onAddProfessor(prof)}
                 />
               ))}
@@ -189,13 +194,13 @@ const ClassEditPage = () => {
           {professor && (
             <MemeberListWrapper>
               <MemeberListHead>
-                <span>학번</span>
+                <span>학과</span>
                 <span>이름</span>
                 <span>날짜</span>
               </MemeberListHead>
               <MemberManageButton
                 isExist
-                labelList={[professor.id, professor.name, getCurrentDate()]}
+                labelList={[professor.major, professor.name, getCurrentDate()]}
                 onClick={onDeleteProfessor}
               />
             </MemeberListWrapper>

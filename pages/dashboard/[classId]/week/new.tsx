@@ -1,14 +1,16 @@
 import styled, { useTheme } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useRef, useCallback } from 'react';
+import { format, isBefore } from 'date-fns';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
 import { FillButton } from 'sjds/components/buttons';
-import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
-import TopMessage from 'components/presenters/dashboard/TopMessage';
 import TextInput from 'components/atoms/inputs/Text';
 import CheckBox from 'components/atoms/inputs/Checkbox';
+import TopMessage from 'components/presenters/dashboard/TopMessage';
+import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
+import DatePicker from 'components/containers/commons/DatePicker';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useSnackbar from 'hooks/dom/useSnackbar';
@@ -30,11 +32,14 @@ const WeekCreatePage = () => {
 
   const [isCheckedTest, setIsCheckedTest] = useState(false);
   const [isCheckedActive, setIsCheckedActive] = useState(true);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const { refetch } = useClassController.GetClassList();
   const { mutate: createMutate, status } = useWeekController.CreateWeek({
     onSuccess: refetch,
   });
+  const { refetch: weekRefetch } = useWeekController.GetWeekist(classId);
 
   const onEmptyCheck = useCallback(
     (target: HTMLInputElement, message: string) => {
@@ -52,8 +57,18 @@ const WeekCreatePage = () => {
     [initSnackbar],
   );
 
-  const onChangeTest = () => setIsCheckedTest(v => !v);
-  const onChangeActive = () => setIsCheckedActive(v => !v);
+  const onChangeTest = () => {
+    if (!isCheckedTest) {
+      setIsCheckedActive(true);
+    }
+    setIsCheckedTest(v => !v);
+  };
+  const onChangeActive = () => {
+    if (isCheckedActive) {
+      setIsCheckedTest(false);
+    }
+    setIsCheckedActive(v => !v);
+  };
 
   const onSubmit = useCallback(() => {
     const nameTarget = name.current;
@@ -67,19 +82,46 @@ const WeekCreatePage = () => {
       return;
     }
 
+    if (isBefore(endDate, startDate)) {
+      initSnackbar({
+        title: 'WARNING',
+        message: '주차 시작일 또는 종료일을 확인해주세요',
+        type: 'Warning',
+      });
+      return;
+    }
+
     // 주차 생성하기 API 호출
-    createMutate({
-      classId,
-      data: {
-        name: nameTarget.value,
-        comment: descriptionTarget.value,
-        exam: isCheckedTest,
-        activate: isCheckedActive,
-        activate_start: '2022-05-27 12:00:00',
-        activate_end: '2022-05-28 13:00:00',
+    createMutate(
+      {
+        classId,
+        data: {
+          name: nameTarget.value,
+          comment: descriptionTarget.value,
+          exam: isCheckedTest,
+          activate: isCheckedActive,
+          activate_start: format(startDate, 'yyyy-MM-dd HH:mm:ss'),
+          activate_end: format(endDate, 'yyyy-MM-dd HH:mm:ss'),
+        },
       },
-    });
-  }, [classId, createMutate, isCheckedActive, isCheckedTest, onEmptyCheck]);
+      {
+        onSuccess: () => {
+          weekRefetch();
+          router.replace(`/dashboard/${classId}`);
+        },
+      },
+    );
+  }, [
+    onEmptyCheck,
+    endDate,
+    startDate,
+    createMutate,
+    weekRefetch,
+    classId,
+    isCheckedTest,
+    isCheckedActive,
+    initSnackbar,
+  ]);
 
   return (
     <>
@@ -104,12 +146,7 @@ const WeekCreatePage = () => {
 
         <section>
           <Title>시험모드</Title>
-          <CheckBox
-            label="class-activate"
-            message=""
-            checked={isCheckedTest}
-            onChange={onChangeTest}
-          />
+          <CheckBox label="class-test" message="" checked={isCheckedTest} onChange={onChangeTest} />
         </section>
 
         <section>
@@ -121,6 +158,19 @@ const WeekCreatePage = () => {
             onChange={onChangeActive}
           />
         </section>
+
+        {isCheckedActive && (
+          <section>
+            <DatePickerWrapper>
+              <i>시작</i>
+              <DatePicker defaultDate={new Date()} selectsStart onChange={setStartDate} />
+            </DatePickerWrapper>
+            <DatePickerWrapper>
+              <i>종료</i>
+              <DatePicker defaultDate={new Date()} selectsEnd onChange={setEndDate} />
+            </DatePickerWrapper>
+          </section>
+        )}
 
         <SubmitButton
           onClick={onSubmit}
@@ -158,6 +208,19 @@ const Title = styled.h1`
   margin-bottom: 16px;
   ${typo.headline1};
   color: ${({ theme }) => theme.text.f1};
+`;
+
+const DatePickerWrapper = styled.div`
+  & > i {
+    display: block;
+    ${typo.badge};
+    color: ${({ theme }) => theme.text.f4};
+    margin-bottom: 8px;
+  }
+
+  & ~ & {
+    margin-top: 16px;
+  }
 `;
 
 const SubmitButton = styled(FillButton)`

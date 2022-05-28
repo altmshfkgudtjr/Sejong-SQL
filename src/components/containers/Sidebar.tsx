@@ -35,7 +35,7 @@ const Sidebar = () => {
     ?.filter(cl => cl.type === 'st')
     .map(cl => (
       <ClassWrapper key={cl.id}>
-        <SidebarClassToggle classId={`${cl.id}`} name={cl.name} managerName={cl.prof}>
+        <SidebarClassToggle classId={`${cl.id}`} name={cl.name} managerName={cl.prof.name}>
           {cl.pgroup.map(week => (
             <WeekButton key={week.id} classId={cl.id} weekId={week.id} name={week.name} />
           ))}
@@ -47,7 +47,7 @@ const Sidebar = () => {
     ?.filter(cl => cl.type !== 'st')
     .map(cl => (
       <ClassWrapper key={cl.id}>
-        <SidebarClassToggle classId={`${cl.id}`} name={cl.name} managerName={cl.prof}>
+        <SidebarClassToggle classId={`${cl.id}`} name={cl.name} managerName={cl.prof.name}>
           {cl.pgroup.map(week => (
             <WeekButton key={week.id} classId={cl.id} weekId={week.id} name={week.name} />
           ))}

@@ -11,8 +11,17 @@ export type MyClass = {
   semester: string;
   /** 분반 활성화(True) / 비활성화(False) */
   activate: boolean;
-  /** 반 담당 교수 이름 */
-  prof: string;
+  /** 반 담당 교수 */
+  prof: {
+    /** 아이디 */
+    id: string;
+    /** 학번 - 교수는 null */
+    sejong_id: null;
+    /** 이름 */
+    name: string;
+    /** 학과 */
+    major: string;
+  };
   /** 분반에서 내 역할 */
   type: 'Super Admin' | 'prof' | 'ta' | 'st';
   /** 주차 리스트 */

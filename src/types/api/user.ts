@@ -99,8 +99,8 @@ export type GetProfessorListProps = {
 export type GetProfessorListResponse = {
   /** 아이디 */
   id: string;
-  /** 학번 */
-  sejong_id: string;
+  /** 학번 - 교수는 null */
+  sejong_id: null;
   /** 이름 */
   name: string;
   /** 학과 */

@@ -17,12 +17,12 @@ import { animations } from 'sjds';
 
 /** 분반 페이지 */
 const ClassPage = () => {
-  const { query } = useRouter();
-  const { classId } = query;
+  const router = useRouter();
+  const classId = parseInt(router.query.classId as string, 10);
 
   const currentTheme = useTheme();
   const { MetaTitle } = useMetaData();
-  const { data: classData } = useClassController.GetClass(parseInt(classId as string, 10));
+  const { data: classData } = useClassController.GetClass(classId);
 
   /** 관리자 여부 */
   const isManager = classData?.result?.type === 'Super Admin';
@@ -53,7 +53,7 @@ const ClassPage = () => {
           </ManagerWrapper>
         )}
 
-        <WeekList classId={classId as string} />
+        <WeekList classId={classId} />
       </Wrapper>
     </>
   );

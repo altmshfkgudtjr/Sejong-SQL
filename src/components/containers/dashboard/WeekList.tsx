@@ -12,10 +12,10 @@ import { mediaQuery } from 'sjds';
  * @param props.classId 분반 ID
  */
 const WeekList = ({ classId }: Props) => {
-  const { data } = useWeekController.GetWeekist(parseInt(classId, 10));
+  const { data } = useWeekController.GetWeekist(classId);
 
   const WeekCardList = data?.result?.map(week => (
-    <WeekCard key={week.id} classId={classId} week={week} />
+    <WeekCard key={week.id} classId={`${classId}`} week={week} />
   ));
 
   return <Wrapper>{WeekCardList}</Wrapper>;
@@ -40,7 +40,7 @@ const Wrapper = styled.section`
 `;
 
 type Props = {
-  classId: string;
+  classId: number;
 };
 
 export default WeekList;

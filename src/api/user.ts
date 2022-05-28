@@ -1,4 +1,6 @@
 import request from 'api';
+// utils
+import * as storageUtils from 'utils/storage';
 // types
 import type * as types from 'types/api/user';
 
@@ -27,7 +29,24 @@ export const authroizatonSejongUnivAPI = ({ data }: types.AuthorizationSejongUni
  * Token 갱신 API
  */
 export const getTokenAPI = () => {
-  return request.post<types.GetTokenResponse>(`/api/auth/token/refresh`);
+  const localToken = storageUtils.getLocalStorage('ssql-refreshToken');
+  const sessionToken = storageUtils.getSessionStorage('ssql-refreshToken');
+  const isLocal = !!localToken && !sessionToken;
+  const refreshToken = localToken || sessionToken;
+
+  return request
+    .get<types.GetTokenResponse>(`/api/auth/token/refresh`, {
+      headers: { Authorization: `Bearer ${refreshToken}` },
+    })
+    .then(res => {
+      if (isLocal) {
+        storageUtils.saveLocalStorage('ssql-accessToken', res.result?.access_token);
+        storageUtils.saveLocalStorage('ssql-refreshToken', res.result?.refresh_token);
+      } else {
+        storageUtils.saveSessionStorage('ssql-accessToken', res.result?.access_token);
+        storageUtils.saveSessionStorage('ssql-refreshToken', res.result?.refresh_token);
+      }
+    });
 };
 
 /**
@@ -55,9 +74,13 @@ export const successionAPI = ({ data }: types.SuccessionProps) => {
 };
 
 /**
- * 교수명 검색 API
+ * 사용자 검색 API
  * @version 1
  */
 export const getProfessorListAPI = ({ name }: types.GetProfessorListProps) => {
-  return request.get<types.GetProfessorListResponse>(`/api/v1/users/${name}`);
+  return request.get<types.GetProfessorListResponse>(`/api/v1/users/search`, {
+    params: {
+      user_name: name,
+    },
+  });
 };
