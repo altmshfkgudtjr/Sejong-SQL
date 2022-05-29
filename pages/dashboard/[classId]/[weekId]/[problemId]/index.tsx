@@ -4,7 +4,6 @@ import { useRef } from 'react';
 // components
 import Layout from 'components/layouts';
 import { MainLayout } from 'sjds/layouts';
-import Sidebar from 'components/containers/Sidebar';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import ResizableArea from 'components/containers/dashboard/ResizableArea';
 import 문제영역 from 'components/containers/dashboard/shell/문제영역';
@@ -18,12 +17,12 @@ const DashBoard = () => {
   const { query } = useRouter();
   const problemId = parseInt(query.problemId as string, 10);
 
-  const queryStr = useRef('');
+  const inputValue = useRef('');
 
   const { MetaTitle } = useMetaData();
 
   const onChangeValue = value => {
-    queryStr.current = value;
+    inputValue.current = value;
   };
 
   return (
@@ -39,7 +38,7 @@ const DashBoard = () => {
           <ResizableArea
             left={<문제영역 problemId={problemId} />}
             top={<풀이영역 onChangeValue={onChangeValue} />}
-            bottom={<출력영역 problemId={problemId} getUserQuery={() => queryStr.current} />}
+            bottom={<출력영역 problemId={problemId} getUserQuery={() => inputValue.current} />}
           />
         </ShellWrapper>
       </Wrapper>
@@ -48,12 +47,7 @@ const DashBoard = () => {
 };
 
 DashBoard.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled.div`

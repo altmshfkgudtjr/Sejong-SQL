@@ -137,6 +137,10 @@ const CreateClassButton = styled(TextButton)`
   width: 100%;
   border-radius: 0;
   color: ${({ theme }) => theme.semantic.info};
+
+  &::before {
+    border-radius: 0;
+  }
 `;
 
 const ManageButton = styled(TextButton)`
@@ -146,6 +150,10 @@ const ManageButton = styled(TextButton)`
   gap: 8px;
   width: 100%;
   border-radius: 0;
+
+  &::before {
+    border-radius: 0;
+  }
 `;
 
 export default Sidebar;

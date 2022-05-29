@@ -2,7 +2,6 @@ import styled from 'styled-components';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
-import Sidebar from 'components/containers/Sidebar';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 
@@ -20,12 +19,7 @@ const AnalyticsPage = () => {
 };
 
 AnalyticsPage.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled(DashboardLayout)`

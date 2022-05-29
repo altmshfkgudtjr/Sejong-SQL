@@ -162,8 +162,8 @@ const WeekEditPage = () => {
 
     setIsCheckedActive(!!weekData.result?.activate);
     setIsCheckedTest(!!weekData.result?.exam);
-    setStartDate(parseISO(weekData.result?.activate_start));
-    setEndDate(parseISO(weekData.result?.activate_end));
+    weekData.result?.activate_start && setStartDate(parseISO(weekData.result?.activate_start));
+    weekData.result?.activate_end && setEndDate(parseISO(weekData.result?.activate_end));
   }, [weekData]);
 
   return (

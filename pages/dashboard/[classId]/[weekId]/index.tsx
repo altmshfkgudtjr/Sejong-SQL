@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
 import { TextButton } from 'sjds/components/buttons';
-import Sidebar from 'components/containers/Sidebar';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import TopMessage from 'components/presenters/dashboard/TopMessage';
 import ProblemList from 'components/containers/dashboard/ProblemList';
@@ -58,12 +57,7 @@ const WeekPage = () => {
 };
 
 WeekPage.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled(DashboardLayout)`

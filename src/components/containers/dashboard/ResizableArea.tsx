@@ -17,7 +17,7 @@ const ResizableArea = ({ left, top, bottom }: Props) => {
       gutterSize={12}
       style={{ height: '100%' }}
     >
-      <Area>{left}</Area>
+      <Area id="shell-left">{left}</Area>
       <SplitLayout
         direction="vertical"
         sizes={[55, 45]}
@@ -25,8 +25,12 @@ const ResizableArea = ({ left, top, bottom }: Props) => {
         gutterSize={12}
         style={{ width: '100%' }}
       >
-        <Area isDeep>{top}</Area>
-        <Area isDeep>{bottom}</Area>
+        <Area id="shell-right-top" isDeep>
+          {top}
+        </Area>
+        <Area id="shell-right-bottom" isDeep>
+          {bottom}
+        </Area>
       </SplitLayout>
     </SplitLayout>
   );

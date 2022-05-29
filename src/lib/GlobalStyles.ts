@@ -152,11 +152,6 @@ const GlobalStyles = createGlobalStyle`
 	i {
 		font-style: normal;
 	}
-
-	::selection {
-		background-color: #8a95a144;
-		color: #000000;
-	}
 `;
 
 export default GlobalStyles;

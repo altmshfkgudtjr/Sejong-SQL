@@ -2,7 +2,6 @@ import styled from 'styled-components';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
-import Sidebar from 'components/containers/Sidebar';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import TopMessage from 'components/presenters/dashboard/TopMessage';
 // hooks
@@ -25,12 +24,7 @@ const DashBoard = () => {
 };
 
 DashBoard.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled(DashboardLayout)`

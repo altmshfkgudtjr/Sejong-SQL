@@ -2,10 +2,9 @@ import styled from 'styled-components';
 // components
 import Badge from 'components/presenters/dashboard/shell/Badge';
 import ProblemTitle from 'components/presenters/dashboard/shell/ProblemTitle';
+import ProblemContent from 'components/presenters/dashboard/shell/ProblemContent';
 // hooks
 import * as useProblemController from 'hooks/controllers/useProblemController';
-// styles
-import { typo } from 'sjds';
 
 /**
  * 문제영역
@@ -25,7 +24,7 @@ const 문제영역 = ({ problemId }: Props) => {
 
           <Badge text="문제 설명" />
 
-          <ContentWrapper>{data?.result?.content}</ContentWrapper>
+          <ProblemContent content={data?.result?.content} />
         </>
       )}
     </Wrapper>
@@ -41,12 +40,6 @@ const TitleWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   margin-bottom: 16px;
-`;
-
-const ContentWrapper = styled.div`
-  white-space: pre-wrap;
-  ${typo.body3};
-  color: ${({ theme }) => theme.text.f1};
 `;
 
 type Props = {

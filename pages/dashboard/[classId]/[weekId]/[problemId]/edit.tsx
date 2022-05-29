@@ -4,7 +4,6 @@ import { useRef } from 'react';
 // components
 import Layout from 'components/layouts';
 import { MainLayout } from 'sjds/layouts';
-import Sidebar from 'components/containers/Sidebar';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import ResizableArea from 'components/containers/dashboard/ResizableArea';
 import 문제영역 from 'components/containers/dashboard/shell/문제영역';
@@ -48,12 +47,7 @@ const DashBoard = () => {
 };
 
 DashBoard.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled.div`

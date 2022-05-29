@@ -78,15 +78,24 @@ const Wrapper = styled.div`
     padding: 8px 0;
   }
 
+  .react-datepicker__current-month {
+    color: ${({ theme }) => theme.text.f2};
+  }
+
   .react-datepicker__day {
     border-radius: 4px;
     background-color: ${({ theme }) => theme.background.bg2};
+    color: ${({ theme }) => theme.text.f3};
     font-size: 12px;
     transition: 0.1s ease;
 
     &:hover {
       background-color: ${({ theme }) => theme.background.bg4};
     }
+  }
+
+  .react-datepicker__day-name {
+    color: ${({ theme }) => theme.text.f2};
   }
 
   .react-datepicker__day--selected {
@@ -96,6 +105,10 @@ const Wrapper = styled.div`
     &:hover {
       background-color: ${({ theme }) => theme.primary};
     }
+  }
+
+  .react-datepicker-time__header {
+    color: ${({ theme }) => theme.text.f2};
   }
 
   .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
@@ -117,6 +130,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     background-color: ${({ theme }) => theme.background.bg2};
+    color: ${({ theme }) => theme.text.f3};
     font-size: 12px;
     transition: 0.1s ease;
 
@@ -146,12 +160,14 @@ const DateInput = styled.input`
   padding: 16px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.background.bg3};
+  color: ${({ theme }) => theme.text.f2};
 `;
 
 const TimeInput = styled.input`
   padding: 8px 12px;
   border-radius: 4px;
   background-color: transparent;
+  color: ${({ theme }) => theme.text.f2};
 `;
 
 type Props = {

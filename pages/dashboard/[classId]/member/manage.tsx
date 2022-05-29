@@ -8,7 +8,6 @@ import TopMessage from 'components/presenters/dashboard/TopMessage';
 import SearchInput from 'components/presenters/dashboard/manage/SearchInput';
 import MemberManageButton from 'components/presenters/dashboard/manage/MemberManagerButton';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
-import Sidebar from 'components/containers/Sidebar';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useDebounce from 'hooks/event/useDebounce';
@@ -182,12 +181,7 @@ const ClassMemberManagePage = () => {
 };
 
 ClassMemberManagePage.getLayout = page => {
-  return (
-    <Layout isSide>
-      <Sidebar />
-      {page}
-    </Layout>
-  );
+  return <Layout isSide>{page}</Layout>;
 };
 
 const Wrapper = styled(DashboardLayout)`
