@@ -103,9 +103,9 @@ const ProblemCreatePage = () => {
           <ResizableArea
             left={
               <문제출제
+                classId={classId}
                 onChangeEnv={env => setEnv(env)}
                 onChangeValue={(title, content) => {
-                  console.log(title, content);
                   problemInfo.current.title = title;
                   problemInfo.current.content = content;
                 }}
