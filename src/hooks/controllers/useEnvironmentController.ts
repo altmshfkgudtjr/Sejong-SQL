@@ -25,8 +25,17 @@ export const GetMyEnvList = () => {
 /**
  * Env 생성
  */
-export const CreateEnvList = () => {
+export const CreateEnv = () => {
   const result = useMutation(['createEnvAPI'], environmentAPIs.createEnvAPI);
+
+  return result;
+};
+
+/**
+ * 내 Env 제거
+ */
+export const DeleteEnv = () => {
+  const result = useMutation(['deleteEnvAPI'], environmentAPIs.deleteEnvAPI);
 
   return result;
 };

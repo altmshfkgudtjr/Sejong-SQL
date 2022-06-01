@@ -3,10 +3,10 @@
 export type Environment = {
   /** Env ID */
   id: number;
-  /** Env 소유자 이름 */
-  owner: string;
   /** Env 이름 */
   name: string;
+  /** Env 소유자 이름 */
+  owner: string;
   /** 성공일 경우 = Success / 실패일 경우 = 실패 원인이 반환됨 */
   status: string;
   /** 수정 날짜 */
@@ -16,6 +16,8 @@ export type Environment = {
   /** 테이블명 리스트	 */
   table: string[];
 };
+
+export type MyEnvironment = Omit<Environment, 'owner'>;
 
 /* =============================================== */
 
@@ -30,7 +32,7 @@ export type GetClassEnvListResponse = Environment[];
 
 export type GetMyEnvListProps = never;
 
-export type GetMyEnvListResponse = Omit<Environment, 'owner'>[];
+export type GetMyEnvListResponse = MyEnvironment[];
 
 /* =============================================== */
 
@@ -38,7 +40,7 @@ export type CreateEnvProps = {
   data:
     | FormData
     | {
-        class_id: number;
+        class_id?: number;
         name: string;
         file: File;
       };
@@ -48,12 +50,12 @@ export type CreateEnvResponse = never;
 
 /* =============================================== */
 
-export type RemoveEnvProps = {
+export type DeleteEnvProps = {
   /** Env ID */
   envId: number;
 };
 
-export type RemoveEnvResponse = never;
+export type DeleteEnvResponse = never;
 
 /* =============================================== */
 

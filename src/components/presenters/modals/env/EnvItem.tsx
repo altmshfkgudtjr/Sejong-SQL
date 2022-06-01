@@ -1,23 +1,31 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { format, parseISO } from 'date-fns';
 // components
 import CheckBox from 'components/atoms/inputs/Checkbox';
 // styles
-import { typo } from 'sjds';
+import { typo, boxShadow, lib } from 'sjds';
 // types
-import type { Environment } from 'types/api/environment';
+import type { Environment, MyEnvironment } from 'types/api/environment';
+import { isTypeEnvironment } from 'types/guards/envrionment';
 
 /** 가상 데이터베이스 테이블 아이템 */
-const EnvItem = ({ data, checked = false, onChange }: Props) => {
+const EnvItem = ({ data, checked = false, onChange, onSelect }: Props) => {
+  const type = isTypeEnvironment(data) ? 'class' : 'my';
+
   return (
     <Wrapper>
       <Cell>
-        <CheckBox label={`env-database-${data.id}`} checked={checked} onChange={onChange} />
+        <CheckBox label={`env-database-${type}-${data.id}`} checked={checked} onChange={onChange} />
       </Cell>
-      <Cell>{data.name}</Cell>
+      <Cell>
+        <Button onClick={onSelect}>{data.name}</Button>
+      </Cell>
       <Cell>{format(parseISO(data.created_at), 'yyyy-MM-dd')}</Cell>
-      <Cell>{data.owner}</Cell>
-      <Cell>{data.table.join(', ')}</Cell>
+      {isTypeEnvironment(data) && <Cell>{data.owner}</Cell>}
+      <Cell>
+        {data.table.length === 0 && '분석 중...'}
+        {data.table.length > 0 && data.table.map((d, idx) => <Badge key={idx}>{d}</Badge>)}
+      </Cell>
     </Wrapper>
   );
 };
@@ -34,10 +42,32 @@ const Cell = styled.td`
   }
 `;
 
+const Badge = styled.i`
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.background.bg3};
+  color: ${({ theme }) => theme.semantic.info};
+  ${boxShadow.e1};
+
+  & ~ & {
+    margin-left: 8px;
+  }
+`;
+
+const Button = styled.button`
+  color: ${({ theme }) => theme.semantic.info};
+
+  ${lib.onlyHover(css`
+    text-decoration: underline;
+    text-underline-position: under;
+  `)};
+`;
+
 type Props = {
-  data: Environment;
+  data: Environment | MyEnvironment;
   checked: boolean;
   onChange: () => void;
+  onSelect: () => void;
 };
 
 export default EnvItem;

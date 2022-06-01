@@ -6,6 +6,8 @@ import RadioButton from 'components/atoms/inputs/RadioButton';
 import { commaFormatter } from 'utils/helpers/format';
 // styles
 import { typo, lib } from 'sjds';
+// types
+import type { Problem } from 'types/api/problem';
 
 /**
  * 문제 카드
@@ -15,19 +17,22 @@ import { typo, lib } from 'sjds';
  * @param props.weekId 주차 ID
  */
 const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
-  const accuracyColorType: ColorType = !problem.isTry
-    ? 'Default'
-    : problem.scoreAccuracy
-    ? 'Success'
-    : 'Danger';
+  const accuracyColorType: ColorType =
+    problem.status === 'No Submit'
+      ? 'Default'
+      : problem.status === 'Correct'
+      ? 'Success'
+      : 'Danger';
 
-  const efficiencyColorType: ColorType = !problem.isTry
-    ? 'Default'
-    : problem.scoreEfficiency >= 90
-    ? 'Success'
-    : problem.scoreEfficiency >= 70
-    ? 'Warning'
-    : 'Danger';
+  const efficiencyColorType: ColorType =
+    problem.status === 'No Submit'
+      ? 'Default'
+      : problem.problem_warnings === 0 ||
+        (problem.user_warnings / problem.problem_warnings) * 100 >= 80
+      ? 'Success'
+      : (problem.user_warnings / problem.problem_warnings) * 100 >= 60
+      ? 'Warning'
+      : 'Danger';
 
   const url = isManager
     ? `/dashboard/${classId}/${weekId}/${problem.id}/edit`
@@ -37,19 +42,23 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
     <Link href={url} passHref>
       <Wrapper as="a">
         <LeftWrapper>
-          <Name>{problem.name}</Name>
-          <PassCount>총 만점자 {commaFormatter(problem.passCount)}명</PassCount>
+          <Name>{problem.title}</Name>
+          <PassCount>총 만점자 {commaFormatter(10000)}명</PassCount>
         </LeftWrapper>
 
         <RightWrapper>
-          <RadioButton checked readOnly disabled={!problem.isTry} />
+          <RadioButton checked readOnly disabled={problem.status === 'No Submit'} />
           <Box colorType={accuracyColorType}>
             <span>정확도</span>
-            <p>{problem.scoreAccuracy ? 'PASS' : 'NON-PASS'}</p>
+            <p>{problem.status === 'Correct' ? 'PASS' : 'NON-PASS'}</p>
           </Box>
           <Box colorType={efficiencyColorType}>
             <span>효율성</span>
-            <p>{problem.scoreEfficiency}</p>
+            <p>
+              {problem.problem_warnings === 0
+                ? problem.user_warnings
+                : Math.floor((problem.user_warnings / problem.problem_warnings) * 100)}
+            </p>
           </Box>
         </RightWrapper>
       </Wrapper>
@@ -130,7 +139,7 @@ const Box = styled.div<{ colorType: ColorType }>`
 type ColorType = 'Default' | 'Success' | 'Warning' | 'Danger';
 
 type Props = {
-  problem: any;
+  problem: Problem;
   classId: string;
   weekId: string;
   isManager: boolean;

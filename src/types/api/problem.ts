@@ -1,12 +1,22 @@
 /* Common Types ================================== */
 
-export type Problem = {
+export type MyProblem = {
   id: number;
+  /** 사용자-문제매칭 ID */
+  usp_id: number;
   title: string;
   efficiency: {
     name: string;
     descriptions: string;
   }[];
+};
+
+export type Problem = {
+  id: number;
+  title: string;
+  status: 'Correct' | 'Wrong Answer' | 'No Submit';
+  problem_warnings: number;
+  user_warnings: number;
 };
 
 /* =============================================== */
@@ -25,8 +35,8 @@ export type GetMyProblemListProps = never;
 
 export type GetMyProblemListResponse = {
   data: {
-    correct: Problem[];
-    wrong: Problem[];
+    correct: MyProblem[];
+    wrong: MyProblem[];
   };
 };
 
@@ -36,13 +46,7 @@ export type GetProblemListProps = {
   weekId: number;
 };
 
-export type GetProblemListResponse = {
-  id: number;
-  title: string;
-  status: 'Correct' | 'Wrong Answer' | 'No Submit';
-  problem_warnings: number;
-  user_warnings: number;
-}[];
+export type GetProblemListResponse = Problem[];
 
 /* =============================================== */
 

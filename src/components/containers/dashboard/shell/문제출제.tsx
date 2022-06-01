@@ -13,9 +13,12 @@ import { typo } from 'sjds';
 /**
  * 문제출제
  * @param props
+ * @param props.classId
+ * @param props.envName
+ * @param props.onChangeEnv
  * @param props.onChangeValue
  */
-const 문제출제 = ({ classId, onChangeEnv, onChangeValue }: Props) => {
+const 문제출제 = ({ classId, envName, onChangeEnv, onChangeValue }: Props) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -41,7 +44,7 @@ const 문제출제 = ({ classId, onChangeEnv, onChangeValue }: Props) => {
   return (
     <Wrapper>
       <EnvButton size="ExtraSmall" onClick={onClickEnv}>
-        사용할 가상 데이터베이스 선택
+        {envName ? `선택된 가상 데이터베이스 : ${envName}` : '사용할 가상 데이터베이스 선택'}
       </EnvButton>
 
       <TitleWrapper>
@@ -83,6 +86,7 @@ const EnvButton = styled(FillButton)`
 
 type Props = {
   classId: number;
+  envName: string;
   onChangeEnv: (env: any) => void;
   onChangeValue: (title: string, content: string) => void;
 };

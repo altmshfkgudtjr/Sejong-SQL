@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 // components
 import Layout from 'components/layouts';
 import { MainLayout } from 'sjds/layouts';
@@ -13,7 +13,8 @@ import 출력영역 from 'components/containers/dashboard/shell/출력영역';
 import useMetaData from 'hooks/commons/useMetaData';
 import useSnackbar from 'hooks/dom/useSnackbar';
 import * as useProblemController from 'hooks/controllers/useProblemController';
-// styles
+// types
+import type { Environment } from 'types/api/environment';
 
 /** 문제 생성 페이지 */
 const ProblemCreatePage = () => {
@@ -32,14 +33,14 @@ const ProblemCreatePage = () => {
   });
   const inputValue = useRef('');
   const timeLimit = useRef(10);
-  const [env, setEnv] = useState(null);
+  const [env, setEnv] = useState<Environment | null>(null);
   const [warningIdList, setWarningIdList] = useState<number[]>([]);
 
   const onChangeValue = value => {
     inputValue.current = value;
   };
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     if (!problemInfo.current.title) {
       initSnackbar({
         type: 'Warning',
@@ -80,7 +81,7 @@ const ProblemCreatePage = () => {
       classId,
       weekId,
       data: {
-        env_id: 1,
+        env_id: env.id,
         title: problemInfo.current.title,
         content: problemInfo.current.content,
         answer: inputValue.current,
@@ -88,7 +89,7 @@ const ProblemCreatePage = () => {
         warnings: warningIdList,
       },
     });
-  };
+  }, [createMutate, initSnackbar, classId, weekId, env, warningIdList]);
 
   return (
     <>
@@ -104,7 +105,8 @@ const ProblemCreatePage = () => {
             left={
               <문제출제
                 classId={classId}
-                onChangeEnv={env => setEnv(env)}
+                envName={env ? env.name : ''}
+                onChangeEnv={(env: Environment) => setEnv(env)}
                 onChangeValue={(title, content) => {
                   problemInfo.current.title = title;
                   problemInfo.current.content = content;

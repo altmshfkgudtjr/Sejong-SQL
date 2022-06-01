@@ -17,8 +17,8 @@ const EnvHead = ({ type, checked = false, onChange }: Props) => {
       </Cell>
       <Cell>이름</Cell>
       <Cell>생성일</Cell>
-      <Cell>생성자</Cell>
-      <Cell>테이블</Cell>
+      {type === 'Class' && <Cell>생성자</Cell>}
+      <Cell>소속 테이블</Cell>
     </Wrapper>
   );
 };

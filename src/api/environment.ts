@@ -15,7 +15,7 @@ export const getClassEnvListAPI = ({ classId }: types.GetClassEnvListProps) => {
  * @version 1
  */
 export const getMyEnvListAPI = () => {
-  return request.get(`/api/v1/users/me/envs`);
+  return request.get<types.GetMyEnvListResponse>(`/api/v1/users/me/envs`);
 };
 
 /**
@@ -24,6 +24,14 @@ export const getMyEnvListAPI = () => {
  */
 export const createEnvAPI = ({ data }: types.CreateEnvProps) => {
   return request.post(`/api/v1/envs`, data);
+};
+
+/**
+ * 내 Env 삭제 API
+ * @version 1
+ */
+export const deleteEnvAPI = ({ envId }: types.DeleteEnvProps) => {
+  return request.delete(`/api/v1/envs/${envId}`);
 };
 
 /**
