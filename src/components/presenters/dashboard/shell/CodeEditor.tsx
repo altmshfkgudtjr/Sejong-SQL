@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 // utils
 import { ArrayByNumber } from 'utils/helpers/array';
 // styles
@@ -8,10 +8,11 @@ import { typo } from 'sjds';
 /**
  * 코드 에디터
  */
-const CodeEditor = ({ onChangeValue }: Props) => {
+const CodeEditor = ({ defaultValue = '', onChangeValue }: Props) => {
   const shell = useRef<HTMLDivElement>(null);
 
   const [lineCount, setLineCount] = useState(1);
+  const [lineComponentList, setLineComponentList] = useState<JSX.Element[]>([]);
 
   const checkLineCount = () => {
     if (!shell.current) {
@@ -19,7 +20,7 @@ const CodeEditor = ({ onChangeValue }: Props) => {
     }
 
     const count = shell.current.childNodes.length;
-    setLineCount(count);
+    setLineCount(count === 0 ? 1 : count);
   };
 
   const onInput = e => onChangeValue(e.target.innerText);
@@ -70,6 +71,21 @@ const CodeEditor = ({ onChangeValue }: Props) => {
     }
   };
 
+  useLayoutEffect(() => {
+    if (!shell.current) {
+      return;
+    }
+
+    shell.current.innerHTML = defaultValue.replaceAll('\n', '<br>');
+    defaultValue && checkLineCount();
+  }, [defaultValue]);
+
+  useLayoutEffect(() => {
+    setLineComponentList(
+      ArrayByNumber(lineCount).map((_, idx) => <Number key={idx}>{idx + 1}</Number>),
+    );
+  }, [lineCount]);
+
   useEffect(() => {
     if (!shell.current) {
       return;
@@ -80,11 +96,7 @@ const CodeEditor = ({ onChangeValue }: Props) => {
 
   return (
     <Wrapper>
-      <NumberArea>
-        {ArrayByNumber(lineCount).map((_, idx) => (
-          <Number key={idx}>{idx + 1}</Number>
-        ))}
-      </NumberArea>
+      <NumberArea>{lineComponentList}</NumberArea>
       <CodeArea
         ref={shell}
         contentEditable
@@ -139,6 +151,7 @@ const CodeArea = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   outline: none;
+  white-space: nowrap;
   ${typo.body1};
   color: ${({ theme }) => theme.text.f2};
   line-height: 32px;
@@ -152,6 +165,7 @@ const CodeArea = styled.div`
 `;
 
 type Props = {
+  defaultValue?: string;
   onChangeValue: (value: string) => void;
 };
 

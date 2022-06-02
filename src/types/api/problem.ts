@@ -1,3 +1,5 @@
+import type { Environment } from './environment';
+
 /* Common Types ================================== */
 
 export type MyProblem = {
@@ -19,15 +21,17 @@ export type Problem = {
   user_warnings: number;
 };
 
+export type Warning = {
+  id: number;
+  name: string;
+  content: string;
+};
+
 /* =============================================== */
 
 export type GetWarningListProps = never;
 
-export type GetWarningListResponse = {
-  id: number;
-  name: string;
-  content: string;
-}[];
+export type GetWarningListResponse = Warning[];
 
 /* =============================================== */
 
@@ -55,9 +59,20 @@ export type GetProblemProps = {
 };
 
 export type GetProblemResponse = {
+  id: number;
   title: string;
   content: string;
   latest_query: string;
+  warnings: Warning[];
+  /** 현재 문제에 사용된 테이블 Description */
+  desc_table: {
+    table_name: string;
+    value: any[];
+  }[];
+  select_table: {
+    table_name: string;
+    value: any[];
+  }[];
 };
 
 /* =============================================== */
@@ -82,6 +97,23 @@ export type CreateProblemProps = {
 };
 
 export type CreateProblemResponse = never;
+
+/* =============================================== */
+
+export type GetProblemForAdminProps = {
+  classId: number;
+  problemId: number;
+};
+
+export type GetProblemForAdminResponse = {
+  id: number;
+  title: string;
+  content: string;
+  answer: string;
+  time_limit: number;
+  warnings: Warning[];
+  env: Environment;
+};
 
 /* =============================================== */
 
@@ -125,6 +157,21 @@ export type RunProblemProps = {
 };
 
 export type RunProblemResponse = {
+  status: boolean;
+  query_result: object[] | string;
+};
+
+/* =============================================== */
+
+export type RunNewProblemProps = {
+  classId: number;
+  envId: number;
+  data: {
+    query: string;
+  };
+};
+
+export type RunNewProblemResponse = {
   status: boolean;
   query_result: object[] | string;
 };

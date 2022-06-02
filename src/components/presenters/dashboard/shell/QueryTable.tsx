@@ -44,6 +44,7 @@ const Wrapper = styled.table`
 
   thead td {
     ${typo.subtitle2};
+    background-color: ${({ theme }) => theme.background.bg4};
   }
 
   tbody td {

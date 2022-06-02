@@ -43,7 +43,6 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
       <Wrapper as="a">
         <LeftWrapper>
           <Name>{problem.title}</Name>
-          <PassCount>총 만점자 {commaFormatter(10000)}명</PassCount>
         </LeftWrapper>
 
         <RightWrapper>

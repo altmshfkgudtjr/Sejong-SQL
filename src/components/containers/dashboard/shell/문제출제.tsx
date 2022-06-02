@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 // components
 import { FillButton } from 'sjds/components/buttons';
 import Badge from 'components/presenters/dashboard/shell/Badge';
@@ -9,16 +9,18 @@ import ProblemContent from 'components/presenters/dashboard/shell/ProblemContent
 import useModal from 'hooks/dom/useModal';
 // styles
 import { typo } from 'sjds';
+// types
+import type { Warning } from 'types/api/problem';
 
-/**
- * 문제출제
- * @param props
- * @param props.classId
- * @param props.envName
- * @param props.onChangeEnv
- * @param props.onChangeValue
- */
-const 문제출제 = ({ classId, envName, onChangeEnv, onChangeValue }: Props) => {
+const 문제출제 = ({
+  initData,
+  classId,
+  envName,
+  warningList,
+  onChangeEnv,
+  onChangeValue,
+  onChangeWarningList,
+}: Props) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -37,6 +39,21 @@ const 문제출제 = ({ classId, envName, onChangeEnv, onChangeValue }: Props) =
     });
   };
 
+  const onClickWarning = () => {
+    pushModal({
+      name: 'AdvancedConditionModal',
+      args: {
+        warningIdList: warningList.map(v => v.id),
+        onChangeWarningList,
+      },
+    });
+  };
+
+  useLayoutEffect(() => {
+    initData?.title && setTitle(initData.title);
+    initData?.content && setContent(initData.content);
+  }, [initData]);
+
   useEffect(() => {
     onChangeValue(title, content);
   }, [onChangeValue, title, content]);
@@ -45,6 +62,12 @@ const 문제출제 = ({ classId, envName, onChangeEnv, onChangeValue }: Props) =
     <Wrapper>
       <EnvButton size="ExtraSmall" onClick={onClickEnv}>
         {envName ? `선택된 가상 데이터베이스 : ${envName}` : '사용할 가상 데이터베이스 선택'}
+      </EnvButton>
+
+      <EnvButton size="ExtraSmall" onClick={onClickWarning}>
+        {warningList.length > 0
+          ? `선택된 고급 조건 : 총 ${warningList.length}개`
+          : '고급 조건 선택'}
       </EnvButton>
 
       <TitleWrapper>
@@ -79,16 +102,22 @@ const EnvButton = styled(FillButton)`
   flex: 0 1 auto;
   width: fit-content;
   margin-left: -12px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   ${typo.value3};
   color: ${({ theme }) => theme.semantic.info};
 `;
 
 type Props = {
+  initData?: {
+    title?: string;
+    content?: string;
+  };
   classId: number;
   envName: string;
+  warningList: Warning[];
   onChangeEnv: (env: any) => void;
   onChangeValue: (title: string, content: string) => void;
+  onChangeWarningList: (value: Warning[]) => void;
 };
 
 export default 문제출제;

@@ -4,10 +4,14 @@ import * as environmentAPIs from 'api/environment';
 
 /**
  * 분반 소속 Env 리스트 반환
+ * @param classId 분반 ID
+ * @param config
  */
-export const GetClassEnvList = (classId: number) => {
-  const result = useQuery(['getClassEnvListAPI', classId], () =>
-    environmentAPIs.getClassEnvListAPI({ classId }),
+export const GetClassEnvList = (classId: number, config = {}) => {
+  const result = useQuery(
+    ['getClassEnvListAPI', classId],
+    () => environmentAPIs.getClassEnvListAPI({ classId }),
+    config,
   );
 
   return result;
@@ -15,9 +19,10 @@ export const GetClassEnvList = (classId: number) => {
 
 /**
  * 내 Env 리스트 반환
+ * @param config
  */
-export const GetMyEnvList = () => {
-  const result = useQuery(['getMyEnvListAPI'], () => environmentAPIs.getMyEnvListAPI());
+export const GetMyEnvList = (config = {}) => {
+  const result = useQuery(['getMyEnvListAPI'], () => environmentAPIs.getMyEnvListAPI(), config);
 
   return result;
 };

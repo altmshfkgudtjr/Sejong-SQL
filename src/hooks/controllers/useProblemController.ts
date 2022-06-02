@@ -54,6 +54,19 @@ export const CreateProblem = () => {
 };
 
 /**
+ * 관리자용 특정 문제 반환
+ * @param classId 분반 ID
+ * @param problemId 문제 ID
+ */
+export const GetProblemForAdmin = (classId: number, problemId: number) => {
+  const result = useQuery(['getProblemForAdminAPI', problemId], () =>
+    prolbemAPIs.getProblemForAdminAPI({ classId, problemId }),
+  );
+
+  return result;
+};
+
+/**
  * 문제 수정
  */
 export const EditProblem = () => {
@@ -85,6 +98,15 @@ export const RunProblem = () => {
  */
 export const SubmitProblem = () => {
   const result = useMutation(['submitProblemAPI'], prolbemAPIs.submitProblemAPI);
+
+  return result;
+};
+
+/**
+ * 가상 데이터베이스에서 문제 실행
+ */
+export const RunNewProblem = () => {
+  const result = useMutation(['runNewProblemAPI'], prolbemAPIs.runNewProblemAPI);
 
   return result;
 };

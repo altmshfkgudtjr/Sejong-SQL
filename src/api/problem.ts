@@ -46,6 +46,16 @@ export const createProblemAPI = ({ classId, weekId, data }: types.CreateProblemP
 };
 
 /**
+ * 관리자용 문제 반환 API
+ * @version 1
+ */
+export const getProblemForAdminAPI = ({ classId, problemId }: types.GetProblemForAdminProps) => {
+  return request.get<types.GetProblemForAdminResponse>(
+    `/api/v1/class/${classId}/problems/${problemId}`,
+  );
+};
+
+/**
  * 문제 수정 API
  * @version 1
  */
@@ -77,4 +87,15 @@ export const runProblemAPI = ({ problemId, data }: types.RunProblemProps) => {
  */
 export const submitProblemAPI = ({ problemId, data }: types.SubmitProblemProps) => {
   return request.post<types.SubmitProblemResponse>(`/api/v1/problems/${problemId}/submit`, data);
+};
+
+/**
+ * 문제 생성단에서 문제 실행 API
+ * @version 1
+ */
+export const runNewProblemAPI = ({ classId, envId, data }: types.RunNewProblemProps) => {
+  return request.post<types.RunNewProblemResponse>(
+    `/api/v1/class/${classId}/envs/${envId}/run`,
+    data,
+  );
 };

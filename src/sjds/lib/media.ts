@@ -3,7 +3,7 @@ export const mediaValue = {
   xsmall: 300,
   small: 360,
   medium: 768,
-  large: 1168,
+  large: 1240,
   xlarge: 1600,
 };
 

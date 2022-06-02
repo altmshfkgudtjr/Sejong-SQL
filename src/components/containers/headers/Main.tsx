@@ -31,7 +31,11 @@ const MainHeader = () => {
         </div>
         {status === 'success' && !!data && (
           <div>
-            <TextButton>{data.result?.name} 님</TextButton>
+            <Link href="/user/me" passHref>
+              <TextButton as="a" size="Small">
+                {data.result?.name} 님
+              </TextButton>
+            </Link>
           </div>
         )}
         {status !== 'idle' && status !== 'loading' && !data && (

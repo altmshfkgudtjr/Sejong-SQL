@@ -33,7 +33,7 @@ const EnvModalNew = ({ onPrev, args }) => {
     const callback = e => {
       const sqlFile = e.target.files[0];
       setFile(sqlFile);
-      if (nameRef.current) {
+      if (nameRef.current && !nameRef.current.value) {
         nameRef.current.value = sqlFile.name.slice(0, -4);
       }
     };

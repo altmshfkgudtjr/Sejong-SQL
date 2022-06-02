@@ -8,13 +8,15 @@ import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import ResizableArea from 'components/containers/dashboard/ResizableArea';
 import 문제출제 from 'components/containers/dashboard/shell/문제출제';
 import 풀이영역 from 'components/containers/dashboard/shell/풀이영역';
-import 출력영역 from 'components/containers/dashboard/shell/출력영역';
+import 관리자출력영역 from 'components/containers/dashboard/shell/관리자출력';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useSnackbar from 'hooks/dom/useSnackbar';
 import * as useProblemController from 'hooks/controllers/useProblemController';
+import * as useEnvironmentController from 'hooks/controllers/useEnvironmentController';
 // types
 import type { Environment } from 'types/api/environment';
+import type { Warning } from 'types/api/problem';
 
 /** 문제 생성 페이지 */
 const ProblemCreatePage = () => {
@@ -25,20 +27,22 @@ const ProblemCreatePage = () => {
   const { MetaTitle } = useMetaData();
   const { initSnackbar } = useSnackbar();
 
+  const { mutate: connectMutate } = useEnvironmentController.ConnectEnvToClass();
   const { mutate: createMutate } = useProblemController.CreateProblem();
+  useProblemController.GetWarningList();
 
   const problemInfo = useRef({
     title: '',
     content: '',
   });
-  const inputValue = useRef('');
+  const inputQuery = useRef('');
   const timeLimit = useRef(10);
   const [env, setEnv] = useState<Environment | null>(null);
-  const [warningIdList, setWarningIdList] = useState<number[]>([]);
+  const [warningList, setWarningList] = useState<Warning[]>([]);
 
-  const onChangeValue = value => {
-    inputValue.current = value;
-  };
+  const onChangeValue = (value: string) => (inputQuery.current = value);
+
+  const onChangeWarningList = (value: Warning[]) => setWarningList(value);
 
   const onSubmit = useCallback(() => {
     if (!problemInfo.current.title) {
@@ -68,13 +72,17 @@ const ProblemCreatePage = () => {
       return;
     }
 
-    if (!inputValue.current) {
+    if (!inputQuery.current) {
       initSnackbar({
         type: 'Warning',
         title: 'WARNING',
         message: '올바른 정답이 나오는 쿼리문을 작성해주세요',
       });
       return;
+    }
+
+    if (env.owner === '') {
+      connectMutate({ envId: env.id, classId });
     }
 
     createMutate({
@@ -84,16 +92,16 @@ const ProblemCreatePage = () => {
         env_id: env.id,
         title: problemInfo.current.title,
         content: problemInfo.current.content,
-        answer: inputValue.current,
+        answer: inputQuery.current,
         timelimit: timeLimit.current,
-        warnings: warningIdList,
+        warnings: warningList.map(v => v.id),
       },
     });
-  }, [createMutate, initSnackbar, classId, weekId, env, warningIdList]);
+  }, [createMutate, connectMutate, initSnackbar, classId, weekId, env, warningList]);
 
   return (
     <>
-      <MetaTitle content="문제 생성" />
+      <MetaTitle content="새로운 문제 생성" />
 
       <Wrapper>
         <TopWrapper>
@@ -106,15 +114,24 @@ const ProblemCreatePage = () => {
               <문제출제
                 classId={classId}
                 envName={env ? env.name : ''}
+                warningList={warningList}
                 onChangeEnv={(env: Environment) => setEnv(env)}
                 onChangeValue={(title, content) => {
                   problemInfo.current.title = title;
                   problemInfo.current.content = content;
                 }}
+                onChangeWarningList={onChangeWarningList}
               />
             }
             top={<풀이영역 onChangeValue={onChangeValue} />}
-            bottom={<div />}
+            bottom={
+              <관리자출력영역
+                envId={env?.id}
+                classId={classId}
+                getUserQuery={() => inputQuery.current}
+                onSubmit={onSubmit}
+              />
+            }
           />
         </ShellWrapper>
       </Wrapper>

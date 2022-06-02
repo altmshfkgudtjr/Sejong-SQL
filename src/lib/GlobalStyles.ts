@@ -119,6 +119,10 @@ const GlobalStyles = createGlobalStyle`
 		outline: none;
 	}
 
+	mark {
+		background-color: inherit;
+	}
+
 	h1,
 	h2,
 	h3,

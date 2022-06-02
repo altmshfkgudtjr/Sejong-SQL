@@ -18,9 +18,13 @@ const EnvModalBoard = ({ onNext, onCloseModal, args }) => {
   const { classId, onChangeEnv } = args;
 
   const currentTheme = useTheme();
-  const { data: classEnvData, refetch: envRefetch } =
-    useEnvironmentController.GetClassEnvList(classId);
-  const { data: myEnvData, refetch: myEnvRefetch } = useEnvironmentController.GetMyEnvList();
+  const { data: classEnvData, refetch: envRefetch } = useEnvironmentController.GetClassEnvList(
+    classId,
+    { refetchInterval: 5000 },
+  );
+  const { data: myEnvData, refetch: myEnvRefetch } = useEnvironmentController.GetMyEnvList({
+    refetchInterval: 5000,
+  });
   const { mutateAsync: deleteMutate } = useEnvironmentController.DeleteEnv();
   const { mutateAsync: removeMutate } = useEnvironmentController.UnconnectEnvToClassClass();
 
