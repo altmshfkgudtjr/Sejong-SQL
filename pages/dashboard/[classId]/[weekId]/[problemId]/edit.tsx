@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState, useRef, useCallback, useLayoutEffect } from 'react';
 // components
 import Layout from 'components/layouts';
@@ -22,13 +22,17 @@ import type { Warning } from 'types/api/problem';
 const DashBoard = () => {
   const { query } = useRouter();
   const classId = parseInt(query.classId as string, 10);
+  const weekId = parseInt(query.weekId as string, 10);
   const problemId = parseInt(query.problemId as string, 10);
 
   const { MetaTitle } = useMetaData();
   const { initSnackbar } = useSnackbar();
 
   const { mutate: connectMutate } = useEnvironmentController.ConnectEnvToClass();
-  const { data: problemData } = useProblemController.GetProblemForAdmin(classId, problemId);
+  const { data: problemData, refetch: problemRefetch } = useProblemController.GetProblemForAdmin(
+    classId,
+    problemId,
+  );
   const { mutate: editMutate } = useProblemController.EditProblem();
   useProblemController.GetWarningList();
 
@@ -86,25 +90,60 @@ const DashBoard = () => {
       connectMutate({ envId: env.id, classId });
     }
 
-    editMutate({
-      classId,
-      problemId,
-      data: {
-        env_id: env.id,
-        title: problemInfo.current.title,
-        content: problemInfo.current.content,
-        answer: inputQuery.current,
-        timelimit: timeLimit.current,
-        warnings: warningList.map(v => v.id),
+    editMutate(
+      {
+        classId,
+        problemId,
+        data: {
+          env_id: env.id,
+          title: problemInfo.current.title,
+          content: problemInfo.current.content,
+          answer: inputQuery.current,
+          timelimit: timeLimit.current,
+          warnings: warningList.map(v => v.id),
+        },
       },
-    });
-  }, [editMutate, connectMutate, initSnackbar, classId, problemId, env, warningList]);
+      {
+        onSuccess: () => {
+          initSnackbar({
+            type: 'Success',
+            title: 'SUCCESS',
+            message: '문제가 수정되었습니다',
+          });
+          problemRefetch();
+          Router.push(`/dashboard/${classId}/${weekId}`);
+        },
+        onError: () => {
+          initSnackbar({
+            type: 'Danger',
+            title: 'ERROR',
+            message: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요',
+          });
+        },
+      },
+    );
+  }, [
+    problemRefetch,
+    editMutate,
+    connectMutate,
+    initSnackbar,
+    classId,
+    weekId,
+    problemId,
+    env,
+    warningList,
+  ]);
 
   useLayoutEffect(() => {
     if (!problemData?.result) {
       return;
     }
 
+    problemInfo.current = {
+      title: problemData.result.title,
+      content: problemData.result.content,
+    };
+    inputQuery.current = problemData.result.answer;
     setWarningList(problemData.result.warnings);
     setEnv(problemData.result.env);
   }, [problemData]);
@@ -142,6 +181,8 @@ const DashBoard = () => {
               <관리자출력영역
                 envId={env?.id}
                 classId={classId}
+                weekId={weekId}
+                problemId={problemId}
                 getUserQuery={() => inputQuery.current}
                 onSubmit={onSubmit}
               />

@@ -71,12 +71,12 @@ const 문제출제 = ({
       </EnvButton>
 
       <TitleWrapper>
-        <ProblemTitle isInput onChange={onChangeTitle} />
+        <ProblemTitle isInput onChange={onChangeTitle} defaultValue={initData?.title} />
       </TitleWrapper>
 
       <Badge text="문제 설명" />
 
-      <ProblemContent isInput onChange={onChangeContent} />
+      <ProblemContent isInput onChange={onChangeContent} defaultValue={initData?.content} />
     </Wrapper>
   );
 };

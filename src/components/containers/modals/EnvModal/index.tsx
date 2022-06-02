@@ -79,7 +79,7 @@ const EnvModal = ({ onCloseModal, args }) => {
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.dialog`
   width: 100%;
   max-width: 600px;
   height: 100vh;

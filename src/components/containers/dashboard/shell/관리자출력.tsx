@@ -1,5 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import { useEffect } from 'react';
+import Router from 'next/router';
 // components
 import Badge from 'components/presenters/dashboard/shell/Badge';
 import QueryTable from 'components/presenters/dashboard/shell/QueryTable';
@@ -10,7 +11,7 @@ import useSnackbar from 'hooks/dom/useSnackbar';
 // styles
 import { typo } from 'sjds';
 
-const 관리자출력영역 = ({ envId, classId, getUserQuery, onSubmit }: Props) => {
+const 관리자출력영역 = ({ envId, classId, weekId, problemId, getUserQuery, onSubmit }: Props) => {
   const currentTheme = useTheme();
 
   const { initSnackbar } = useSnackbar();
@@ -19,6 +20,38 @@ const 관리자출력영역 = ({ envId, classId, getUserQuery, onSubmit }: Props
     status: runStatus,
     data: runData,
   } = useProblemController.RunNewProblem();
+  const { mutate: deleteMutate } = useProblemController.RemoveProblem();
+  const { refetch: problemRefetch } = useProblemController.GetProblemList(weekId);
+
+  const onDelete = () => {
+    if (!problemId) {
+      return;
+    }
+
+    if (confirm('문제를 삭제하시겠습니까?')) {
+      deleteMutate(
+        { classId, problemId },
+        {
+          onSuccess: () => {
+            initSnackbar({
+              type: 'Success',
+              title: 'SUCCESS',
+              message: '문제가 삭제 완료되었습니다',
+            });
+            problemRefetch();
+            Router.replace(`/dashboard/${classId}/${weekId}`);
+          },
+          onError: () => {
+            initSnackbar({
+              type: 'Danger',
+              title: 'ERROR',
+              message: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요',
+            });
+          },
+        },
+      );
+    }
+  };
 
   const onRun = () => {
     const query = getUserQuery();
@@ -68,6 +101,11 @@ const 관리자출력영역 = ({ envId, classId, getUserQuery, onSubmit }: Props
       </Body>
 
       <Footer>
+        {!!problemId && (
+          <Button onClick={onDelete} color={currentTheme.semantic.danger} size="Regular">
+            문제 삭제
+          </Button>
+        )}
         <Button
           onClick={onRun}
           color={currentTheme.primary}
@@ -78,7 +116,7 @@ const 관리자출력영역 = ({ envId, classId, getUserQuery, onSubmit }: Props
           {runStatus !== 'loading' && <>쿼리 실행</>}
         </Button>
         <Button onClick={onSubmit} color={currentTheme.primary} size="Regular">
-          문제 수정
+          {problemId ? '문제 수정' : '문제 생성'}
         </Button>
       </Footer>
     </Wrapper>
@@ -119,11 +157,14 @@ const Footer = styled.div`
 const Button = styled(FillButton)`
   flex: 0 1 auto;
   width: 120px;
+  white-space: nowrap;
 `;
 
 type Props = {
   envId?: number;
   classId: number;
+  weekId: number;
+  problemId?: number;
   getUserQuery: () => string;
   onSubmit: () => void;
 };

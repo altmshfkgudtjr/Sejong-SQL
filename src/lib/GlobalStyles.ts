@@ -119,6 +119,10 @@ const GlobalStyles = createGlobalStyle`
 		outline: none;
 	}
 
+	dialog {
+		position: static;
+	}
+
 	mark {
 		background-color: inherit;
 	}

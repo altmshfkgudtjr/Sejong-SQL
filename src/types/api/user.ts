@@ -72,9 +72,9 @@ export type GetProfileResponse = {
 
 export type UpdateProfileProps = {
   data: {
-    old_pw: string;
-    new_pw: string;
-    name: string;
+    old_pw?: string;
+    new_pw?: string;
+    name?: string;
   };
 };
 

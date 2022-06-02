@@ -41,9 +41,7 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
   return (
     <Link href={url} passHref>
       <Wrapper as="a">
-        <LeftWrapper>
-          <Name>{problem.title}</Name>
-        </LeftWrapper>
+        <Name>{problem.title}</Name>
 
         <RightWrapper>
           <RadioButton checked readOnly disabled={problem.status === 'No Submit'} />
@@ -72,7 +70,7 @@ const Name = styled.p`
 
 const Wrapper = styled.button`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   height: 120px;
   padding: 20px;
@@ -86,12 +84,6 @@ const Wrapper = styled.button`
         color: ${theme.semantic.info};
       }
     `)};
-`;
-
-const LeftWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 `;
 
 const RightWrapper = styled.div`

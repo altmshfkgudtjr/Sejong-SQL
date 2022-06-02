@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState, useRef, useCallback } from 'react';
 // components
 import Layout from 'components/layouts';
@@ -85,18 +85,37 @@ const ProblemCreatePage = () => {
       connectMutate({ envId: env.id, classId });
     }
 
-    createMutate({
-      classId,
-      weekId,
-      data: {
-        env_id: env.id,
-        title: problemInfo.current.title,
-        content: problemInfo.current.content,
-        answer: inputQuery.current,
-        timelimit: timeLimit.current,
-        warnings: warningList.map(v => v.id),
+    createMutate(
+      {
+        classId,
+        weekId,
+        data: {
+          env_id: env.id,
+          title: problemInfo.current.title,
+          content: problemInfo.current.content,
+          answer: inputQuery.current,
+          timelimit: timeLimit.current,
+          warnings: warningList.map(v => v.id),
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          initSnackbar({
+            type: 'Success',
+            title: 'SUCCESS',
+            message: '문제가 생성되었습니다',
+          });
+          Router.push(`/dashboard/${classId}/${weekId}`);
+        },
+        onError: () => {
+          initSnackbar({
+            type: 'Danger',
+            title: 'ERROR',
+            message: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요',
+          });
+        },
+      },
+    );
   }, [createMutate, connectMutate, initSnackbar, classId, weekId, env, warningList]);
 
   return (
@@ -128,6 +147,7 @@ const ProblemCreatePage = () => {
               <관리자출력영역
                 envId={env?.id}
                 classId={classId}
+                weekId={weekId}
                 getUserQuery={() => inputQuery.current}
                 onSubmit={onSubmit}
               />

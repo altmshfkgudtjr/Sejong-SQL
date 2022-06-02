@@ -6,7 +6,7 @@ export const Big1 = css`
   font-weight: 700;
   font-size: 32px;
   line-height: 40px;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   font-feature-settings: 'case' on, 'cpsp' on, 'salt' on, 'ss01' on, 'ss02' on, 'ss03' on, 'ss05' on,
     'ss06' on, 'ss07' on, 'ss08' on, 'cv01' on, 'cv02' on, 'cv03' on, 'cv04' on, 'cv05' on,
     'cv07' on, 'cv08' on, 'cv09' on, 'cv10' on, 'cv11' on, 'cv12' on, 'cv13' on;
@@ -18,7 +18,7 @@ export const headline1 = css`
   font-weight: 700;
   font-size: 24px;
   line-height: 36px;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   font-feature-settings: 'case' on, 'cpsp' on, 'salt' on, 'ss01' on, 'ss02' on, 'ss03' on, 'ss05' on,
     'ss06' on, 'ss07' on, 'ss08' on, 'cv01' on, 'cv02' on, 'cv03' on, 'cv04' on, 'cv05' on,
     'cv07' on, 'cv08' on, 'cv09' on, 'cv10' on, 'cv11' on, 'cv12' on, 'cv13' on;
@@ -28,7 +28,7 @@ export const headline2 = css`
   font-weight: 700;
   font-size: 20px;
   line-height: 28px;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   font-feature-settings: 'salt' on, 'ss01' on, 'ss02' on, 'ss03' on, 'ss05' on, 'ss06' on, 'ss07' on,
     'ss08' on, 'case' on, 'cpsp' on, 'cv01' on, 'cv02' on, 'cv03' on, 'cv04' on, 'cv05' on,
     'cv07' on, 'cv08' on, 'cv09' on, 'cv10' on, 'cv11' on, 'cv12' on, 'cv13' on;
