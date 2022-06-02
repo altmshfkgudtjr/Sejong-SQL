@@ -47,23 +47,14 @@ export const AuthorizationSejongUniv = () => {
 
 /**
  * Token 갱신
- * @param isPersist 로그인 상태 유지 여부
  */
-export const GetToken = (isPersist: boolean) => {
+export const GetToken = () => {
   const result = useMutation(['getTokenAPI'], userAPIs.getTokenAPI);
 
   storageUtils.removeSessionStorage('ssql-accessToken');
   storageUtils.removeSessionStorage('ssql-refreshToken');
   storageUtils.removeLocalStorage('ssql-accessToken');
   storageUtils.removeLocalStorage('ssql-refreshToken');
-
-  if (isPersist && !!result.data?.result) {
-    storageUtils.saveLocalStorage('ssql-accessToken', result.data.result.access_token);
-    storageUtils.saveLocalStorage('ssql-refreshToken', result.data.result.refresh_token);
-  } else if (!isPersist && !!result.data?.result) {
-    storageUtils.saveSessionStorage('ssql-accessToken', result.data.result.access_token);
-    storageUtils.saveSessionStorage('ssql-refreshToken', result.data.result.refresh_token);
-  }
 
   return result;
 };
@@ -98,8 +89,8 @@ export const UpdateProfile = () => {
 /**
  * 회원탈퇴
  */
-export const Succession = () => {
-  const result = useMutation(['successionAPI'], userAPIs.successionAPI);
+export const Seccession = () => {
+  const result = useMutation(['seccessionAPI'], userAPIs.seccessionAPI);
 
   return result;
 };

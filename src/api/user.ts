@@ -69,8 +69,8 @@ export const updateProfileAPI = ({ data }: types.UpdateProfileProps) => {
  * 회원탈퇴 API
  * @version 1
  */
-export const successionAPI = ({ data }: types.SuccessionProps) => {
-  return request.delete<types.SuccessionResponse>(`/api/v1/users/me`, { data });
+export const seccessionAPI = ({ data }: types.SeccessionProps) => {
+  return request.delete<types.SeccessionResponse>(`/api/v1/users/me`, { data });
 };
 
 /**

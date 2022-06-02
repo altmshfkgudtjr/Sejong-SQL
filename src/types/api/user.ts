@@ -82,13 +82,13 @@ export type UpdateProfileResponse = {};
 
 /* =============================================== */
 
-export type SuccessionProps = {
+export type SeccessionProps = {
   data: {
     pw: string;
   };
 };
 
-export type SuccessionResponse = {};
+export type SeccessionResponse = {};
 
 /* =============================================== */
 
