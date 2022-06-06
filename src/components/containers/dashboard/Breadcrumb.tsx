@@ -129,7 +129,7 @@ const Breadcrumb = () => {
     }, initValue);
 
     setHistoryList(history_);
-  }, [pathname, classId, weekId, problemId, className, weekName, problemTitle]);
+  }, [pathname, classId, weekId, problemId, uspId, className, weekName, problemTitle]);
 
   const LinkList = historyList.map((history, idx) => (
     <LinkWrapper key={idx}>

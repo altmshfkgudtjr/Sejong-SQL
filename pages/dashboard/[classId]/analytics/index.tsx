@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 // components
 import Layout from 'components/layouts';

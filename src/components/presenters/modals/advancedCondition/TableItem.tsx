@@ -2,7 +2,7 @@ import styled from 'styled-components';
 // components
 import CheckBox from 'components/atoms/inputs/Checkbox';
 // styles
-import { typo, boxShadow, lib } from 'sjds';
+import { typo, boxShadow } from 'sjds';
 // types
 import type { Warning } from 'types/api/problem';
 

@@ -91,7 +91,7 @@ const ClassMemberManagePage = () => {
     setStudentList(studentList_);
   }, [memberData]);
 
-  useEffect(() => searchMutate({ classId, sejongId: '' }), []);
+  useEffect(() => searchMutate({ classId, sejongId: '' }), [classId, searchMutate]);
 
   return (
     <>
