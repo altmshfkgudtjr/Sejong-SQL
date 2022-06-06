@@ -6,6 +6,10 @@ import { typo } from 'sjds';
  * 쿼리로 출력되는 테이블
  */
 const QueryTable = ({ data }: Props) => {
+  if (data.length === 0) {
+    return null;
+  }
+
   const Head = Object.keys(data[0]).map((key, idx) => <td key={idx}>{key}</td>);
 
   const Body = data.map((row, idx) => (

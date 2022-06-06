@@ -94,12 +94,18 @@ const Wrapper = styled.div`
     }
   }
 
+  .react-datepicker__day--today {
+    background-color: ${({ theme }) => theme.background.bg3};
+    color: ${({ theme }) => theme.text.f2};
+  }
+
   .react-datepicker__day-name {
     color: ${({ theme }) => theme.text.f2};
   }
 
   .react-datepicker__day--selected {
     background-color: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.semantic.white};
     font-weight: 400;
 
     &:hover {
@@ -145,6 +151,7 @@ const Wrapper = styled.div`
     ul.react-datepicker__time-list
     li.react-datepicker__time-list-item--selected {
     background-color: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.semantic.white};
     font-weight: 400;
 
     &:hover {

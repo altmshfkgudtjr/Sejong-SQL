@@ -27,6 +27,7 @@ const ProblemCreatePage = () => {
   const { MetaTitle } = useMetaData();
   const { initSnackbar } = useSnackbar();
 
+  const { refetch: problemListRefetch } = useProblemController.GetProblemList(weekId);
   const { mutate: connectMutate } = useEnvironmentController.ConnectEnvToClass();
   const { mutate: createMutate } = useProblemController.CreateProblem();
   useProblemController.GetWarningList();
@@ -100,6 +101,7 @@ const ProblemCreatePage = () => {
       },
       {
         onSuccess: () => {
+          problemListRefetch();
           initSnackbar({
             type: 'Success',
             title: 'SUCCESS',
@@ -116,7 +118,16 @@ const ProblemCreatePage = () => {
         },
       },
     );
-  }, [createMutate, connectMutate, initSnackbar, classId, weekId, env, warningList]);
+  }, [
+    createMutate,
+    connectMutate,
+    initSnackbar,
+    problemListRefetch,
+    classId,
+    weekId,
+    env,
+    warningList,
+  ]);
 
   return (
     <>

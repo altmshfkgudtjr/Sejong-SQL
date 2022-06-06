@@ -94,6 +94,13 @@ const Breadcrumb = () => {
         });
         return prev;
       }
+      if (curr === 'analytics') {
+        prev.push({
+          name: '통계',
+          route: url + `/analytics`,
+        });
+        return prev;
+      }
 
       /* 고유 식별값 */
       if (curr === '[classId]') {

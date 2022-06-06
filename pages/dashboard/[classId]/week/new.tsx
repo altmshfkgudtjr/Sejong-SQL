@@ -35,10 +35,8 @@ const WeekCreatePage = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  const { refetch } = useClassController.GetClassList();
-  const { mutate: createMutate, status } = useWeekController.CreateWeek({
-    onSuccess: refetch,
-  });
+  const { mutate: createMutate, status } = useWeekController.CreateWeek();
+  const { refetch: classRefetch } = useClassController.GetClassList();
   const { refetch: weekRefetch } = useWeekController.GetWeekList(classId);
 
   const onEmptyCheck = useCallback(
@@ -58,15 +56,9 @@ const WeekCreatePage = () => {
   );
 
   const onChangeTest = () => {
-    if (!isCheckedTest) {
-      setIsCheckedActive(true);
-    }
     setIsCheckedTest(v => !v);
   };
   const onChangeActive = () => {
-    if (isCheckedActive) {
-      setIsCheckedTest(false);
-    }
     setIsCheckedActive(v => !v);
   };
 
@@ -106,6 +98,7 @@ const WeekCreatePage = () => {
       },
       {
         onSuccess: () => {
+          classRefetch();
           weekRefetch();
           initSnackbar({
             type: 'Success',
@@ -121,6 +114,7 @@ const WeekCreatePage = () => {
     endDate,
     startDate,
     createMutate,
+    classRefetch,
     weekRefetch,
     classId,
     isCheckedTest,
@@ -168,11 +162,11 @@ const WeekCreatePage = () => {
           <section>
             <DatePickerWrapper>
               <i>시작</i>
-              <DatePicker defaultDate={new Date()} selectsStart onChange={setStartDate} />
+              <DatePicker defaultDate={startDate} selectsStart onChange={setStartDate} />
             </DatePickerWrapper>
             <DatePickerWrapper>
               <i>종료</i>
-              <DatePicker defaultDate={new Date()} selectsEnd onChange={setEndDate} />
+              <DatePicker defaultDate={endDate} selectsEnd onChange={setEndDate} />
             </DatePickerWrapper>
           </section>
         )}

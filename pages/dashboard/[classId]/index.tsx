@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
-import { TextButton } from 'sjds/components/buttons';
+import { TextButton, FillButton } from 'sjds/components/buttons';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import TopMessage from 'components/presenters/dashboard/TopMessage';
 import WeekList from 'components/containers/dashboard/WeekList';
@@ -31,7 +31,14 @@ const ClassPage = () => {
       <MetaTitle content="분반" />
 
       <Wrapper>
-        <Breadcrumb />
+        <TopWrapper>
+          <Breadcrumb />
+          <Link href={`/dashboard/${classId}/analytics`} passHref>
+            <AnalyticsButton as="a" size="Small" color={currentTheme.semantic.info}>
+              통계
+            </AnalyticsButton>
+          </Link>
+        </TopWrapper>
 
         {isManager && (
           <ManagerWrapper>
@@ -70,6 +77,14 @@ const Wrapper = styled(DashboardLayout)`
   padding-top: 8px;
 `;
 
+const TopWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+`;
+
 const ManagerWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -85,6 +100,11 @@ const ButtonWrapper = styled.div`
 
 const Button = styled(TextButton)`
   flex: 0 1 auto;
+`;
+
+const AnalyticsButton = styled(FillButton)`
+  flex: 0 1 auto;
+  width: 100px;
 `;
 
 export default ClassPage;

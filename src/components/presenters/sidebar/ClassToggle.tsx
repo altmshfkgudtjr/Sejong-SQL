@@ -10,12 +10,19 @@ import type { PropsWithChildren } from 'react';
 /**
  * 사이드바 클래스 토글
  * @param props
- * @param props.classid 분반 ID
+ * @param props.open 열림 여부
+ * @param props.classId 분반 ID
  * @param props.name 분반명
  * @param props.managerName 분반 관리자명
  */
-const SidebarClassToggle = ({ classId, name, managerName, children }: PropsWithChildren<Props>) => {
-  const [isOpen, setIsOpen] = useState(false);
+const SidebarClassToggle = ({
+  open,
+  classId,
+  name,
+  managerName,
+  children,
+}: PropsWithChildren<Props>) => {
+  const [isOpen, setIsOpen] = useState(open);
 
   const currentTheme = useTheme();
 
@@ -89,6 +96,7 @@ const ManagerName = styled.span`
 `;
 
 type Props = {
+  open: boolean;
   classId: string;
   name: string;
   managerName?: string;

@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components';
 import Link from 'next/link';
 // components
 import RadioButton from 'components/atoms/inputs/RadioButton';
-// utils
-import { commaFormatter } from 'utils/helpers/format';
 // styles
 import { typo, lib } from 'sjds';
 // types
@@ -25,10 +23,9 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
       : 'Danger';
 
   const efficiencyColorType: ColorType =
-    problem.status === 'No Submit'
+    problem.status === 'No Submit' || problem.problem_warnings === 0
       ? 'Default'
-      : problem.problem_warnings === 0 ||
-        (problem.user_warnings / problem.problem_warnings) * 100 >= 80
+      : (problem.user_warnings / problem.problem_warnings) * 100 >= 80
       ? 'Success'
       : (problem.user_warnings / problem.problem_warnings) * 100 >= 60
       ? 'Warning'
@@ -53,7 +50,7 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
             <span>효율성</span>
             <p>
               {problem.problem_warnings === 0
-                ? problem.user_warnings
+                ? '-'
                 : Math.floor((problem.user_warnings / problem.problem_warnings) * 100)}
             </p>
           </Box>
@@ -77,9 +74,12 @@ const Wrapper = styled.button`
   border-radius: 16px;
   border: 1px solid ${({ theme }) => theme.border.b2};
   background-color: ${({ theme }) => theme.background.bg1};
+  transition: 0.1s ease;
 
   ${({ theme }) =>
     lib.onlyHover(css`
+      background-color: ${theme.background.bg2};
+
       ${Name} {
         color: ${theme.semantic.info};
       }
@@ -94,19 +94,13 @@ const RightWrapper = styled.div`
   height: 100%;
 `;
 
-const PassCount = styled.p`
-  ${typo.body3};
-  color: ${({ theme }) => theme.text.f4};
-  ${lib.textLineClamp(1)};
-  text-align: left;
-`;
-
 const Box = styled.div<{ colorType: ColorType }>`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 8px;
+  width: 120px;
 
   & > span {
     ${typo.minimumtext};

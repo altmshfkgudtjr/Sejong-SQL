@@ -37,14 +37,13 @@ const WeekEditPage = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const { refetch: classRefetch } = useClassController.GetClassList();
-  const { refetch: weekRefetch } = useWeekController.GetWeekList(classId);
-  const { status: weekStatus, data: weekData } = useWeekController.GetWeek(weekId);
-  const { mutate: createMutate, status: createStatus } = useWeekController.CreateWeek({
-    onSuccess: () => {
-      classRefetch();
-      weekRefetch();
-    },
-  });
+  const { refetch: weekListRefetch } = useWeekController.GetWeekList(classId);
+  const {
+    status: weekStatus,
+    data: weekData,
+    refetch: weekRefetch,
+  } = useWeekController.GetWeek(weekId);
+  const { mutate: editMutate, status: editStatus } = useWeekController.UpdateWeek();
   const { mutate: removeMutate, status: removeStatus } = useWeekController.RemoveWeek();
 
   const onEmptyCheck = useCallback(
@@ -62,17 +61,10 @@ const WeekEditPage = () => {
     },
     [initSnackbar],
   );
-
   const onChangeTest = () => {
-    if (!isCheckedTest) {
-      setIsCheckedActive(true);
-    }
     setIsCheckedTest(v => !v);
   };
   const onChangeActive = () => {
-    if (isCheckedActive) {
-      setIsCheckedTest(false);
-    }
     setIsCheckedActive(v => !v);
   };
 
@@ -98,9 +90,10 @@ const WeekEditPage = () => {
     }
 
     // 주차 생성하기 API 호출
-    createMutate(
+    editMutate(
       {
         classId,
+        weekId,
         data: {
           name: nameTarget.value,
           comment: descriptionTarget.value,
@@ -113,12 +106,14 @@ const WeekEditPage = () => {
       {
         onSuccess: () => {
           weekRefetch();
+          classRefetch();
+          weekListRefetch();
           initSnackbar({
             type: 'Success',
             title: '수정 완료',
             message: '주차 내용이 수정되었습니다',
           });
-          Router.replace(`/dashboard/${classId}`);
+          Router.replace(`/dashboard/${classId}/${weekId}`);
         },
       },
     );
@@ -126,9 +121,12 @@ const WeekEditPage = () => {
     onEmptyCheck,
     endDate,
     startDate,
-    createMutate,
+    editMutate,
     weekRefetch,
+    classRefetch,
+    weekListRefetch,
     classId,
+    weekId,
     isCheckedTest,
     isCheckedActive,
     initSnackbar,
@@ -141,7 +139,7 @@ const WeekEditPage = () => {
         {
           onSuccess: () => {
             classRefetch();
-            weekRefetch();
+            weekListRefetch();
             initSnackbar({
               type: 'Success',
               title: '삭제 완료',
@@ -152,7 +150,7 @@ const WeekEditPage = () => {
         },
       );
     }
-  }, [removeMutate, classId, weekId, classRefetch, weekRefetch, initSnackbar]);
+  }, [removeMutate, classId, weekId, classRefetch, weekListRefetch, initSnackbar]);
 
   /** 초기 데이터 설정 */
   useEffect(() => {
@@ -206,7 +204,7 @@ const WeekEditPage = () => {
           />
         </section>
 
-        {weekStatus === 'success' && isCheckedActive && (
+        {weekStatus === 'success' && (isCheckedTest || isCheckedActive) && (
           <section>
             <DatePickerWrapper>
               <i>시작</i>
@@ -224,7 +222,7 @@ const WeekEditPage = () => {
             onClick={onSubmit}
             size="Regular"
             color={currentTheme.primary}
-            disabled={createStatus === 'loading'}
+            disabled={editStatus === 'loading'}
           >
             수정하기
           </SubmitButton>

@@ -72,7 +72,7 @@ const CodeEditor = ({ defaultValue = '', onChangeValue }: Props) => {
   };
 
   useLayoutEffect(() => {
-    if (!shell.current) {
+    if (!shell.current || !defaultValue) {
       return;
     }
 

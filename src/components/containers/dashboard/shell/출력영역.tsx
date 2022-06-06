@@ -10,10 +10,11 @@ import useSnackbar from 'hooks/dom/useSnackbar';
 // styles
 import { typo } from 'sjds';
 
-const 출력영역 = ({ problemId, getUserQuery }: Props) => {
+const 출력영역 = ({ weekId, problemId, getUserQuery }: Props) => {
   const currentTheme = useTheme();
 
   const { initSnackbar } = useSnackbar();
+  const { refetch: weekRefetch } = useProblemController.GetProblemList(weekId);
   const { mutate: runMutate, status: runStatus, data: runData } = useProblemController.RunProblem();
   const { mutate: submitMutate, status: submitStatus } = useProblemController.SubmitProblem();
 
@@ -39,10 +40,15 @@ const 출력영역 = ({ problemId, getUserQuery }: Props) => {
       return;
     }
 
-    submitMutate({
-      problemId,
-      data: { query },
-    });
+    submitMutate(
+      {
+        problemId,
+        data: { query },
+      },
+      {
+        onSuccess: () => weekRefetch(),
+      },
+    );
   };
 
   useEffect(() => {
@@ -139,6 +145,7 @@ const Button = styled(FillButton)`
 `;
 
 type Props = {
+  weekId: number;
   problemId: number;
   getUserQuery: () => string;
 };

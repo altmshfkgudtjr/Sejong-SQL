@@ -1,4 +1,5 @@
 import styled, { useTheme } from 'styled-components';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 // components
 import { Icon } from 'sjds/components/icons';
@@ -17,6 +18,9 @@ import { MyClass } from 'types/api/class';
 
 /** 사이드바 */
 const Sidebar = () => {
+  const { query } = useRouter();
+  const classId = parseInt(query.classId as string, 10);
+  const weekId = parseInt(query.weekId as string, 10);
   const currentTheme = useTheme();
 
   const { data: profileData } = useUserController.GetProfile();
@@ -42,9 +46,20 @@ const Sidebar = () => {
     ?.filter(cl => cl.type === 'st')
     .map(cl => (
       <ClassWrapper key={cl.id}>
-        <SidebarClassToggle classId={`${cl.id}`} name={cl.name} managerName={cl.prof.name}>
+        <SidebarClassToggle
+          open={classId === cl.id}
+          classId={`${cl.id}`}
+          name={cl.name}
+          managerName={cl.prof.name}
+        >
           {cl.pgroup.map(week => (
-            <WeekButton key={week.id} classId={cl.id} weekId={week.id} name={week.name} />
+            <WeekButton
+              key={week.id}
+              selected={week.id === weekId}
+              classId={cl.id}
+              weekId={week.id}
+              name={week.name}
+            />
           ))}
         </SidebarClassToggle>
       </ClassWrapper>
@@ -54,9 +69,20 @@ const Sidebar = () => {
     ?.filter(cl => cl.type !== 'st')
     .map(cl => (
       <ClassWrapper key={cl.id}>
-        <SidebarClassToggle classId={`${cl.id}`} name={cl.name} managerName={cl.prof.name}>
+        <SidebarClassToggle
+          open={classId === cl.id}
+          classId={`${cl.id}`}
+          name={cl.name}
+          managerName={cl.prof.name}
+        >
           {cl.pgroup.map(week => (
-            <WeekButton key={week.id} classId={cl.id} weekId={week.id} name={week.name} />
+            <WeekButton
+              key={week.id}
+              selected={week.id === weekId}
+              classId={cl.id}
+              weekId={week.id}
+              name={week.name}
+            />
           ))}
         </SidebarClassToggle>
         <Link href={`/dashboard/${cl.id}/member/manage`} passHref>
