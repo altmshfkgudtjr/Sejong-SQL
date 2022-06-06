@@ -22,6 +22,7 @@ import styled from 'styled-components';
  * <Icon name="ic_dislike" stroke="#12b886" strokeWidth="1.6" />
  */
 const Icon = ({ name, width = 24, height = 24, fill = '#3A3A3A', ...props }: Props) => {
+  console.log(name, fill);
   if (props.stroke && fill === '#3A3A3A') {
     fill = 'rgba(0,0,0,0)';
   }

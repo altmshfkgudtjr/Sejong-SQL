@@ -27,14 +27,14 @@ const WatingExam = ({ status, startDate, onEntry }: Props) => {
         <>
           {isDone && (
             <>
-              <Icon name="ic_unlock" width={128} height={128} />
+              <Icon name="ic_unlock" width={128} height={128} fill={currentTheme.text.f1} />
               <Text>시험이 시작되었습니다!</Text>
             </>
           )}
 
           {!isDone && (
             <>
-              <Icon name="ic_lock" width={128} height={128} />
+              <Icon name="ic_lock" width={128} height={128} fill={currentTheme.text.f1} />
               <Text>
                 시험이 <mark ref={target} />
                 뒤에 시작됩니다.
@@ -54,7 +54,7 @@ const WatingExam = ({ status, startDate, onEntry }: Props) => {
       )}
       {status === 'After' && (
         <>
-          <Icon name="ic_lock" width={128} height={128} />
+          <Icon name="ic_lock" width={128} height={128} fill={currentTheme.text.f1} />
           <Text>
             고생하셨습니다
             <br />
@@ -71,6 +71,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: center;
+  margin-top: 200px;
 `;
 
 const Text = styled.p`

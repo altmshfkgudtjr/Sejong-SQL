@@ -16,6 +16,7 @@ const Breadcrumb = () => {
   const classId = parseInt(query.classId as string, 10);
   const weekId = parseInt(query.weekId as string, 10);
   const problemId = parseInt(query.problemId as string, 10);
+  const uspId = parseInt(query.uspId as string, 10);
 
   const [historyList, setHistoryList] = useState<History[]>([]);
 
@@ -98,6 +99,13 @@ const Breadcrumb = () => {
         prev.push({
           name: '통계',
           route: url + `/analytics`,
+        });
+        return prev;
+      }
+      if (curr === '[uspId]') {
+        prev.push({
+          name: '쿼리 분석',
+          route: url + `/analytics/${uspId}`,
         });
         return prev;
       }

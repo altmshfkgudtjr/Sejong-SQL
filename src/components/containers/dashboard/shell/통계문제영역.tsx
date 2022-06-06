@@ -5,17 +5,17 @@ import ProblemTitle from 'components/presenters/dashboard/shell/ProblemTitle';
 import ProblemContent from 'components/presenters/dashboard/shell/ProblemContent';
 import QueryTable from 'components/presenters/dashboard/shell/QueryTable';
 // hooks
-import * as useProblemController from 'hooks/controllers/useProblemController';
+import * as useAnalyticsController from 'hooks/controllers/useAnalyticsController';
 // styles
 import { typo } from 'sjds';
 
 /**
- * 문제영역
+ * 통계문제영역
  * @param props
- * @param props.problemId 문제 ID
+ * @param props.uspId 문제 ID
  */
-const 문제영역 = ({ problemId }: Props) => {
-  const { status, data } = useProblemController.GetProblem(problemId);
+const 통계문제영역 = ({ uspId }: Props) => {
+  const { status, data } = useAnalyticsController.GetUserSubmission({ uspId });
 
   return (
     <Wrapper>
@@ -91,7 +91,7 @@ const DescTable = styled.div`
 `;
 
 type Props = {
-  problemId: number;
+  uspId: number;
 };
 
-export default 문제영역;
+export default 통계문제영역;

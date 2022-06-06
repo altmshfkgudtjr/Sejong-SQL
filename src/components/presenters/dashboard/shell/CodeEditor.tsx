@@ -8,7 +8,7 @@ import { typo } from 'sjds';
 /**
  * 코드 에디터
  */
-const CodeEditor = ({ defaultValue = '', onChangeValue }: Props) => {
+const CodeEditor = ({ defaultValue = '', onChangeValue, disabled = false }: Props) => {
   const shell = useRef<HTMLDivElement>(null);
 
   const [lineCount, setLineCount] = useState(1);
@@ -99,7 +99,7 @@ const CodeEditor = ({ defaultValue = '', onChangeValue }: Props) => {
       <NumberArea>{lineComponentList}</NumberArea>
       <CodeArea
         ref={shell}
-        contentEditable
+        contentEditable={!disabled}
         suppressContentEditableWarning
         spellCheck={false}
         onInput={onInput}
@@ -167,6 +167,7 @@ const CodeArea = styled.div`
 type Props = {
   defaultValue?: string;
   onChangeValue: (value: string) => void;
+  disabled?: boolean;
 };
 
 export default CodeEditor;

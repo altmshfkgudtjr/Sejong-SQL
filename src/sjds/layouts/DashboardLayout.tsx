@@ -10,11 +10,11 @@ const DashboardLayout = styled.div`
   margin: 0 auto;
 
   ${mediaQuery.medium} {
-    padding: 0 20px 120px;
+    padding: 0 20px 160px;
   }
 
   ${mediaQuery.large} {
-    padding: 0 20px 160px;
+    padding: 0 20px 240px;
   }
 `;
 
