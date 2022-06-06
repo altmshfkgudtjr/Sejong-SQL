@@ -46,7 +46,9 @@ export const getTokenAPI = () => {
         storageUtils.saveSessionStorage('ssql-accessToken', res.result?.access_token);
         storageUtils.saveSessionStorage('ssql-refreshToken', res.result?.refresh_token);
       }
-    });
+      return true;
+    })
+    .catch(() => false);
 };
 
 /**

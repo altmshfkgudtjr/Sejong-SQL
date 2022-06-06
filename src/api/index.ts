@@ -49,14 +49,18 @@ const responseSuccessHandler = res => {
 const responseErrorHandler = async err => {
   const {
     response: { status: statusCode, data },
+    config: previousConfig,
   } = err;
 
   if (statusCode === 401 && data.msg === 'JWT Token has expired') {
     developmentLog('Access Token이 유효하지 않습니다.');
-    if (confirm('리프레시?!')) {
-      await userAPIs.getTokenAPI();
+    const res = await userAPIs.getTokenAPI();
+    if (res) {
+      developmentLog('JWT Token을 갱신하고, 실패한 API를 재호출합니다.', () => {
+        console.log(`URL: ${previousConfig.url}`);
+      });
+      request.request({ ...previousConfig });
     }
-    developmentLog('API 호출 도중 오류가 발생하였습니다.', () => console.log('Are you alive?'));
   }
 
   return Promise.reject(axiosErrorLogFormat(err));
