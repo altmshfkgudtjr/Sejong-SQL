@@ -4,7 +4,7 @@ import type { ThemeVariables } from 'sjds/types/Palette';
 /** 다크 테마 색상표 */
 const darkTheme: ThemeVariables = {
   // Primary
-  primary: '#C21C3F',
+  primary: '#D6244A',
 
   // Background
   background: {
@@ -26,7 +26,7 @@ const darkTheme: ThemeVariables = {
   // Border
   border: {
     b1: '#969C9C',
-    b2: '#303035',
+    b2: '#43434A',
   },
 
   // Semantic

@@ -39,6 +39,7 @@ const Wrapper = styled.table`
   tr,
   td {
     border: 1px solid ${({ theme }) => theme.border.b2};
+    color: ${({ theme }) => theme.text.f1};
   }
 
   td {

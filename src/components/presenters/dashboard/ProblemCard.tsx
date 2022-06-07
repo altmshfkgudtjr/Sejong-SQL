@@ -62,6 +62,7 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
 
 const Name = styled.p`
   ${typo.headline3};
+  color: ${({ theme }) => theme.text.f1};
   ${lib.textLineClamp(1)};
 `;
 

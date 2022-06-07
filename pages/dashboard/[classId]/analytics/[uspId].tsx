@@ -8,6 +8,7 @@ import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import ResizableArea from 'components/containers/dashboard/ResizableArea';
 import 통계문제영역 from 'components/containers/dashboard/shell/통계문제영역';
 import 통계풀이영역 from 'components/containers/dashboard/shell/통계풀이영역';
+import 쿼리출력영역 from 'components/containers/dashboard/shell/쿼리출력영역';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import * as useAnalyticsController from 'hooks/controllers/useAnalyticsController';
@@ -21,6 +22,7 @@ const AnalyticsQueryPage = () => {
 
   const { MetaTitle } = useMetaData();
   const { data: problemData } = useAnalyticsController.GetUserSubmission({ uspId });
+  console.log(problemData);
 
   const onChangeValue = value => {
     inputValue.current = value;
@@ -52,7 +54,12 @@ const AnalyticsQueryPage = () => {
                     onChangeValue={onChangeValue}
                   />
                 }
-                bottom={<div />}
+                bottom={
+                  <쿼리출력영역
+                    isPass={problemData.result.accuracy}
+                    warningList={problemData.result.warnings}
+                  />
+                }
               />
             </>
           )}

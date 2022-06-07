@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 // components
 import ProblemCard from 'components/presenters/dashboard/ProblemCard';
+import Empty from 'components/presenters/dashboard/Empty';
 // hooks
 import * as useUserController from 'hooks/controllers/useUserController';
 import * as useProblemController from 'hooks/controllers/useProblemController';
@@ -28,7 +29,12 @@ const ProblemList = ({ classId, weekId }: Props) => {
     />
   ));
 
-  return <Wrapper>{ProblemCardList}</Wrapper>;
+  return (
+    <Wrapper>
+      {ProblemCardList && ProblemCardList?.length > 0 && ProblemCardList}
+      {ProblemCardList && ProblemCardList?.length === 0 && <Empty message="문제가 비어있습니다." />}
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`

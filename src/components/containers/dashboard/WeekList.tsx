@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 // components
 import WeekCard from 'components/presenters/dashboard/WeekCard';
+import Empty from 'components/presenters/dashboard/Empty';
 // hooks
 import * as useWeekController from 'hooks/controllers/useWeekController';
 // styles
@@ -18,7 +19,14 @@ const WeekList = ({ classId }: Props) => {
     <WeekCard key={week.id} classId={`${classId}`} week={week} />
   ));
 
-  return <Wrapper>{WeekCardList}</Wrapper>;
+  return (
+    <>
+      {WeekCardList && WeekCardList.length > 0 && <Wrapper>{WeekCardList}</Wrapper>}
+      {WeekCardList && WeekCardList.length === 0 && (
+        <Empty type="Week" message="주차가 비어있습니다." />
+      )}
+    </>
+  );
 };
 
 const Wrapper = styled.section`
