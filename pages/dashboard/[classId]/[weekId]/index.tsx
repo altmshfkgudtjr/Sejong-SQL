@@ -34,7 +34,7 @@ const WeekPage = () => {
   const { data: weekData } = useWeekController.GetWeek(weekId);
 
   /** 관리자 여부 */
-  const isManager = classData?.result?.type === 'Super Admin';
+  const isManager = classData?.result?.type === 'prof' || classData?.result?.type === 'ta';
 
   /** 시험 모드 여부 */
   const isExam = weekData?.result?.exam;

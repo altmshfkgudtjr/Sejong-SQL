@@ -11,7 +11,6 @@ import WeekList from 'components/containers/dashboard/WeekList';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import * as useClassController from 'hooks/controllers/useClassController';
-import * as useUserController from 'hooks/controllers/useUserController';
 // styles
 import { animations } from 'sjds';
 
@@ -23,10 +22,9 @@ const ClassPage = () => {
   const currentTheme = useTheme();
   const { MetaTitle } = useMetaData();
   const { data: classData } = useClassController.GetClass(classId);
-  const { data: userData } = useUserController.GetProfile();
 
   /** 관리자 여부 */
-  const isManager = classData?.result?.prof.id === userData?.result?.id;
+  const isManager = classData?.result?.type === 'prof' || classData?.result?.type === 'ta';
 
   return (
     <>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ProblemCard from 'components/presenters/dashboard/ProblemCard';
 import Empty from 'components/presenters/dashboard/Empty';
 // hooks
-import * as useUserController from 'hooks/controllers/useUserController';
+import * as useClassController from 'hooks/controllers/useClassController';
 import * as useProblemController from 'hooks/controllers/useProblemController';
 
 /**
@@ -13,11 +13,11 @@ import * as useProblemController from 'hooks/controllers/useProblemController';
  * @param props.weekId 주차 ID
  */
 const ProblemList = ({ classId, weekId }: Props) => {
+  const { data: classData } = useClassController.GetClass(parseInt(classId as string, 10));
   const { data: problemData } = useProblemController.GetProblemList(parseInt(weekId as string, 10));
-  const { data: profileData } = useUserController.GetProfile();
 
   /** 관리자 여부 */
-  const isManager = profileData?.result?.role === 'sa';
+  const isManager = classData?.result?.type === 'prof' || classData?.result?.type === 'ta';
 
   const ProblemCardList = problemData?.result?.map(problem => (
     <ProblemCard

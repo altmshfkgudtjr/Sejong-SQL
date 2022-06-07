@@ -2,6 +2,7 @@ import styled, { useTheme } from 'styled-components';
 import { useState, useLayoutEffect } from 'react';
 import { parseISO, differenceInDays } from 'date-fns';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import Router from 'next/router';
 // components
 import { MainLayout } from 'sjds/layouts';
 import { FillButton, TextButton } from 'sjds/components/buttons';
@@ -12,6 +13,7 @@ import { setTheme } from 'store/system/theme.logic';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useModal from 'hooks/dom/useModal';
+import useSnackbar from 'hooks/dom/useSnackbar';
 import * as useUserController from 'hooks/controllers/useUserController';
 // styles
 import { typo } from 'sjds';
@@ -22,8 +24,9 @@ const MyPage = () => {
   const currentTheme = useTheme();
   const { MetaTitle } = useMetaData();
   const { pushModal } = useModal();
+  const { initSnackbar } = useSnackbar();
 
-  const { data: userData } = useUserController.GetProfile();
+  const { status: userStatus, data: userData } = useUserController.GetProfile();
 
   const [lastPasswordUpdatedAt, setLastPasswordUpdatedAt] = useState('');
 
@@ -53,6 +56,17 @@ const MyPage = () => {
       setMode('Light');
     }
   };
+
+  useLayoutEffect(() => {
+    if (userStatus === 'success' && !userData) {
+      initSnackbar({
+        type: 'Danger',
+        title: 'WARNING',
+        message: '잘못된 접근입니다',
+      });
+      Router.replace('/');
+    }
+  }, [initSnackbar, userStatus, userData]);
 
   useLayoutEffect(() => {
     if (!userData?.result?.pw_updated_at) {
