@@ -1,16 +1,21 @@
 import styled, { useTheme } from 'styled-components';
 import { useState, useLayoutEffect } from 'react';
 import { parseISO, differenceInDays } from 'date-fns';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 // components
 import { MainLayout } from 'sjds/layouts';
 import { FillButton, TextButton } from 'sjds/components/buttons';
 import Layout from 'components/layouts';
+// store
+import { themeState } from 'store/system/theme';
+import { setTheme } from 'store/system/theme.logic';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useModal from 'hooks/dom/useModal';
 import * as useUserController from 'hooks/controllers/useUserController';
 // styles
 import { typo } from 'sjds';
+import { mediaQuery } from 'sjds';
 
 /** 마이페이지 */
 const MyPage = () => {
@@ -21,6 +26,9 @@ const MyPage = () => {
   const { data: userData } = useUserController.GetProfile();
 
   const [lastPasswordUpdatedAt, setLastPasswordUpdatedAt] = useState('');
+
+  const theme = useRecoilValue(themeState);
+  const setMode = useSetRecoilState(setTheme);
 
   const onChangeName = () => pushModal({ name: 'ChangeNameModal' });
 
@@ -37,6 +45,14 @@ const MyPage = () => {
   };
 
   const onSecession = () => pushModal({ name: 'SecessionModal' });
+
+  const onChangeTheme = () => {
+    if (theme.mode === 'Light') {
+      setMode('Dark');
+    } else {
+      setMode('Light');
+    }
+  };
 
   useLayoutEffect(() => {
     if (!userData?.result?.pw_updated_at) {
@@ -108,6 +124,19 @@ const MyPage = () => {
           </Row>
 
           <Row>
+            <h2>색상 테마 변경</h2>
+            <div>
+              <FillButton
+                onClick={onChangeTheme}
+                size="Regular"
+                color={currentTheme.background.bg5}
+              >
+                {theme.mode === 'Light' ? 'Dark' : 'Light'}
+              </FillButton>
+            </div>
+          </Row>
+
+          <Row>
             <h2>계정</h2>
             <div>
               <FillButton onClick={onLogout} size="Regular" color={currentTheme.semantic.danger}>
@@ -135,6 +164,10 @@ const Wrapper = styled(MainLayout)`
   justify-content: center;
   flex-direction: column;
   width: 100%;
+
+  ${mediaQuery.large} {
+    max-width: 800px;
+  }
 `;
 
 const GreetingMessage = styled.p`

@@ -1,7 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-// head
-import DefaultMeta from 'lib/head/DefaultMeta';
 
 class MyDocument extends Document {
   /*======= styled-components SSR 적용 =======*/
@@ -38,10 +36,8 @@ class MyDocument extends Document {
           <meta charSet="utf-8" />
           <meta name="robots" content="index, follow" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <DefaultMeta />
-          <link rel="shortcut icon" href={``} />
           <link rel="canonical" href={process.env.NEXT_PUBLIC_DEFAULT_HOST} />
-          <link rel="preconnect" href={process.env.NEXT_PUBLIC_ASSET_HOST} crossOrigin="true" />
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_SERVER} crossOrigin="true" />
         </Head>
         <body>
           <Main />

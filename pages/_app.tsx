@@ -7,6 +7,9 @@ import {
   ModalProvider,
   SnackbarProvider,
 } from 'components/containers/providers';
+// heads
+import DefaultMeta from 'lib/head/DefaultMeta';
+import Favicons from 'lib/head/Favicons';
 // components
 import { SpriteIcons, SpriteEmojis } from 'sjds/components/icons';
 // hooks
@@ -41,6 +44,8 @@ const App = ({ Component, pageProps }: CustomAppProps) => {
           content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes, minimal-ui, viewport-fit=cover"
         />
       </Head>
+      <DefaultMeta />
+      <Favicons />
       <MetaTitle content="세종대학교 SQL OJ System" />
       {/* ------------------------------ Main ------------------------------ */}
       <QueryProvider>
