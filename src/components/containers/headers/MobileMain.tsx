@@ -24,9 +24,9 @@ const MobileMainHeader = () => {
         <Header ref={headerRef}>
           <LeftSide>
             <TextButton size="ExtraSmall">
-              <Icon name="ic_category" width={32} />
+              <Icon name="ic_category" width={32} height={32} />
             </TextButton>
-            <Logo h={18} />
+            <Logo w={150} h={18} />
           </LeftSide>
 
           <RightSide>

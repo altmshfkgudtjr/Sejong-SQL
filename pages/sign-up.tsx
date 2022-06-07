@@ -121,7 +121,7 @@ const SignUpPage = () => {
       <Wrapper>
         <BrandWrapper>
           <Symbol type="Color" w={48} h={48} isBackground />
-          <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} h={18} />
+          <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} w={150} h={18} />
         </BrandWrapper>
         <Title>회원가입</Title>
         {!isChecked && <AgreementSection onRead={() => setIsChecked(true)} />}

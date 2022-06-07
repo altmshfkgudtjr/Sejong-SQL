@@ -21,10 +21,10 @@ const MainHeader = () => {
       <ContentWrapper>
         <div>
           <HomeLink href="/">
-            <Symbol type="Color" h={32} isLinking={false} />
+            <Symbol type="Color" w={32} h={32} isLinking={false} />
             <Logo
               type={currentTheme.mode === 'Dark' ? 'White' : 'Black'}
-              h={18}
+              w={150}
               isLinking={false}
             />
           </HomeLink>

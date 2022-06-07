@@ -98,7 +98,7 @@ const SignInPage = () => {
       <Wrapper>
         <BrandWrapper>
           <Symbol type="Color" w={48} h={48} isBackground />
-          <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} h={18} />
+          <Logo type={currentThemeState.mode === 'Dark' ? 'White' : 'Black'} w={150} h={18} />
         </BrandWrapper>
         <Title>로그인</Title>
         <FormWrapper>
