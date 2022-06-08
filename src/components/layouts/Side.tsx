@@ -22,18 +22,19 @@ const Wrapper = styled.aside<{ isOpen: boolean }>`
   left: 0;
   width: 100%;
   height: calc(100vh - 48px);
+  padding: 24px 0;
   overflow-y: auto;
   background-color: ${({ theme }) => theme.background.bg3};
   z-index: ${zIndex.sidebar};
-  transform: ${({ isOpen }) => (isOpen ? 'translate3d(-320px, 0 0)' : 'translate3d(0, 0 0)')};
-  transition: transform 0.4s ease-in-out;
+  transform: ${({ isOpen }) => (isOpen ? 'translateX(-100%)' : 'translateX(0)')};
+  transition: transform 0.2s ease-in-out;
 
   ${mediaQuery.large} {
     top: 60px;
     display: block;
     width: 320px;
     height: calc(100vh - 60px);
-    padding: 24px 0;
+    transform: translateX(0);
   }
 
   &::-webkit-scrollbar {

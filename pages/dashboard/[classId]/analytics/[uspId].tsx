@@ -22,7 +22,6 @@ const AnalyticsQueryPage = () => {
 
   const { MetaTitle } = useMetaData();
   const { data: problemData } = useAnalyticsController.GetUserSubmission({ uspId });
-  console.log(problemData);
 
   const onChangeValue = value => {
     inputValue.current = value;

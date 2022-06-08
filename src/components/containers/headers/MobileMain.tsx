@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { useRef } from 'react';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
 // components
 import Logo from 'components/atoms/Logo';
 import { TextButton } from 'sjds/components/buttons';
 import { Icon } from 'sjds/components/icons';
+// store
+import { uiState } from 'store/system/ui';
 // hooks
 import useScrollHeader from 'hooks/dom/useScrollHeader';
 import * as useUserController from 'hooks/controllers/useUserController';
@@ -18,15 +21,20 @@ const MobileMainHeader = () => {
   const headerRef = useRef(null);
   useScrollHeader(headerRef);
 
+  const [state, setState] = useRecoilState(uiState);
+
   return (
     <>
       <Wrapper>
         <Header ref={headerRef}>
           <LeftSide>
-            <TextButton size="ExtraSmall">
-              <Icon name="ic_category" width={32} height={32} />
+            <TextButton
+              size="ExtraSmall"
+              onClick={() => setState({ side: state.side === 'Open' ? 'Close' : 'Open' })}
+            >
+              <Icon name="ic_category" width={24} height={24} />
             </TextButton>
-            <Logo w={150} h={18} />
+            <Logo w={112} h={18} />
           </LeftSide>
 
           <RightSide>
