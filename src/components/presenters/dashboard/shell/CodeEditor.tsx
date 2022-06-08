@@ -153,6 +153,9 @@ const CodeArea = styled.div`
   outline: none;
   white-space: nowrap;
   ${typo.body1};
+  font-weight: 400;
+  font-family: 'Source Code Pro', monospace, Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Roboto', 'Segoe UI', sans-serif;
   color: ${({ theme }) => theme.text.f2};
   line-height: 32px;
 

@@ -186,9 +186,10 @@ export type SubmitProblemProps = {
 };
 
 export type SubmitProblemResponse = {
-  status: 'Success' | 'Fail';
+  status: boolean;
   accuracy: boolean;
-  efficiency: {
+  warnings: {
+    id: number;
     name: string;
     descriptions: string;
   }[];

@@ -1,8 +1,9 @@
 import styled, { useTheme } from 'styled-components';
-import { useEffect } from 'react';
+import { useState } from 'react';
 // components
 import Badge from 'components/presenters/dashboard/shell/Badge';
 import QueryTable from 'components/presenters/dashboard/shell/QueryTable';
+import Submission from 'components/presenters/dashboard/shell/Submission';
 import { FillButton } from 'sjds/components/buttons';
 // hooks
 import * as useProblemController from 'hooks/controllers/useProblemController';
@@ -11,12 +12,18 @@ import useSnackbar from 'hooks/dom/useSnackbar';
 import { typo } from 'sjds';
 
 const 출력영역 = ({ weekId, problemId, getUserQuery }: Props) => {
+  const [mode, setMode] = useState<Mode>('Run');
+
   const currentTheme = useTheme();
 
   const { initSnackbar } = useSnackbar();
   const { refetch: weekRefetch } = useProblemController.GetProblemList(weekId);
   const { mutate: runMutate, status: runStatus, data: runData } = useProblemController.RunProblem();
-  const { mutate: submitMutate, status: submitStatus } = useProblemController.SubmitProblem();
+  const {
+    mutate: submitMutate,
+    status: submitStatus,
+    data: submitData,
+  } = useProblemController.SubmitProblem();
 
   const onRun = () => {
     const query = getUserQuery();
@@ -26,10 +33,28 @@ const 출력영역 = ({ weekId, problemId, getUserQuery }: Props) => {
       return;
     }
 
-    runMutate({
-      problemId,
-      data: { query },
-    });
+    runMutate(
+      {
+        problemId,
+        data: { query },
+      },
+      {
+        onSuccess: () => {
+          initSnackbar({
+            type: 'Success',
+            title: 'RUN',
+            message: '쿼리 실행이 완료되었습니다',
+          });
+          setMode('Run');
+        },
+        onError: () =>
+          initSnackbar({
+            type: 'Danger',
+            title: 'ERROR',
+            message: '서버가 불안정합니다. 잠시 후 다시 시도해주세요',
+          }),
+      },
+    );
   };
 
   const onSubmit = () => {
@@ -46,41 +71,34 @@ const 출력영역 = ({ weekId, problemId, getUserQuery }: Props) => {
         data: { query },
       },
       {
-        onSuccess: () => weekRefetch(),
+        onSuccess: () => {
+          initSnackbar({ type: 'Success', title: 'COMPLETE', message: '제출이 완료되었습니다' });
+          setMode('Submit');
+          weekRefetch();
+        },
+        onError: () =>
+          initSnackbar({
+            type: 'Danger',
+            title: 'ERROR',
+            message: '서버가 불안정합니다. 잠시 후 다시 시도해주세요',
+          }),
       },
     );
   };
-
-  useEffect(() => {
-    if (runStatus === 'success') {
-      initSnackbar({ type: 'Success', title: 'RUN', message: '쿼리가 실행 완료되었습니다' });
-    }
-
-    if (runStatus === 'error') {
-      initSnackbar({ type: 'Danger', title: 'WARNING', message: '잠시 후 다시 시도해주세요' });
-    }
-  }, [runStatus, initSnackbar]);
-
-  useEffect(() => {
-    if (submitStatus === 'success') {
-      initSnackbar({ type: 'Success', title: 'COMPLETE', message: '쿼리가 제출되었습니다' });
-    }
-
-    if (submitStatus === 'error') {
-      initSnackbar({ type: 'Danger', title: 'WARNING', message: '잠시 후 다시 시도해주세요' });
-    }
-  }, [submitStatus, initSnackbar]);
 
   return (
     <Wrapper>
       <Badge text="실행 결과" />
 
       <Body>
-        {runStatus === 'success' && runData?.result?.status && (
+        {mode === 'Run' && runStatus === 'success' && runData?.result?.status && (
           <QueryTable data={runData?.result.query_result as object[]} />
         )}
-        {runStatus === 'success' && !runData?.result?.status && (
+        {mode === 'Run' && runStatus === 'success' && !runData?.result?.status && (
           <ErrorMessage>{runData?.result?.query_result}</ErrorMessage>
+        )}
+        {mode === 'Submit' && submitStatus === 'success' && (
+          <Submission data={submitData?.result} />
         )}
       </Body>
 
@@ -143,6 +161,8 @@ const Button = styled(FillButton)`
   flex: 0 1 auto;
   width: 120px;
 `;
+
+type Mode = 'Run' | 'Submit';
 
 type Props = {
   weekId: number;

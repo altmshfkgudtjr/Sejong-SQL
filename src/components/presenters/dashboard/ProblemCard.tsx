@@ -23,11 +23,11 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
       : 'Danger';
 
   const efficiencyColorType: ColorType =
-    problem.status === 'No Submit' || problem.problem_warnings === 0
+    problem.status !== 'Correct' || problem.problem_warnings === 0
       ? 'Default'
-      : (problem.user_warnings / problem.problem_warnings) * 100 >= 80
+      : 100 - (problem.user_warnings / problem.problem_warnings) * 100 >= 80
       ? 'Success'
-      : (problem.user_warnings / problem.problem_warnings) * 100 >= 60
+      : 100 - (problem.user_warnings / problem.problem_warnings) * 100 >= 60
       ? 'Warning'
       : 'Danger';
 
@@ -51,7 +51,9 @@ const ProblemCard = ({ problem, classId, weekId, isManager }: Props) => {
             <p>
               {problem.problem_warnings === 0
                 ? '-'
-                : Math.floor((problem.user_warnings / problem.problem_warnings) * 100)}
+                : problem.status === 'Correct'
+                ? Math.floor(100 - (problem.user_warnings / problem.problem_warnings) * 100)
+                : 0}
             </p>
           </Box>
         </RightWrapper>
