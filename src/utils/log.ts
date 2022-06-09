@@ -23,7 +23,7 @@ export const axiosErrorLogFormat = err => {
   } = err;
 
   if (process.env.NODE_ENV === 'development') {
-    return `${err.name} - ${err.message}
+    Promise.reject(`${err.name} - ${err.message}
 
 [에러코드]
 • ${statusCode}
@@ -41,6 +41,8 @@ ${
     : JSON.stringify(err.response.data, undefined, 2)
 }
 
-`;
+`);
   }
+
+  return err;
 };

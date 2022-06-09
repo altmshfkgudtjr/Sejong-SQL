@@ -1,6 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 import { useRouter } from 'next/router';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 // components
 import Layout from 'components/layouts';
@@ -61,12 +61,34 @@ const SignInPage = () => {
       return pw.current.focus();
     }
 
-    mutate({
-      data: {
-        id: id.current.value,
-        pw: pw.current.value,
+    mutate(
+      {
+        data: {
+          id: id.current.value,
+          pw: pw.current.value,
+        },
       },
-    });
+      {
+        onSuccess: () => {
+          window.location.href = '/';
+        },
+        onError: (err: any) => {
+          if (err.response.status === 403) {
+            return initSnackbar({
+              type: 'Danger',
+              title: '로그인 실패',
+              message: '아이디 또는 비밀번호를 확인 후, 다시 로그인해주세요',
+            });
+          }
+
+          initSnackbar({
+            type: 'Danger',
+            title: '서버와의 연결 오류',
+            message: '잠시 후 다시 시도해주세요',
+          });
+        },
+      },
+    );
   };
 
   const onKeyDown = e => {
@@ -74,22 +96,6 @@ const SignInPage = () => {
       onSignIn();
     }
   };
-
-  useEffect(() => {
-    switch (status) {
-      case 'error':
-        initSnackbar({
-          type: 'Danger',
-          title: '서버와의 연결 오류',
-          message: '잠시 후 다시 시도해주세요',
-        });
-        break;
-
-      case 'success':
-        window.location.href = '/';
-        break;
-    }
-  }, [status, initSnackbar]);
 
   return (
     <>
