@@ -86,42 +86,51 @@ const DashBoard = () => {
       return;
     }
 
-    if (env.owner === '') {
-      connectMutate({ envId: env.id, classId });
-    }
+    const onSubmitAfterConnect = () => {
+      editMutate(
+        {
+          classId,
+          problemId,
+          data: {
+            env_id: env.id,
+            title: problemInfo.current.title,
+            content: problemInfo.current.content,
+            answer: inputQuery.current,
+            timelimit: timeLimit.current,
+            warnings: warningList.map(v => v.id),
+          },
+        },
+        {
+          onSuccess: () => {
+            initSnackbar({
+              type: 'Success',
+              title: 'SUCCESS',
+              message: '문제가 수정되었습니다',
+            });
+            problemRefetch();
+            Router.push(`/dashboard/${classId}/${weekId}`);
+          },
+          onError: () => {
+            initSnackbar({
+              type: 'Danger',
+              title: 'ERROR',
+              message: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요',
+            });
+          },
+        },
+      );
+    };
 
-    editMutate(
-      {
-        classId,
-        problemId,
-        data: {
-          env_id: env.id,
-          title: problemInfo.current.title,
-          content: problemInfo.current.content,
-          answer: inputQuery.current,
-          timelimit: timeLimit.current,
-          warnings: warningList.map(v => v.id),
+    if (env.owner === '') {
+      connectMutate(
+        { envId: env.id, classId },
+        {
+          onSuccess: () => onSubmitAfterConnect(),
         },
-      },
-      {
-        onSuccess: () => {
-          initSnackbar({
-            type: 'Success',
-            title: 'SUCCESS',
-            message: '문제가 수정되었습니다',
-          });
-          problemRefetch();
-          Router.push(`/dashboard/${classId}/${weekId}`);
-        },
-        onError: () => {
-          initSnackbar({
-            type: 'Danger',
-            title: 'ERROR',
-            message: '오류가 발생하였습니다. 잠시 후 다시 시도해주세요',
-          });
-        },
-      },
-    );
+      );
+    } else {
+      onSubmitAfterConnect();
+    }
   }, [
     problemRefetch,
     editMutate,

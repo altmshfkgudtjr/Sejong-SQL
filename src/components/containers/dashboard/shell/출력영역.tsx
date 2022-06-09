@@ -17,6 +17,7 @@ const 출력영역 = ({ weekId, problemId, getUserQuery }: Props) => {
   const currentTheme = useTheme();
 
   const { initSnackbar } = useSnackbar();
+  const { refetch: problemRefetch } = useProblemController.GetProblem(problemId);
   const { refetch: weekRefetch } = useProblemController.GetProblemList(weekId);
   const { mutate: runMutate, status: runStatus, data: runData } = useProblemController.RunProblem();
   const {
@@ -74,6 +75,7 @@ const 출력영역 = ({ weekId, problemId, getUserQuery }: Props) => {
         onSuccess: () => {
           initSnackbar({ type: 'Success', title: 'COMPLETE', message: '제출이 완료되었습니다' });
           setMode('Submit');
+          problemRefetch();
           weekRefetch();
         },
         onError: () =>

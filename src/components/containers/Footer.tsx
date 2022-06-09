@@ -8,8 +8,8 @@ const Footer = () => {
     <Wrapper>
       <span>© Team IML.</span>
       <div>
-        <Link href="/">
-          <a>개인정보처리방침</a>
+        <Link href="https://organized-dime-3a4.notion.site/bebce1c149c64ccc8d62f00d79d76153">
+          <a target="_blank">개인정보처리방침</a>
         </Link>
         <Link href="/">
           <a>이용약관</a>
