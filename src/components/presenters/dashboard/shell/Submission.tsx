@@ -23,7 +23,7 @@ const Submission = ({ data }: Props) => {
 
   const ConditionList = data?.warnings.map(warning => (
     <ConditionBadge key={warning.id} size="Regular" onClick={() => onClickBadge(warning)}>
-      {warning.name.replaceAll('_', ' d').toUpperCase()}
+      {warning.name.replaceAll('_', ' ').toUpperCase()}
     </ConditionBadge>
   ));
 
