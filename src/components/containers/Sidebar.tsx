@@ -85,18 +85,20 @@ const Sidebar = () => {
             />
           ))}
         </SidebarClassToggle>
-        <Link href={`/dashboard/${cl.id}/member/manage`} passHref>
-          <ManageButton as="a" size="ExtraSmall" color={currentTheme.semantic.info}>
-            학생 관리
+        <ButtonWrapper>
+          <Link href={`/dashboard/${cl.id}/member/manage`} passHref>
+            <ManageButton as="a" size="ExtraSmall" color={currentTheme.semantic.info}>
+              학생 관리
+            </ManageButton>
+          </Link>
+          <ManageButton
+            size="ExtraSmall"
+            color={currentTheme.semantic.danger}
+            onClick={() => onDeleteClass(cl.id)}
+          >
+            수업 제거
           </ManageButton>
-        </Link>
-        <ManageButton
-          size="ExtraSmall"
-          color={currentTheme.semantic.danger}
-          onClick={() => onDeleteClass(cl.id)}
-        >
-          수업 제거
-        </ManageButton>
+        </ButtonWrapper>
       </ClassWrapper>
     ));
 
@@ -179,6 +181,17 @@ const ManageButton = styled(TextButton)`
 
   &::before {
     border-radius: 0;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  ${ManageButton} {
+    flex: 1;
+    justify-content: center;
   }
 `;
 

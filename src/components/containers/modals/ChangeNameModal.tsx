@@ -56,6 +56,7 @@ const ChangeNameModal = ({ onCloseModal }) => {
       <TextInput
         ref={nameRef}
         placeholder="이름을 입력해주세요"
+        maxLength={20}
         defaultValue={userData?.result?.name}
         autoFocus
       />

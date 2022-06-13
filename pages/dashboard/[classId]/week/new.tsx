@@ -7,7 +7,7 @@ import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
 import { FillButton } from 'sjds/components/buttons';
 import TextInput from 'components/atoms/inputs/Text';
-import CheckBox from 'components/atoms/inputs/Checkbox';
+import Toggle from 'components/atoms/inputs/Toggle';
 import TopMessage from 'components/presenters/dashboard/TopMessage';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import DatePicker from 'components/containers/commons/DatePicker';
@@ -145,17 +145,12 @@ const WeekCreatePage = () => {
 
         <section>
           <Title>시험모드</Title>
-          <CheckBox label="class-test" message="" checked={isCheckedTest} onChange={onChangeTest} />
+          <Toggle checked={isCheckedTest} onClick={onChangeTest} />
         </section>
 
         <section>
           <Title>주차 활성화</Title>
-          <CheckBox
-            label="class-activate"
-            message=""
-            checked={isCheckedActive}
-            onChange={onChangeActive}
-          />
+          <Toggle checked={isCheckedActive} onClick={onChangeActive} />
         </section>
 
         {isCheckedActive && (

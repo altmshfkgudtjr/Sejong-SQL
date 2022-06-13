@@ -13,7 +13,7 @@ export const developmentLog = (title: string, fn?: () => void) => {
 };
 
 /**
- * 에러 로그 포맷
+ * API 에러 로그 포맷
  * - Only Development Mode
  * @param err Axios Response Error Object
  */

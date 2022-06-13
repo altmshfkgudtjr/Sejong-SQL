@@ -46,7 +46,7 @@ const MobileMainHeader = () => {
               </Link>
             )}
             {status !== 'idle' && status !== 'loading' && !data && (
-              <Link href="/signin" passHref>
+              <Link href="/sign-in" passHref>
                 <TextButton as="a" size="ExtraSmall">
                   로그인
                 </TextButton>

@@ -61,6 +61,8 @@ const SignUpPage = () => {
       return name.current.focus();
     }
 
+    const re = /^(?=.*[a-zA-Z])(?=.*[0-9]).{4,20}$/;
+
     if (pw.current.value === '') {
       initSnackbar({
         type: 'Warning',
@@ -73,6 +75,13 @@ const SignUpPage = () => {
         type: 'Warning',
         title: '비밀번호 입력',
         message: '최소 8글자 이상 입력해주세요',
+      });
+      return pw.current.focus();
+    } else if (!re.test(pw.current.value)) {
+      initSnackbar({
+        type: 'Warning',
+        title: '비밀번호 입력',
+        message: '영문 대소문자, 숫자의 조합이어야 합니다',
       });
       return pw.current.focus();
     }
@@ -132,6 +141,7 @@ const SignUpPage = () => {
                 ref={id}
                 placeholder="아이디 (4자리 이상)"
                 autoComplete="off"
+                maxLength={20}
                 autoFocus
                 onKeyDown={onKeyDown}
               />

@@ -206,7 +206,7 @@ const ParagraphBox = styled.div`
 
 const SignInButton = styled(TextButton)`
   flex-grow: 0;
-  width: 72px;
+  width: 80px;
   color: ${({ theme }) => theme.text.f1};
 `;
 

@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 // components
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
+import { FillButton } from 'sjds/components/buttons';
+import { Icon } from 'sjds/components/icons';
 import TextInput from 'components/atoms/inputs/Text';
 import WeekDropdown from 'components/presenters/dashboard/analytics/WeekInput';
 import WeekButton from 'components/presenters/dashboard/analytics/WeekButton';
@@ -23,28 +25,52 @@ import { History } from 'types/api/analytics';
 
 /** 통계 페이지 */
 const AnalyticsPage = () => {
+  const PAGE_NUM = 20;
+
   const router = useRouter();
   const classId = parseInt(router.query.classId as string, 10);
 
   const sejongIdRef = useRef<HTMLInputElement>(null);
   const [week, setWeek] = useState<Week | null>(null);
   const [historyList, setHistoryList] = useState<History[]>([]);
+  const pageNum = useRef(0);
 
   const { MetaTitle } = useMetaData();
+  const currentTheme = useTheme();
 
   const { data: weekListData } = useWeekController.GetWeekList(classId);
   const { data: analyticsData, mutate: analyticsMutate } =
     useAnalyticsController.GetClassAnalytics();
 
-  const onSearch = useDebounce(() => {
+  const callData = ({ skip = 0 + pageNum.current * PAGE_NUM, limit = PAGE_NUM }) => {
     analyticsMutate({
       classId,
       params: {
         weekId: week?.id,
         sejongId: sejongIdRef.current?.value,
+        skip,
+        limit,
       },
     });
+  };
+
+  const onSearch = useDebounce(() => {
+    pageNum.current = 0;
+    callData({
+      skip: 0,
+      limit: PAGE_NUM,
+    });
   }, 300);
+
+  const onPrev = () => {
+    pageNum.current = pageNum.current > 0 ? pageNum.current - 1 : 0;
+    callData({});
+  };
+
+  const onNext = () => {
+    pageNum.current = pageNum.current + 1;
+    callData({});
+  };
 
   useEffect(() => {
     onSearch();
@@ -55,7 +81,6 @@ const AnalyticsPage = () => {
     if (!analyticsData?.result) {
       return;
     }
-
     setHistoryList(analyticsData.result);
   }, [analyticsData]);
 
@@ -122,6 +147,15 @@ const AnalyticsPage = () => {
             </>
           )}
         </HistoryListWrapper>
+
+        <PageController>
+          <Button onClick={onPrev}>
+            <Icon name="ic_arrow_left" width={24} height={24} stroke={currentTheme.text.f2} />
+          </Button>
+          <Button onClick={onNext}>
+            <Icon name="ic_arrow_left" width={24} height={24} stroke={currentTheme.text.f2} />
+          </Button>
+        </PageController>
       </Wrapper>
     </>
   );
@@ -203,6 +237,21 @@ const HistoryListHead = styled.div`
       text-transform: uppercase;
     }
   }
+`;
+
+const Button = styled(FillButton)`
+  &:last-of-type {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+`;
+const PageController = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin: auto;
 `;
 
 export default AnalyticsPage;

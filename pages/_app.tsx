@@ -22,6 +22,7 @@ import 'public/font.css';
 // types
 import type { CustomAppProps } from 'next/app';
 
+// 이 Component가 저거 하나하나 라고 생각하면댐
 const App = ({ Component, pageProps }: CustomAppProps) => {
   const [themeType, setThemeType] = useState(pageProps.theme);
 

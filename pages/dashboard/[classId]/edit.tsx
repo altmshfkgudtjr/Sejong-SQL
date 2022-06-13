@@ -5,12 +5,12 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import Layout from 'components/layouts';
 import { DashboardLayout } from 'sjds/layouts';
 import { FillButton } from 'sjds/components/buttons';
+import Toggle from 'components/atoms/inputs/Toggle';
 import Breadcrumb from 'components/containers/dashboard/Breadcrumb';
 import TopMessage from 'components/presenters/dashboard/TopMessage';
 import SearchInput from 'components/presenters/dashboard/manage/SearchInput';
 import MemberManageButton from 'components/presenters/dashboard/manage/MemberManagerButton';
 import TextInput from 'components/atoms/inputs/Text';
-import CheckBox from 'components/atoms/inputs/Checkbox';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
 import useSnackbar from 'hooks/dom/useSnackbar';
@@ -209,12 +209,7 @@ const ClassEditPage = () => {
 
         <section>
           <Title>분반 활성화</Title>
-          <CheckBox
-            label="class-activate"
-            message=""
-            checked={isChecked}
-            onChange={onChangeCheckBox}
-          />
+          <Toggle checked={isChecked} onClick={onChangeCheckBox} />
         </section>
 
         <SubmitButton

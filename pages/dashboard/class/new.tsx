@@ -10,6 +10,7 @@ import TopMessage from 'components/presenters/dashboard/TopMessage';
 import SearchInput from 'components/presenters/dashboard/manage/SearchInput';
 import MemberManageButton from 'components/presenters/dashboard/manage/MemberManagerButton';
 import TextInput from 'components/atoms/inputs/Text';
+import Toggle from 'components/atoms/inputs/Toggle';
 import CheckBox from 'components/atoms/inputs/Checkbox';
 // hooks
 import useMetaData from 'hooks/commons/useMetaData';
@@ -189,12 +190,7 @@ const ClassCreatePage = () => {
 
         <section>
           <Title>분반 활성화</Title>
-          <CheckBox
-            label="class-activate"
-            message=""
-            checked={isChecked}
-            onChange={onChangeCheckBox}
-          />
+          <Toggle checked={isChecked} onClick={onChangeCheckBox} />
         </section>
 
         <SubmitButton

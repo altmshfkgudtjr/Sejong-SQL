@@ -8,6 +8,8 @@ export type GetClassAnalyticsProps = {
   params: {
     weekId?: number;
     sejongId?: string;
+    skip?: number;
+    limit?: number;
   };
 };
 

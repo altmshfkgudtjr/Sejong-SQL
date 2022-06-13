@@ -10,12 +10,16 @@ import type * as types from 'types/api/analytics';
  * @param params
  * @param params.weekId 주차
  * @param params.sejongId 사용자 학번
+ * @param params.skip
+ * @param params.limi
  */
 export const getClassAnalyticsAPI = (props: types.GetClassAnalyticsProps) => {
   return request.get<types.GetClassAnalyticsResponse>(`/api/v1/class/${props.classId}/status`, {
     params: {
       pgroup_id: props.params.weekId,
       sejong_id: props.params.sejongId,
+      skip: props.params.skip,
+      limit: props.params.limit,
     },
   });
 };
