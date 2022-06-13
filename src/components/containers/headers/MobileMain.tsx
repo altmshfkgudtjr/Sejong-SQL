@@ -39,7 +39,7 @@ const MobileMainHeader = () => {
 
           <RightSide>
             {status === 'success' && !!data && (
-              <Link href="/user" passHref>
+              <Link href="/user/me" passHref>
                 <TextButton as="a" size="ExtraSmall">
                   {data.result?.name} 님
                 </TextButton>
