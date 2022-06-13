@@ -9,9 +9,9 @@ import styled from 'styled-components';
  * @example
  * <Toggle checked={true} onClick={() => {}} />
  */
-const Toggle = ({ checked, disabled, ...props }: Props) => {
+const Toggle = ({ checked, disabled, onClick, ...props }: Props) => {
   return (
-    <Wrapper checked={checked} disabled={disabled} {...props}>
+    <Wrapper checked={checked} disabled={disabled} onClick={onClick} {...props}>
       <Controller checked={checked} />
     </Wrapper>
   );
@@ -53,6 +53,7 @@ const Controller = styled.div<{ checked?: boolean }>`
 interface Props {
   checked?: boolean;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 export default Toggle;

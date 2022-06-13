@@ -191,7 +191,7 @@ const WeekEditPage = () => {
 
         <section>
           <Title>시험모드</Title>
-          <Toggle checked={isCheckedTest} onChange={onChangeTest} />
+          <Toggle checked={isCheckedTest} onClick={onChangeTest} />
         </section>
 
         <section>
