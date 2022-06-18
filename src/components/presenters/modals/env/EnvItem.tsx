@@ -22,10 +22,10 @@ const EnvItem = ({ data, checked = false, onChange, onSelect }: Props) => {
       </Cell>
       <Cell>{format(parseISO(data.created_at), 'yyyy-MM-dd')}</Cell>
       {isTypeEnvironment(data) && <Cell>{data.owner}</Cell>}
-      <Cell>
+      <BadgeListCell>
         {data.table.length === 0 && '분석 중...'}
         {data.table.length > 0 && data.table.map((d, idx) => <Badge key={idx}>{d}</Badge>)}
-      </Cell>
+      </BadgeListCell>
     </Wrapper>
   );
 };
@@ -33,6 +33,7 @@ const EnvItem = ({ data, checked = false, onChange, onSelect }: Props) => {
 const Wrapper = styled.tr``;
 
 const Cell = styled.td`
+  vertical-align: top;
   padding: 16px;
   ${typo.body3};
   color: ${({ theme }) => theme.text.f4};
@@ -41,6 +42,11 @@ const Cell = styled.td`
     vertical-align: middle;
   }
 `;
+const BadgeListCell = styled(Cell)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
 
 const Badge = styled.i`
   padding: 4px 8px;
@@ -48,10 +54,6 @@ const Badge = styled.i`
   background-color: ${({ theme }) => theme.background.bg3};
   color: ${({ theme }) => theme.semantic.info};
   ${boxShadow.e1};
-
-  & ~ & {
-    margin-left: 8px;
-  }
 `;
 
 const Button = styled.button`
