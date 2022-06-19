@@ -30,6 +30,9 @@ const ChangePasswordModal = ({ onCloseModal }) => {
     window.location.href = '/sign-in';
   };
 
+  // TODO 비밀번호 영문 대소문자, 숫자 조합 조건 추가하기
+  // TODO 비밀번호 특수문자 제한 조건 추가하기
+  // 허용하는 특수문자: `~!@#$%^&*()-_=+
   const onSubmit = () => {
     if (!oldRef.current?.value) {
       initSnackbar({

@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+// components
+import Badge from 'components/presenters/dashboard/shell/Badge';
 // styles
 import { typo } from 'sjds';
 // types
@@ -8,13 +10,17 @@ import { boxShadow } from 'sjds';
 const 쿼리출력영역 = ({ isPass, warningList }: Props) => {
   return (
     <Wrapper>
+      <Badge text="정확성" />
       {isPass && <Message isPass={isPass}>PASS</Message>}
-      {!isPass && (
+      {!isPass && <Message isPass={isPass}>NON-PASS</Message>}
+      {warningList.length > 0 && (
         <>
-          <Message isPass={isPass}>NON-PASS</Message>
           <WarningWrapper>
+            <Badge text="효율성" />
             {warningList.map((warning, idx) => (
-              <Badge key={idx}>{warning.name.toUpperCase().replaceAll('_', ' ')}</Badge>
+              <WarninbBadge key={idx}>
+                {warning.name.toUpperCase().replaceAll('_', ' ')}
+              </WarninbBadge>
             ))}
           </WarningWrapper>
         </>
@@ -40,7 +46,7 @@ const WarningWrapper = styled.div`
   margin-top: 32px;
 `;
 
-const Badge = styled.i`
+const WarninbBadge = styled.i`
   padding: 8px 12px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.background.bg3};

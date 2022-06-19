@@ -35,6 +35,8 @@ const SignUpPage = () => {
   const currentThemeState = useRecoilValue(themeState);
   const { mutate, status } = useUserController.SignUp();
 
+  // TODO 비밀번호 특수문자 제한 조건 추가하기
+  // 허용하는 특수문자: `~!@#$%^&*()-_=+
   const onSignUp = async () => {
     if (status === 'loading') {
       return;
